@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Models;
 
-public partial class ModelContext : DbContext
+public partial class AerolineaDbContext : DbContext
 {
-    public ModelContext()
+    public AerolineaDbContext()
     {
     }
 
-    public ModelContext(DbContextOptions<ModelContext> options)
+    public AerolineaDbContext(DbContextOptions<AerolineaDbContext> options)
         : base(options)
     {
     }
@@ -54,6 +54,7 @@ public partial class ModelContext : DbContext
     public virtual DbSet<Wishlist> Wishlists { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("USR_AEROLINEA_DESA");
