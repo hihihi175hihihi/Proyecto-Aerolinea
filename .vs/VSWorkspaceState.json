@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\API",
+    "\\API\\Controllers",
+    "\\API\\Models"
   ],
-  "SelectedNode": "\\C:\\Users\\Rodrigo\\Documents\\GitHub\\Proyecto_Aerolinea_Administracion_de_Tecnologias\\Proyecto-Aerolinea",
+  "SelectedNode": "\\API\\Controllers",
   "PreviewInSolutionExplorer": false
 }
