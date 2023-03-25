@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Models;
 
-public partial class Wishlist
+public partial class WishList
 {
-    public decimal IdWishlist { get; set; }
+    [Key]
+    public int idWishList { get; set; }
 
-    public decimal IdUsuario { get; set; }
+    public int? idUsuario { get; set; }
 
-    public decimal IdVuelo { get; set; }
+    public int? idVuelo { get; set; }
 
-    public DateTime FechaCreacion { get; set; }
-
-    public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
-
-    public virtual Vuelo IdVueloNavigation { get; set; } = null!;
+    public DateTime? FechaSave { get; set; }
+    
 }

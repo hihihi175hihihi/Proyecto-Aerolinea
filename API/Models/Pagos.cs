@@ -4,14 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.Models;
 
-public partial class ComprasDetalle
+public partial class Pagos
 {
     [Key]
-    public int idComprasDetalle { get; set; }
+    public int idPago { get; set; }
 
     public int? idCompra { get; set; }
 
-    public int? idVuelo { get; set; }
+    public DateTime? FechaPago { get; set; }
 
-    public int? Cantidad { get; set; }
+    public decimal? MontoPago { get; set; }
+    
 }
