@@ -1,3 +1,4 @@
+
 using API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,9 +11,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<AerolineaDbContext>(options =>
+builder.Services.AddDbContext<Aerolinea_DesarrolloContext>(options =>
 {
-    options.UseOracle(builder.Configuration.GetConnectionString("Aerolinea"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Aerolinea"), option => option.EnableRetryOnFailure());
 });
 //Add Cors
 builder.Services.AddCors(options =>

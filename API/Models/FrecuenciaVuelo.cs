@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Models;
 
 public partial class FrecuenciaVuelo
 {
-    public decimal IdFrecuenciaVuelo { get; set; }
+    [Key]
+    public int idFrecuenciaVuelo { get; set; }
 
-    public decimal IdVuelo { get; set; }
+    public int? idVuelo { get; set; }
 
-    public string DiaSemana { get; set; } = null!;
+    public string? DiaSemana { get; set; }
 
-    public string HoraSalida { get; set; } = null!;
+    public string? HoraSalida { get; set; }
 
-    public string HoraLlegada { get; set; } = null!;
-
-    public virtual Vuelo IdVueloNavigation { get; set; } = null!;
+    public string? HoraLlegada { get; set; }
+    
 }
