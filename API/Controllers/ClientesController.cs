@@ -91,7 +91,7 @@ namespace API.Controllers
             var clientes = await _context.Clientes.FindAsync(id);
             if (clientes == null)
             {
-                return NotFound("Error al actualizar");
+                return NotFound("Error al eliminar");
             }
 
             _context.Clientes.Remove(clientes);

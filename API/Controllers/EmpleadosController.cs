@@ -94,7 +94,7 @@ namespace API.Controllers
             var empleados = await _context.Empleados.FindAsync(id);
             if (empleados == null)
             {
-                return NotFound("Error al actualizar");
+                return NotFound("Error al eliminar");
             }
 
             _context.Empleados.Remove(empleados);
