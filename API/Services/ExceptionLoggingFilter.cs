@@ -21,20 +21,29 @@ namespace API.Services
             // Log exception
             _logger.LogError(context.Exception, context.Exception.Message);
 
-            
-            // Save exception to Bitacora table
-            var bitacora = new Bitacoras()
+            try
             {
-                Action = context.ActionDescriptor.DisplayName,
-                Error = context.Exception.Message,
-                Request = String.Empty,
-                Response = String.Empty,
-                Tipo = "Exception", // Save the type as "Exception"
-                Fecha = DateTime.UtcNow
-            };
 
-            _context.Bitacoras.Add(bitacora);
-            _context.SaveChanges();
+
+                // Save exception to Bitacora table
+                var bitacora = new Bitacoras()
+                {
+                    Action = context.ActionDescriptor.DisplayName,
+                    Error = context.Exception.Message,
+                    Request = String.Empty,
+                    Response = String.Empty,
+                    Tipo = "Exception", // Save the type as "Exception"
+                    Fecha = DateTime.UtcNow
+                };
+
+                _context.Bitacoras.Add(bitacora);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                _logger.LogError(ex, ex.Message);
+            }
 
             // Customize response
             context.Result = new ObjectResult(new

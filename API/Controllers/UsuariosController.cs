@@ -81,6 +81,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Usuarios>> PostUsuarios(Usuarios usuarios)
         {
+            usuarios.Active = true;
             _context.Usuarios.Add(usuarios);
             await _context.SaveChangesAsync();
 
