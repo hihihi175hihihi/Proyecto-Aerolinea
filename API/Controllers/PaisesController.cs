@@ -11,48 +11,47 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientesController : ControllerBase
+    public class PaisesController : ControllerBase
     {
         private readonly Aerolinea_DesarrolloContext _context;
 
-        public ClientesController(Aerolinea_DesarrolloContext context)
+        public PaisesController(Aerolinea_DesarrolloContext context)
         {
             _context = context;
         }
 
-        // GET: api/Clientes
+        // GET: api/Paises
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Clientes>>> GetClientes()
+        public async Task<ActionResult<IEnumerable<Paises>>> GetPaises()
         {
-          
-            return Ok(await _context.Clientes.ToListAsync());
+            return await _context.Paises.ToListAsync();
         }
 
-        // GET: api/Clientes/5
+        // GET: api/Paises/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Clientes>> GetClientes(int id)
-        {
-            var clientes = await _context.Clientes.FindAsync(id);
+        public async Task<ActionResult<Paises>> GetPaises(int id)
+        { 
+            var paises = await _context.Paises.FindAsync(id);
 
-            if (clientes == null)
+            if (paises == null)
             {
                 return NotFound();
             }
 
-            return Ok(clientes);
+            return Ok(paises);
         }
 
-        // PUT: api/Clientes/5
+        // PUT: api/Paises/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClientes(int id, Clientes clientes)
+        public async Task<IActionResult> PutPaises(int id, Paises paises)
         {
-            if (id != clientes.idCliente)
+            if (id != paises.idPais)
             {
                 return BadRequest("El id no coincide, intente de nuevo");
             }
 
-            _context.Entry(clientes).State = EntityState.Modified;
+            _context.Entry(paises).State = EntityState.Modified;
 
             try
             {
@@ -60,9 +59,9 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClientesExists(id))
+                if (!PaisesExists(id))
                 {
-                    return NotFound("No se encontro el cliente");
+                    return NotFound("no se encontro el pais");
                 }
                 else
                 {
@@ -70,39 +69,39 @@ namespace API.Controllers
                 }
             }
 
-            return Ok(clientes);
+            return Ok(paises);
         }
 
-        // POST: api/Clientes
+        // POST: api/Paises
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Clientes>> PostClientes(Clientes clientes)
+        public async Task<ActionResult<Paises>> PostPaises(Paises paises)
         {
-            _context.Clientes.Add(clientes);
+            _context.Paises.Add(paises);
             await _context.SaveChangesAsync();
 
-            return Ok(clientes);
+            return Ok(paises);
         }
 
-        // DELETE: api/Clientes/5
+        // DELETE: api/Paises/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteClientes(int id)
-        {  
-            var clientes = await _context.Clientes.FindAsync(id);
-            if (clientes == null)
+        public async Task<IActionResult> DeletePaises(int id)
+        {
+            var paises = await _context.Paises.FindAsync(id);
+            if (paises == null)
             {
                 return NotFound("El id no coincide, intente de nuevo");
             }
 
-            _context.Clientes.Remove(clientes);
+            _context.Paises.Remove(paises);
             await _context.SaveChangesAsync();
 
             return Ok("Registro eliminado");
         }
 
-        private bool ClientesExists(int id)
+        private bool PaisesExists(int id)
         {
-            return (_context.Clientes?.Any(e => e.idCliente == id)).GetValueOrDefault();
+            return (_context.Paises?.Any(e => e.idPais == id)).GetValueOrDefault();
         }
     }
 }
