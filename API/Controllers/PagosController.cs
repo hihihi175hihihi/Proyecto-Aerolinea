@@ -65,7 +65,7 @@ namespace API.Controllers
                 }
                 else
                 {
-                    throw;
+                    return BadRequest("Error al actualizar");
                 }
             }
 
