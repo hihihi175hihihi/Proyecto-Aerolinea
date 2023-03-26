@@ -12,9 +12,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//Registrar el interceptor personalizado, el middleware y el IHttpContextAccessor
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<Aerolinea_DesarrolloContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Aerolinea"), option => option.EnableRetryOnFailure());
+    
 });
 //Add Cors
 builder.Services.AddCors(options =>
@@ -24,10 +27,21 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
+// Agrega el filtro de acción personalizado
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<LoggingActionFilter>();
+});
 //Add SMTP como singleton para envios de email
 builder.Services.AddSingleton<EmailService>();
-var app = builder.Build();
+//Filtro de Manejo de Excepciones
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(typeof(ExceptionLoggingFilter));
+});
 
+
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -38,7 +52,6 @@ app.UseCors("AllowAllOrigins");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
