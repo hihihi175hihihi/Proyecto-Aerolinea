@@ -15,7 +15,7 @@ public partial class Aerolinea_DesarrolloContext : DbContext
     {
     }
 
-    public virtual DbSet<Access> Accesses { get; set; }
+    public virtual DbSet<Access> Access { get; set; }
 
     public virtual DbSet<AccessRoles> AccessRoles { get; set; }
 

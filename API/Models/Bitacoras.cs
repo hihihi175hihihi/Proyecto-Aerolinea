@@ -6,7 +6,7 @@ public partial class Bitacoras
 {
     [Key]
     public int idBitacora { get; set; }
-    public string Tipo { get; set; }
+    public string? Tipo { get; set; }
     public string? Action { get; set; }
 
     public string? Error { get; set; }
