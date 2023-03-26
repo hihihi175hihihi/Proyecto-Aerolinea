@@ -24,6 +24,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ciudades>>> GetCiudades()
         {
+
             return Ok(await _context.Ciudades.ToListAsync());
         }
 
