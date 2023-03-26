@@ -24,7 +24,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Compras>>> GetCompras()
         {
-            return await _context.Compras.ToListAsync();
+            return Ok(await _context.Compras.ToListAsync());
         }
 
         // GET: api/Compras/5
