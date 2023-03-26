@@ -11,48 +11,47 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientesController : ControllerBase
+    public class EmpleadosController : ControllerBase
     {
         private readonly Aerolinea_DesarrolloContext _context;
 
-        public ClientesController(Aerolinea_DesarrolloContext context)
+        public EmpleadosController(Aerolinea_DesarrolloContext context)
         {
             _context = context;
         }
 
-        // GET: api/Clientes
+        // GET: api/Empleados
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Clientes>>> GetClientes()
+        public async Task<ActionResult<IEnumerable<Empleados>>> GetEmpleados()
         {
-          
-            return Ok(await _context.Clientes.ToListAsync());
+            return Ok(await _context.Empleados.ToListAsync());
         }
 
-        // GET: api/Clientes/5
+        // GET: api/Empleados/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Clientes>> GetClientes(int id)
+        public async Task<ActionResult<Empleados>> GetEmpleados(int id)
         {
-            var clientes = await _context.Clientes.FindAsync(id);
+          var empleados = await _context.Empleados.FindAsync(id);
 
-            if (clientes == null)
+            if (empleados == null)
             {
                 return NotFound();
             }
 
-            return Ok(clientes);
+            return Ok(empleados);
         }
 
-        // PUT: api/Clientes/5
+        // PUT: api/Empleados/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClientes(int id, Clientes clientes)
+        public async Task<IActionResult> PutEmpleados(int id, Empleados empleados)
         {
-            if (id != clientes.idCliente)
+            if (id != empleados.idEmpleado)
             {
                 return BadRequest("El id no coincide, intente de nuevo");
             }
 
-            _context.Entry(clientes).State = EntityState.Modified;
+            _context.Entry(empleados).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +59,7 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClientesExists(id))
+                if (!EmpleadosExists(id))
                 {
                     return NotFound("No se encontro el cliente");
                 }
@@ -70,39 +69,43 @@ namespace API.Controllers
                 }
             }
 
-            return Ok(clientes);
+            return Ok(empleados);
         }
 
-        // POST: api/Clientes
+        // POST: api/Empleados
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Clientes>> PostClientes(Clientes clientes)
+        public async Task<ActionResult<Empleados>> PostEmpleados(Empleados empleados)
         {
-            _context.Clientes.Add(clientes);
+            _context.Empleados.Add(empleados);
             await _context.SaveChangesAsync();
 
-            return Ok(clientes);
+            return Ok(empleados);
         }
 
-        // DELETE: api/Clientes/5
+        // DELETE: api/Empleados/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteClientes(int id)
-        {  
-            var clientes = await _context.Clientes.FindAsync(id);
-            if (clientes == null)
+        public async Task<IActionResult> DeleteEmpleados(int id)
+        {
+            if (_context.Empleados == null)
+            {
+                return NotFound();
+            }
+            var empleados = await _context.Empleados.FindAsync(id);
+            if (empleados == null)
             {
                 return NotFound("Error al actualizar");
             }
 
-            _context.Clientes.Remove(clientes);
+            _context.Empleados.Remove(empleados);
             await _context.SaveChangesAsync();
 
-            return Ok("Registro eliminado");
+            return Ok("Registro Eliminado");
         }
 
-        private bool ClientesExists(int id)
+        private bool EmpleadosExists(int id)
         {
-            return (_context.Clientes?.Any(e => e.idCliente == id)).GetValueOrDefault();
+            return (_context.Empleados?.Any(e => e.idEmpleado == id)).GetValueOrDefault();
         }
     }
 }
