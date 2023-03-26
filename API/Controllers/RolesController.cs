@@ -66,7 +66,7 @@ namespace API.Controllers
             {
                 if (!RolesExists(id))
                 {
-                    return NotFound();
+                    return NotFound("No se encontro el Rol");
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace API.Controllers
             _context.Roles.Remove(roles);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Registro eliminado");
         }
 
         private bool RolesExists(int id)
