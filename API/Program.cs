@@ -1,5 +1,6 @@
 
 using API.Models;
+using API.Services;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -23,6 +24,8 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
+//Add SMTP como singleton para envios de email
+builder.Services.AddSingleton<EmailService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

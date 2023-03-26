@@ -11,7 +11,7 @@ public partial class Tokens
 
     public int? idUsuario { get; set; }
 
-    public string? Token1 { get; set; }
+    public string? Token { get; set; }
 
     public DateTime? CreateAt { get; set; }
 
