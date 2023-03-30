@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Models;
@@ -52,5 +53,9 @@ public partial class Aerolinea_DesarrolloContext : DbContext
     public virtual DbSet<Vuelos> Vuelos { get; set; }
 
     public virtual DbSet<WishList> WishLists { get; set; }
+    public async Task<List<T>> RunSpAsync<T>(string storedProcedureName, params SqlParameter[] parameters) where T : class
+    {
+        return await Set<T>().FromSqlRaw($"EXEC {storedProcedureName} {string.Join(",", parameters.Select(p => p.ParameterName))}", parameters).ToListAsync();
+    }
 
 }
