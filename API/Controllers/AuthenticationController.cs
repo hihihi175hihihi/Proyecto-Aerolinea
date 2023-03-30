@@ -33,7 +33,7 @@ namespace API.Controllers
             var user = _context.Usuarios.Where(x =>
                             x.Username == usuarios.Username
                             && x.Password == usuarios.Password
-                            &&x.Active==true).FirstOrDefault();
+                            && x.Active == true).FirstOrDefault();
             if (user == null)
             {
                 return NotFound("Datos Invalidos");
@@ -49,7 +49,7 @@ namespace API.Controllers
             };
             _context.Tokens.Add(token);
             await _context.SaveChangesAsync();
-            await _emailService.SendEmailAsync("Token para login",$"Su token es :{token.Token} y expira :{token.Expiration}");
+            await _emailService.SendEmailAsync("Token para login", $"Su token es :{token.Token} y expira :{token.Expiration}");
             return Ok();
         }
         [Route("login-2Auth")]
@@ -62,20 +62,20 @@ namespace API.Controllers
             }
             var tokenValidate = _context.Tokens.Where(x => x.Token == modelToken.Token
                                             && x.idUsuario == modelToken.idUsuario).FirstOrDefault();
-            if (tokenValidate == null || tokenValidate.Active==false)
+            if (tokenValidate == null || tokenValidate.Active == false)
             {
                 return BadRequest("Datos Invalidos");
             }
-            if ( DateTime.Now>tokenValidate.Expiration)
+            if (DateTime.Now > tokenValidate.Expiration)
             {
                 tokenValidate.Active = false;
                 _context.Entry(tokenValidate).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return BadRequest("El token Ya Expiro");
             }
-            var token = _context.Tokens.Where(x=>x.Token==modelToken.Token 
-                                            && x.idUsuario==modelToken.idUsuario
-                                            && x.Active==true).FirstOrDefault();
+            var token = _context.Tokens.Where(x => x.Token == modelToken.Token
+                                            && x.idUsuario == modelToken.idUsuario
+                                            && x.Active == true).FirstOrDefault();
             token.Active = false;
             _context.Entry(token).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -90,7 +90,7 @@ namespace API.Controllers
                 return BadRequest("Datos Invalidos");
             }
             var exist = _context.Usuarios.Where(x => x.Username == usuarios.Username).FirstOrDefault();
-            if (exist!=null)
+            if (exist != null)
             {
                 return BadRequest("El nombre de usuario ya esta en uso");
             }
@@ -105,12 +105,12 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
             var client = new Clientes()
             {
-                idUsuario=user.idUsuario,
-                Nombres=usuarios.Nombres,
-                Apellidos=usuarios.Apellidos,
-                DPI=usuarios.DPI,
-                Telefono=usuarios.Telefono,
-                Email=usuarios.Email,
+                idUsuario = user.idUsuario,
+                Nombres = usuarios.Nombres,
+                Apellidos = usuarios.Apellidos,
+                DPI = usuarios.DPI,
+                Telefono = usuarios.Telefono,
+                Email = usuarios.Email,
             };
             _context.Clientes.Add(client);
             await _context.SaveChangesAsync();
@@ -161,6 +161,5 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-
     }
 }
