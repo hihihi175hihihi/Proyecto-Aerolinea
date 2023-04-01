@@ -1,6 +1,8 @@
-﻿namespace API.Models.ViewModelSP
+﻿using API.Services;
+
+namespace API.Models.ViewModelSP
 {
-    public class FiltrosVuelos
+    public class FiltrosVuelos:IHasEscalas
     {
         public int? idVuelo { get; set; }
         public string? DiaSemana { get; set; }
@@ -12,5 +14,6 @@
         public string? PAIS_DESTINO { get; set; }
         public decimal? Precio { get; set; }
         public string? ESCALAS_JSON { get; set; }
+        public List<EscalasVuelos>? Escalas { get; set; }
     }
 }

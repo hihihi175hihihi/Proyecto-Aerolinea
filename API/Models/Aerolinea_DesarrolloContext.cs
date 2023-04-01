@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using API.Models.ViewModelSP;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Models;
@@ -51,9 +52,23 @@ public partial class Aerolinea_DesarrolloContext : DbContext
     public virtual DbSet<Vuelos> Vuelos { get; set; }
 
     public virtual DbSet<WishList> WishLists { get; set; }
+    //public virtual DbSet<DetalleCompra> DetalleCompra { get; set; }
+    public virtual DbSet<FiltrosVuelos> FiltrosVuelos { get; set; }
+    //public virtual DbSet<GenerateItinerary> GenerateItinerary { get; set; }
+    //public virtual DbSet<ReporteCompras> ReporteCompras { get; set; }
+    //public virtual DbSet<TotalOcupacionxDia> TotalOcupacionxDia { get; set; }
+   // public virtual DbSet<TotalVentasxDia> TotalVentasxDia { get; set; }
+    
     public async Task<List<T>> RunSpAsync<T>(string storedProcedureName, params SqlParameter[] parameters) where T : class
     {
         return await Set<T>().FromSqlRaw($"EXEC {storedProcedureName} {string.Join(",", parameters.Select(p => p.ParameterName))}", parameters).ToListAsync();
     }
-
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<FiltrosVuelos>(entity =>
+        {
+            entity.HasNoKey();
+        });
+        
+    }
 }
