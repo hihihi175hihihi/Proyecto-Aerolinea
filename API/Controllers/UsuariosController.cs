@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API.Models;
 
 namespace API.Controllers
 {
@@ -108,6 +103,36 @@ namespace API.Controllers
         private bool UsuariosExists(int id)
         {
             return (_context.Usuarios?.Any(e => e.idUsuario == id)).GetValueOrDefault();
+        }
+
+        [HttpGet]
+        [Route("ListaAccesos/{id}")]
+        public async Task<IActionResult> ListadoAccesos(int id)
+        {
+
+            var listaAccesos = _context.Usuarios.Where(user => user.idUsuario == id).Join(_context.Roles,
+                usuario => usuario.idRol,
+                rol => rol.idRol,
+                (usuario, rol) => new
+                {
+                    idRol = rol.idRol
+                }).ToList().Join(_context.AccessRoles,
+                rol => rol.idRol,
+                acc => acc.idRol,
+                (rol, acc) => new
+                {
+                    idAccess = acc.idAccess
+                }).ToList().Join(_context.Access,
+                acc => acc.idAccess,
+                accesos => accesos.idAccess,
+                (acc, accesos) => new Access
+                {
+                    idAccess = accesos.idAccess,
+                    Name = accesos.Name,
+                    URL = accesos.URL
+                }).ToList();
+
+            return Ok(listaAccesos);
         }
     }
 }
