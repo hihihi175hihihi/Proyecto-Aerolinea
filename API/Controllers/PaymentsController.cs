@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using API.Models;
+﻿using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 

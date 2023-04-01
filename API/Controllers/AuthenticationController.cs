@@ -1,10 +1,7 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using API.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Mail;
 using API.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers

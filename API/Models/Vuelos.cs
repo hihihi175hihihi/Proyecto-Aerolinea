@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace API.Models;
 
@@ -14,6 +12,5 @@ public partial class Vuelos
     public int? idCiudadDestino { get; set; }
 
     public decimal? Precio { get; set; }
-
-    public int? MaxPasajeros { get; set; }
+    
 }
