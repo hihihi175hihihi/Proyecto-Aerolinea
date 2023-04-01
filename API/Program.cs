@@ -2,7 +2,7 @@
 using API.Models;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
-
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +32,8 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<LoggingActionFilter>();
 });
+// Configure Stripe API key
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:ApiKey"];
 //Add SMTP como singleton para envios de email
 builder.Services.AddSingleton<EmailService>();
 //Filtro de Manejo de Excepciones
