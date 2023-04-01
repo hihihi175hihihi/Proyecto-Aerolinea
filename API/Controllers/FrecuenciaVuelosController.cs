@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API.Models;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FrecuenciaVueloesController : ControllerBase
+    public class FrecuenciaVuelosController : ControllerBase
     {
         private readonly Aerolinea_DesarrolloContext _context;
 
-        public FrecuenciaVueloesController(Aerolinea_DesarrolloContext context)
+        public FrecuenciaVuelosController(Aerolinea_DesarrolloContext context)
         {
             _context = context;
         }

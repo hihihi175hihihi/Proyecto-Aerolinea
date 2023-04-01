@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API.Models;
 
 namespace API.Controllers
 {
@@ -22,13 +17,32 @@ namespace API.Controllers
 
         // GET: api/AccessRoles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AccessRoles>>> GetAccessRoles()
+        public async Task<ActionResult> GetAccessRoles()
         {
-            if (_context.AccessRoles == null)
-            {
-                return NotFound();
-            }
-            return Ok(await _context.AccessRoles.ToListAsync());
+            var listado = _context.AccessRoles.ToList().Join(_context.Roles,
+              Accesroles => Accesroles.idRol,
+              Roles => Roles.idRol,
+              (Accesroles, Roles) => new
+              {
+                  idAccessRoles = Accesroles.idAccessRoles,
+                  idRol = Accesroles.idRol,
+                  idAccess = Accesroles.idAccess,
+                  Rol = Roles.Rol
+
+              }).ToList().Join(_context.Access,
+              Accesroles => Accesroles.idAccess,
+              Access => Access.idAccess,
+              (Accesroles, Access) => new
+              {
+                  idAccessRoles = Accesroles.idAccessRoles,
+                  idRol = Accesroles.idRol,
+                  idAccess = Accesroles.idAccess,
+                  Rol = Accesroles.Rol,
+                  Access = Access.Name
+              }).ToList();
+
+
+            return Ok(listado);
         }
 
         // GET: api/AccessRoles/5
