@@ -3,7 +3,7 @@
     public class TotalVentasxDia
     {
 
-        public decimal? totalVentas { get; set; }
+        public decimal? Total { get; set; }
 
     }
 }
