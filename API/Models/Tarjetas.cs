@@ -18,5 +18,5 @@ public partial class Tarjetas
     public string? ExpYear { get; set; }
 
     public string? Brand { get; set; }
-    public int? Cvs { get; set; }
+    public int? Csv { get; set; }
 }

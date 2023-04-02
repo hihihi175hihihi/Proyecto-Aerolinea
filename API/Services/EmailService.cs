@@ -1,5 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using API.Models.ViewModelSP;
+
 namespace API.Services
 {
     public class EmailService

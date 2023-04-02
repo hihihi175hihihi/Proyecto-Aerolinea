@@ -2,7 +2,7 @@
 
 namespace API.Models.ViewModelSP
 {
-    public class WhisListxUsuario : IHasEscalas
+    public class WishListxUsuario : IHasEscalas
     {
 
         public int? idVuelo { get; set; }

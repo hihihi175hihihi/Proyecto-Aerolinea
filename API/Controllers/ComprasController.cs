@@ -1,4 +1,6 @@
 ﻿using API.Models;
+using API.Models.ViewModelSP;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,57 +17,26 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/Compras
+        // <summary>
+        /// Este metodo retornara el listado de compras realizadas:Administrador
+        /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Compras>>> GetCompras()
+        public async Task<ActionResult> GetCompras()
         {
-            return Ok(await _context.Compras.ToListAsync());
+            var result = await _context.RunSpAsync<ReporteCompras>("ReporteCompras");
+            return Ok(result);
+        }
+        // <summary>
+        /// Este metodo retornara el listado de compras realizadas:Cliente
+        /// </summary>
+        [HttpGet("{username}")]
+        public async Task<ActionResult> GetCompras(string username)
+        {
+            var parameters = SqlParameterWrapper.Create(("@Username", username));
+            var result = await _context.RunSpAsync<ReporteCompras>("ReporteCompras", parameters);
+            return Ok(result);
         }
 
-        // GET: api/Compras/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Compras>> GetCompras(int id)
-        {
-            var compras = await _context.Compras.FindAsync(id);
-
-            if (compras == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(compras);
-        }
-
-        // PUT: api/Compras/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompras(int id, Compras compras)
-        {
-            if (id != compras.idCompra)
-            {
-                return BadRequest("El id no coincide");
-            }
-
-            _context.Entry(compras).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ComprasExists(id))
-                {
-                    return NotFound("No se encontro la compra");
-                }
-                else
-                {
-                    return BadRequest("Error al actualizar");
-                }
-            }
-
-            return Ok(compras);
-        }
 
         // POST: api/Compras
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
