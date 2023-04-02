@@ -1,4 +1,6 @@
 ﻿using API.Models;
+using API.Models.ViewModelSP;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,58 +17,15 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/WishLists
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<WishList>>> GetWishLists()
-        {
-            return Ok(await _context.WishLists.ToListAsync());
-        }
-
         // GET: api/WishLists/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<WishList>> GetWishList(int id)
+        public async Task<ActionResult> GetWishList(int id)
         {
-          var wishList = await _context.WishLists.FindAsync(id);
-
-            if (wishList == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(wishList);
+            var parameters = SqlParameterWrapper.Create(("@Usuario", id));
+            var result = await _context.RunSpAsync<WishListxUsuario>("WishListxUsuario", parameters);
+            result.DeserializeEscalasJson();
+            return Ok(result);
         }
-
-        // PUT: api/WishLists/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutWishList(int id, WishList wishList)
-        {
-            if (id != wishList.idWishList)
-            {
-                return BadRequest("El id no coincide, intente de nuevo");
-            }
-
-            _context.Entry(wishList).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WishListExists(id))
-                {
-                    return NotFound("No se encontro el cliente");
-                }
-                else
-                {
-                    return BadRequest("Error al actualizar");
-                }
-            }
-
-            return Ok(wishList);
-        }
-
         // POST: api/WishLists
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

@@ -37,6 +37,32 @@ namespace API.Controllers
             return Ok(result);
         }
 
+
+
+        [Route("Filtros")]
+        [HttpPost]
+        public async Task<ActionResult> GetVuelosFiltered(filtrosParaVuelos filtros)
+        {
+            var parameters = SqlParameterWrapper.Create(
+                ("@VUELO", filtros.idVuelo),
+                ("@CIUDADORIGEN", filtros.CIUDAD_ORIGEN),
+                ("@CIUDADDESTINO", filtros.CIUDAD_DESTINO),
+                ("@PAISORIGEN", filtros.PAIS_ORIGEN),
+                ("@PAISDESTINO", filtros.PAIS_DESTINO),
+                ("@HASESCALAS", filtros.hasEscalas),
+                ("@DIASEMANA", filtros.DiaSemana),
+                ("@HORASALIDA", filtros.HoraSalida),
+                ("@HORALLEGADA", filtros.HoraLlegada),
+                ("@PRECIOMIN", filtros.PrecioMin),
+                ("@PRECIOMAX", filtros.PrecioMax),
+                ("@ORDENARPRECIOAS", filtros.ORDENARPRECIOAS)
+                );
+           
+            var result = await _context.RunSpAsync<FiltrosVuelos>("FiltrosVuelos", parameters);
+            result.DeserializeEscalasJson();
+            return Ok(result);
+        }
+
         // PUT: api/Vuelos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

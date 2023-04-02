@@ -1,5 +1,9 @@
-﻿using API.Models;
+﻿using System.Text;
+using API.Models;
+using API.Models.ViewModelSP;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Stripe;
 
 
@@ -10,16 +14,20 @@ namespace API.Controllers
     public class PaymentsController : ControllerBase
     {
         private readonly Aerolinea_DesarrolloContext _context;
+        private readonly EmailService _emailService;
 
-        public PaymentsController(Aerolinea_DesarrolloContext context)
+        public PaymentsController(Aerolinea_DesarrolloContext context,EmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         [Route("pay")]
         [HttpPost]
         public async Task<ActionResult>Pay(PaymentRequest payment)
         {
+            
+            Pagos pago;
             //si se mando una tarjeta seleccionada
             if (payment.IdTarjeta != null)
             {
@@ -37,7 +45,7 @@ namespace API.Controllers
                             Number = tarjeta.TokenCard,
                             ExpMonth = tarjeta.ExpMonth,
                             ExpYear = tarjeta.ExpYear,
-                            Cvc = tarjeta.Cvs.ToString()
+                            Cvc = tarjeta.Csv.ToString()
                         }
                     };
 
@@ -63,9 +71,12 @@ namespace API.Controllers
                     };
 
                     var charge = chargeService.Create(chargeOptions);
-
+                    if (charge.StripeResponse.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        return BadRequest("No se pudo realizar el pago.");
+                    }
                     // Almacenar la información del pago en la tabla Pagos
-                    var pago = new Pagos
+                    pago = new Pagos
                     {
                         idCompra = payment.IdCompra,
                         FechaPago = DateTime.Now,
@@ -74,7 +85,6 @@ namespace API.Controllers
 
                     _context.Pagos.Add(pago);
                     await _context.SaveChangesAsync();
-                    return Ok(pago);
                 }
                 else
                 {
@@ -115,7 +125,7 @@ namespace API.Controllers
                     Last4 = int.Parse(stripeToken.Card.Last4),
                     ExpMonth =payment.ExpMonth,
                     ExpYear=payment.ExpYear,
-                    Cvs=payment.Cvs,
+                    Csv=payment.Cvs,
                     Brand = stripeToken.Card.Brand
                 };
                 _context.Tarjetas.Add(tarjeta);
@@ -132,9 +142,12 @@ namespace API.Controllers
                 };
 
                 var charge = chargeService.Create(chargeOptions);
-
+                if (charge.StripeResponse.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    return BadRequest("No se pudo realizar el pago.");
+                }
                 // Almacenar la información del pago en la tabla Pagos
-                var pago = new Pagos
+                pago = new Pagos
                 {
                     idCompra = payment.IdCompra,
                     FechaPago = DateTime.Now,
@@ -143,8 +156,70 @@ namespace API.Controllers
 
                 _context.Pagos.Add(pago);
                 await _context.SaveChangesAsync();
-                return Ok(pago);
             }
+
+            // Generar el itinerario
+            var itinerario = await generateItinerary(payment.IdCompra);
+            var itineraryTableRows = new StringBuilder();
+
+            foreach (var itinerary in itinerario)
+            {
+                string escalasTableRows = (itinerary.Escalas == null || !itinerary.Escalas.Any())
+                                            ? "<tr><td colspan=\"3\">Sin Escalas</td></tr>"
+                                            : string.Join("", itinerary.Escalas.Select(escala => $@"
+                                            <tr>
+                                                <td>{escala.CIUDAD_ESCALA}</td>
+                                                <td>{escala.DuracionEscala}</td>
+                                                <td>{escala.DuracionLlegada}</td>
+                                            </tr>"));
+                string dayName = GetDayNameFromNumber(itinerary.DiaSemana);
+                itineraryTableRows.Append($@"
+                <tr>
+                    <td>{dayName}</td>
+                    <td>{itinerary.HoraSalida}</td>
+                    <td>{itinerary.HoraLlegada}</td>
+                    <td>{itinerary.CIUDAD_ORIGEN}</td>
+                    <td>{itinerary.CIUDAD_DESTINO}</td>
+                    <td>{itinerary.PAIS_ORIGEN}</td>
+                    <td>{itinerary.PAIS_DESTINO}</td>
+                    <td>
+                        <table border=""1"">
+                            <tr>
+                                <th>Ciudad de escala</th>
+                                <th>Duración de escala</th>
+                                <th>Duración de llegada</th>
+                            </tr>
+                            {escalasTableRows}
+                        </table>
+                    </td>
+                </tr>");
+            }
+
+            string body = EmailTemplates.ItineraryEmail.Replace("{0}", itineraryTableRows.ToString());
+            
+            await _emailService.SendEmailAsync("Itinerario de Vuelo",body);
+            return Ok(pago);
+        }
+        public static string GetDayNameFromNumber(string dayNumber)
+        {
+            return dayNumber switch
+            {
+                "1" => "Lunes",
+                "2" => "Martes",
+                "3" => "Miércoles",
+                "4" => "Jueves",
+                "5" => "Viernes",
+                "6" => "Sábado",
+                "7" => "Domingo"
+            };
+        }
+        private async Task<List<GenerateItinerary>> generateItinerary(int? idCompra)
+        {
+            var parameters = SqlParameterWrapper.Create(("@Compra", idCompra));
+            var itinerario = await _context.RunSpAsync<GenerateItinerary>("GenerateItinerary", parameters);
+            itinerario.DeserializeEscalasJson();
+            return itinerario;
+
         }
     }
 }

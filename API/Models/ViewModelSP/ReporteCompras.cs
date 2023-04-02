@@ -2,6 +2,7 @@
 {
     public class ReporteCompras
     {
+        public int? idCompra { get; set; }
         public string? Username { get; set; }
         public string? CLIENTE { get; set; }
         public string? Email { get; set; }

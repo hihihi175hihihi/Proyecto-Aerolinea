@@ -4,7 +4,7 @@
     {
         
         public int? idVuelo { get; set; }
-        public int? TotalOcupacion {get; }
+        public int? TotalOcupacion { get; set; }
 
     }
 }

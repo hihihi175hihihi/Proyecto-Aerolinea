@@ -14,6 +14,7 @@ namespace AerolineLibrary
         public const string ReporteCompras = "ReporteCompras";
         public const string TotalOcupacionxDia = "TotalOcupacionxDia";
         public const string TotalVentasxDia = "TotalVentasxDia";
+        public const string TotalVentasAnual = "TotalVentasAnual";
         public const string WishListxUsuario = "WishListxUsuario";
         
     }

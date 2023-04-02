@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
+using API.Models.ViewModelSP;
+using API.Services;
 
 namespace API.Controllers
 {
@@ -20,66 +22,21 @@ namespace API.Controllers
             _context = context;
         }
 
-        // GET: api/ComprasDetalles
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ComprasDetalle>>> GetComprasDetalles()
-        {
-          if (_context.ComprasDetalles == null)
-          {
-              return NotFound();
-          }
-            return Ok(await _context.ComprasDetalles.ToListAsync());
-        }
 
-        // GET: api/ComprasDetalles/5
+        /// <summary>
+        /// Este metodo retornara el detalle de una compra la cual se mandara como parametro(id).
+        /// </summary>
+        /// <param name="id">id de la compra</param>
         [HttpGet("{id}")]
-        public async Task<ActionResult<ComprasDetalle>> GetComprasDetalle(int id)
+        public async Task<ActionResult> GetComprasDetalle(int id)
         {
-          if (_context.ComprasDetalles == null)
-          {
-              return NotFound();
-          }
-            var comprasDetalle = await _context.ComprasDetalles.FindAsync(id);
-
-            if (comprasDetalle == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(comprasDetalle);
+            var parameters = SqlParameterWrapper.Create(("@Compra", id));
+            var result = await _context.RunSpAsync<DetalleCompra>("DetalleCompra", parameters);
+            result.DeserializeEscalasJson();
+            return Ok(result);
         }
 
-        // PUT: api/ComprasDetalles/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutComprasDetalle(int id, ComprasDetalle comprasDetalle)
-        {
-            if (id != comprasDetalle.idComprasDetalle)
-            {
-                return BadRequest();
-            }
-            
-            _context.Entry(comprasDetalle).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ComprasDetalleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-
-            return Ok(comprasDetalle);
-        }
-
+        
         // POST: api/ComprasDetalles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
