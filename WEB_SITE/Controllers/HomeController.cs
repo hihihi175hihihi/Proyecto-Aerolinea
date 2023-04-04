@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using WEB_SITE.Models;
 
 namespace WEB_SITE.Controllers
@@ -7,10 +8,12 @@ namespace WEB_SITE.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHttpClientFactory _http;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory http)
         {
             _logger = logger;
+            _http = http;
         }
 
         public IActionResult Index()

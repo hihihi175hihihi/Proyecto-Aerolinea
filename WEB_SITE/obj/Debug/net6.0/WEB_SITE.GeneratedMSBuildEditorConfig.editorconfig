@@ -16,6 +16,90 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\USUARIO\Desktop\GitHub\Proyecto-Aerolinea\WEB_SITE
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/AccessRoles/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNzUm9sZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/AccessRoles/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNzUm9sZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/AccessRoles/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNzUm9sZXNcTW9kaWZ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Access/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Access/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Access/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjZXNzXE1vZGlmeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Cargo/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FyZ29cQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Cargo/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FyZ29cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Cargo/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FyZ29cTW9kaWZ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Ciudades/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2l1ZGFkZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Ciudades/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2l1ZGFkZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Ciudades/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2l1ZGFkZXNcTW9kaWZ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Empleados/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbGVhZG9zXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Empleados/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbGVhZG9zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Empleados/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbGVhZG9zXE1vZGlmeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Escalas/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXNjYWxhc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Escalas/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXNjYWxhc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Escalas/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXNjYWxhc1xNb2RpZnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/FrecuenciaVuelo/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnJlY3VlbmNpYVZ1ZWxvXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/FrecuenciaVuelo/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnJlY3VlbmNpYVZ1ZWxvXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/FrecuenciaVuelo/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRnJlY3VlbmNpYVZ1ZWxvXE1vZGlmeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -26,6 +110,30 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Paises/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFpc2VzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Paises/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFpc2VzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Paises/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFpc2VzXE1vZGlmeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Roles/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Roles/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Roles/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcTW9kaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/USUARIO/Desktop/GitHub/Proyecto-Aerolinea/WEB_SITE/Views/Shared/Error.cshtml]

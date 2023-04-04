@@ -1,0 +1,45 @@
+﻿@model WEB_SITE.Models.Escalas
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Escalas</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" asp-controller="Escalas" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="idVuelo" class="control-label"></label>
+                <input asp-for="idVuelo" class="form-control" />
+                <span asp-validation-for="idVuelo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idCiudadEscala" class="control-label"></label>
+                <input asp-for="idCiudadEscala" class="form-control" />
+                <span asp-validation-for="idCiudadEscala" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DuracionEscala" class="control-label"></label>
+                <input asp-for="DuracionEscala" class="form-control" />
+                <span asp-validation-for="DuracionEscala" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DuracionLlegada" class="control-label"></label>
+                <input asp-for="DuracionLlegada" class="form-control" />
+                <span asp-validation-for="DuracionLlegada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

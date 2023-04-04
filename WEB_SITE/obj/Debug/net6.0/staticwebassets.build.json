@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0jq5ezm7fAxcTipHq6mDuFX7FpPuILu6RrIDUaxGIak=",
+  "Hash": "ly5IdCgC6tJSAk/aGSxt14YEb8r2m1118GY3lEfkHjc=",
   "Source": "WEB_SITE",
   "BasePath": "_content/WEB_SITE",
   "Mode": "Default",
@@ -2004,23 +2004,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\vendor\\chart.js\\Chart.js"
-    },
-    {
-      "Identity": "C:\\Users\\USUARIO\\Desktop\\GitHub\\Proyecto-Aerolinea\\WEB_SITE\\wwwroot\\vendor\\chart.js\\Chart.min.js",
-      "SourceId": "WEB_SITE",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\USUARIO\\Desktop\\GitHub\\Proyecto-Aerolinea\\WEB_SITE\\wwwroot\\",
-      "BasePath": "_content/WEB_SITE",
-      "RelativePath": "vendor/chart.js/Chart.min.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\vendor\\chart.js\\Chart.min.js"
     },
     {
       "Identity": "C:\\Users\\USUARIO\\Desktop\\GitHub\\Proyecto-Aerolinea\\WEB_SITE\\wwwroot\\vendor\\datatables\\dataTables.bootstrap4.css",

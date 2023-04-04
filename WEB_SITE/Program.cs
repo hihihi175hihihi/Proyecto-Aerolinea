@@ -1,8 +1,19 @@
+using Polly;
+using Polly.Extensions.Http;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+//Fabrica de HttpClient
+builder.Services.AddHttpClient("Base", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7022/api/");
+    client.Timeout = TimeSpan.FromSeconds(120);
+})
+    .AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
+        .RetryAsync(3))
+    .AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
+    .CircuitBreakerAsync(5,TimeSpan.FromSeconds(45)));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
