@@ -26,6 +26,46 @@ namespace API.Controllers
             var result = await _context.RunSpAsync<ReporteCompras>("ReporteCompras");
             return Ok(result);
         }
+
+        // <summary>
+        /// Este metodo retornara el listado de compras realizadas por cada mes en el anio actual:Administrador
+        /// </summary>
+        [Route("GetComprasMesActual")]
+        [HttpGet]
+        public async Task<ActionResult> GetComprasMesActual()
+        {
+            var parameters = SqlParameterWrapper.Create(("@Anio", Convert.ToInt32(DateTime.Now.ToString("yyyy"))));
+            var result = await _context.RunSpAsync<ComprasPorMesAnio>("GetTotalComprasPorMes",parameters);
+            var resultado = new List<ComprasPorMesAnioViewModel>();
+            foreach (var item in result)
+            {
+                resultado.Add(new ComprasPorMesAnioViewModel()
+                {
+                    Mes = GetMonthNameFromNumber(item.Mes.ToString()),
+                    Total=item.Total
+                });  
+            }
+            return Ok(resultado);
+        }
+        public static string GetMonthNameFromNumber(string MonthNumber)
+        {
+            return MonthNumber switch
+            {
+                "1" => "Enero",
+                "2" => "Febrero",
+                "3" => "Marzo",
+                "4" => "Abril",
+                "5" => "Mayo",
+                "6" => "Junio",
+                "7" => "Julio",
+                "8" => "Agosto",
+                "9" => "Septiembre",
+                "10" => "Octubre",
+                "11" => "Noviembre",
+                "12" => "Diciembre"
+            };
+        }
+
         // <summary>
         /// Este metodo retornara el listado de compras realizadas:Cliente
         /// </summary>

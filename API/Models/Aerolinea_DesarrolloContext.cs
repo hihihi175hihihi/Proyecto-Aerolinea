@@ -60,6 +60,7 @@ public partial class Aerolinea_DesarrolloContext : DbContext
     public virtual DbSet<TotalVentasxDia> TotalVentasxDia { get; set; }
     public virtual DbSet<TotalVentasAnual> TotalVentasAnual { get; set; }
     public virtual DbSet<WishListxUsuario> WishListxUsuario { get; set; }
+    public virtual DbSet<ComprasPorMesAnio> ComprasPorMesAnio { get; set; }
 
     public async Task<List<T>> RunSpAsync<T>(string storedProcedureName, params SqlParameter[] parameters) where T : class
     {
@@ -75,6 +76,7 @@ public partial class Aerolinea_DesarrolloContext : DbContext
         modelBuilder.Entity<TotalVentasxDia>(entity => {entity.HasNoKey();});
         modelBuilder.Entity<TotalVentasAnual>(entity => {entity.HasNoKey();});
         modelBuilder.Entity<TotalOcupacionxDia>(entity => {entity.HasNoKey();});
+        modelBuilder.Entity<ComprasPorMesAnio>(entity => {entity.HasNoKey();});
         
     }
 }
