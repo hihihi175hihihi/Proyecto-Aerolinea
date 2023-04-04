@@ -465,10 +465,6 @@
       "PackagePath": "staticwebassets\\vendor\\chart.js\\Chart.js"
     },
     {
-      "Id": "C:\\Users\\USUARIO\\Desktop\\GitHub\\Proyecto-Aerolinea\\WEB_SITE\\wwwroot\\vendor\\chart.js\\Chart.min.js",
-      "PackagePath": "staticwebassets\\vendor\\chart.js\\Chart.min.js"
-    },
-    {
       "Id": "C:\\Users\\USUARIO\\Desktop\\GitHub\\Proyecto-Aerolinea\\WEB_SITE\\wwwroot\\vendor\\datatables\\dataTables.bootstrap4.css",
       "PackagePath": "staticwebassets\\vendor\\datatables\\dataTables.bootstrap4.css"
     },

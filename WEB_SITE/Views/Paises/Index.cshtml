@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WEB_SITE.Models.Paises>
+
+@{
+    ViewData["Title"] = "Listado de Paises";
+}
+<h1>@ViewData["Title"]</h1>
+<p>
+    <input type="submit" value="Create" class="btn btn-primary" />
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pais)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pais)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        }
+        else
+            {
+               <h1>No hay data</h1> 
+            }
+            </tbody>
+</table>

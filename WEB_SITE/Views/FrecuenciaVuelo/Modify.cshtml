@@ -1,0 +1,49 @@
+﻿@model WEB_SITE.Models.FrecuenciaVuelo
+
+@{
+    ViewData["Title"] = "Modificar";
+}
+
+<h1>Modificar</h1>
+
+<h4>Frecuencia de Vuelo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Modify">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="idFrecuenciaVuelo" class="form-control" hidden />
+                <span asp-validation-for="idFrecuenciaVuelo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idVuelo" class="control-label"></label>
+                <input asp-for="idVuelo" class="form-control" />
+                <span asp-validation-for="idVuelo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiaSemana" class="control-label"></label>
+                <input asp-for="DiaSemana" class="form-control" />
+                <span asp-validation-for="DiaSemana" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoraSalida" class="control-label"></label>
+                <input asp-for="HoraSalida" class="form-control" />
+                <span asp-validation-for="HoraSalida" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoraLlegada" class="control-label"></label>
+                <input asp-for="HoraLlegada" class="form-control" />
+                <span asp-validation-for="HoraLlegada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

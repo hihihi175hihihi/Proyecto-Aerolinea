@@ -1,0 +1,39 @@
+﻿@model WEB_SITE.Models.AccessRoles
+
+@{
+    ViewData["Title"] = "Modificar";
+}
+
+<h1>Modificar</h1>
+
+<h4>Access Roles</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Modify">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="idAccessRoles" class="form-control" hidden />
+                <span asp-validation-for="idAccessRoles" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idRol" class="control-label"></label>
+                <input asp-for="idRol" class="form-control" />
+                <span asp-validation-for="idRol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idAccess" class="control-label"></label>
+                <input asp-for="idAccess" class="form-control" />
+                <span asp-validation-for="idAccess" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
