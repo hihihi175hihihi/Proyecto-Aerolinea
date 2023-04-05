@@ -18,6 +18,8 @@ namespace WEB_SITE.Controllers
 
         public IActionResult Index()
         {
+            HttpContext.Session.SetString("Username","Administrador");
+            
             return View();
         }
 
