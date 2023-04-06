@@ -4,7 +4,7 @@ namespace API.Models.ViewModelSP
 {
     public class WishListxUsuario : IHasEscalas
     {
-
+        public int? idWishList { get; set; }
         public int? idVuelo { get; set; }
         public string? DiaSemana { get; set; }
         public string? HoraSalida { get; set; }

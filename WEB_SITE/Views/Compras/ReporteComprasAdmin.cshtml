@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Listado de Ventas";
+}
+<h1>@ViewData["Title"]</h1>
+<br/>
+<table class="display responsive nowrap" id="myTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Cliente</th>
+            <th>Email</th>
+            <th>Fecha Compra</th>
+            <th>Total</th>
+            <th>Detalles</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        var tabla;
+        $(document).ready(function () {
+            tabla = $('#myTable').DataTable({
+                "ajax": {
+                    "url": "@Url.Action("GetReporteComprasAdmin", "Compras")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "user" },
+                    { "data": "client" },
+                    { "data": "email" },
+                    { "data": "fechaCompra" },
+                    { "data": "total" },
+                    {
+                        "data": "idCompra",
+                        "render": function (idCompra) {
+                            return `<a href="Detalles/${idCompra}" class="btn btn-primary">Detalles</a>`;
+                        }
+                    }
+                ],
+                
+
+                "language": {
+                    "url": "@Url.Content("~/vendor/datatable/idioma/datatable.es-ES.json")"
+                }
+            });
+        });
+
+        
+    </script>
+}

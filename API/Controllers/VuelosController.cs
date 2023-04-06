@@ -44,18 +44,18 @@ namespace API.Controllers
         public async Task<ActionResult> GetVuelosFiltered(filtrosParaVuelos filtros)
         {
             var parameters = SqlParameterWrapper.Create(
-                ("@VUELO", filtros.idVuelo),
-                ("@CIUDADORIGEN", filtros.CIUDAD_ORIGEN),
-                ("@CIUDADDESTINO", filtros.CIUDAD_DESTINO),
-                ("@PAISORIGEN", filtros.PAIS_ORIGEN),
-                ("@PAISDESTINO", filtros.PAIS_DESTINO),
-                ("@HASESCALAS", filtros.hasEscalas),
-                ("@DIASEMANA", filtros.DiaSemana),
-                ("@HORASALIDA", filtros.HoraSalida),
-                ("@HORALLEGADA", filtros.HoraLlegada),
-                ("@PRECIOMIN", filtros.PrecioMin),
-                ("@PRECIOMAX", filtros.PrecioMax),
-                ("@ORDENARPRECIOAS", filtros.ORDENARPRECIOAS)
+                ("@VUELO", filtros.idVuelo??null),
+                ("@CIUDADORIGEN", filtros.CIUDAD_ORIGEN??null),
+                ("@CIUDADDESTINO", filtros.CIUDAD_DESTINO??null),
+                ("@PAISORIGEN", filtros.PAIS_ORIGEN??null),
+                ("@PAISDESTINO", filtros.PAIS_DESTINO??null),
+                ("@HASESCALAS", filtros.hasEscalas??null),
+                ("@DIASEMANA", filtros.DiaSemana??null),
+                ("@HORASALIDA", filtros.HoraSalida??null),
+                ("@HORALLEGADA", filtros.HoraLlegada??null),
+                ("@PRECIOMIN", filtros.PrecioMin??null),
+                ("@PRECIOMAX", filtros.PrecioMax??null),
+                ("@ORDENARPRECIOAS", filtros.ORDENARPRECIOAS??null)
                 );
            
             var result = await _context.RunSpAsync<FiltrosVuelos>("FiltrosVuelos", parameters);

@@ -1,0 +1,88 @@
+﻿@using X.PagedList;
+@using X.PagedList.Web.Common;
+@using X.PagedList.Mvc.Core;
+@model IPagedList<WEB_SITE.Models.ViewModelSP.FiltrosVuelos>
+@{
+    ViewData["Title"] = "Listado de Vuelos";
+}
+
+<h1>@ViewData["Title"]</h1>
+ @if (Model == null)
+{
+    <h1>No hay Vuelos</h1>
+}else{
+    @foreach (var item in Model)
+    {
+        <div class="row" id="listado">
+            <div class="col-md-3"></div>
+            <div class="col-md-5">
+                <div id="card-@item.idVuelo">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-@item.idVuelo" href="#card-element-@item.idVuelo">
+                                <div class="container-fluid" style="font-size: 20px; font-weight: bold;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @item.CIUDAD_ORIGEN - @item.CIUDAD_DESTINO
+                                        </div>
+                                        <div class="col-md-6">
+                                            07:00 - 09:15
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>@item.PAIS_ORIGEN - @item.PAIS_DESTINO</h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            @item.DiaSemana
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Q @item.Precio
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-success"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;&nbsp;Comprar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div id="card-element-@item.idVuelo" class="collapse">
+                            <div class="card-body">
+                                @if (item.Escalas == null)
+                                {
+                                    <h1>Vuelo Directo</h1>
+                                }else{
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ciudad de Escala</th>
+                                            <th>Duración de Escala</th>
+                                            <th>Duración de Llegada</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach(var escala in @item.Escalas){
+                                        <tr>
+                                            <td>@escala.CIUDAD_ESCALA</td>
+                                            <td>@escala.DuracionEscala h</td>
+                                            <td>@escala.DuracionLlegada h</td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <br />
+    }
+}
+<!-- Renderiza la paginación -->
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), new X.PagedList.Web.Common.PagedListRenderOptions { LiElementClasses = new string[] { "page-item" }, PageClasses = new string[] { "page-link" } })
