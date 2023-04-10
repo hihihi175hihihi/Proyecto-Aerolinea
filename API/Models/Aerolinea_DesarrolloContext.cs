@@ -29,7 +29,7 @@ public partial class Aerolinea_DesarrolloContext : DbContext
 
     public virtual DbSet<Compras> Compras { get; set; }
 
-    public virtual DbSet<ComprasDetalle> ComprasDetalles { get; set; }
+    public virtual DbSet<ComprasDetalle> ComprasDetalle { get; set; }
 
     public virtual DbSet<Empleados> Empleados { get; set; }
 

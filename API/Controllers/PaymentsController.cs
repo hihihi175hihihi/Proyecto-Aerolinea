@@ -1,11 +1,9 @@
-﻿using System.Text;
+﻿using API.Models.ViewModelSP;
 using API.Models;
-using API.Models.ViewModelSP;
 using API.Services;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Stripe;
-
 
 namespace API.Controllers
 {
@@ -16,17 +14,16 @@ namespace API.Controllers
         private readonly Aerolinea_DesarrolloContext _context;
         private readonly EmailService _emailService;
 
-        public PaymentsController(Aerolinea_DesarrolloContext context,EmailService emailService)
+        public PaymentsController(Aerolinea_DesarrolloContext context, EmailService emailService)
         {
             _context = context;
             _emailService = emailService;
         }
 
-        [Route("pay")]
         [HttpPost]
-        public async Task<ActionResult>Pay(PaymentRequest payment)
+        public async Task<ActionResult<Pagos>> PostPayments(PaymentRequest payment)
         {
-            
+
             Pagos pago;
             //si se mando una tarjeta seleccionada
             if (payment.IdTarjeta != null)
@@ -94,68 +91,122 @@ namespace API.Controllers
             else
             {
                 //Si no se mando una tarjeta asociada
-                // Crear el token de la tarjeta con Stripe
-                var tokenOptions = new TokenCreateOptions
+                if (payment.saveCard)
                 {
-                    Card = new TokenCardOptions
+                    // Crear el token de la tarjeta con Stripe
+                    var tokenOptions = new TokenCreateOptions
                     {
-                        Name=payment.NombreTarjeta,
-                        Number = payment.TokenCard,
+                        Card = new TokenCardOptions
+                        {
+                            Name = payment.NombreTarjeta,
+                            Number = payment.TokenCard,
+                            ExpMonth = payment.ExpMonth,
+                            ExpYear = payment.ExpYear,
+                            Cvc = payment.Cvs.ToString()
+                        }
+                    };
+
+                    var tokenService = new TokenService();
+                    Token stripeToken;
+                    try
+                    {
+                        stripeToken = await tokenService.CreateAsync(tokenOptions);
+                    }
+                    catch (StripeException ex)
+                    {
+                        return BadRequest(ex.Message);
+                    }
+
+                    var tarjeta = new Tarjetas()
+                    {
+                        idCliente = payment.IdCliente,
+                        TokenCard = payment.TokenCard,
+                        Last4 = int.Parse(stripeToken.Card.Last4),
                         ExpMonth = payment.ExpMonth,
                         ExpYear = payment.ExpYear,
-                        Cvc = payment.Cvs.ToString()
+                        Csv = payment.Cvs,
+                        Brand = stripeToken.Card.Brand
+                    };
+                    _context.Tarjetas.Add(tarjeta);
+                    await _context.SaveChangesAsync();
+
+                    // Realizar el pago con Stripe
+                    var chargeService = new ChargeService();
+                    var chargeOptions = new ChargeCreateOptions
+                    {
+                        Amount = Convert.ToInt32(payment.MontoPago * 100), // Monto en centavos
+                        Currency = "usd", // Asume que la moneda es dólares estadounidenses
+                        Description = $"Pago para el cliente {payment.IdCliente}",
+                        Source = stripeToken.Id
+                    };
+
+                    var charge = chargeService.Create(chargeOptions);
+                    if (charge.StripeResponse.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        return BadRequest("No se pudo realizar el pago.");
                     }
-                };
+                    // Almacenar la información del pago en la tabla Pagos
+                    pago = new Pagos
+                    {
+                        idCompra = payment.IdCompra,
+                        FechaPago = DateTime.Now,
+                        MontoPago = payment.MontoPago
+                    };
 
-                var tokenService = new TokenService();
-                Token stripeToken;
-                try
-                {
-                    stripeToken = await tokenService.CreateAsync(tokenOptions);
+                    _context.Pagos.Add(pago);
+                    await _context.SaveChangesAsync();
                 }
-                catch (StripeException ex)
+                else
                 {
-                    return BadRequest(ex.Message);
+                    // Crear el token de la tarjeta con Stripe
+                    var tokenOptions = new TokenCreateOptions
+                    {
+                        Card = new TokenCardOptions
+                        {
+                            Name = payment.NombreTarjeta,
+                            Number = payment.TokenCard,
+                            ExpMonth = payment.ExpMonth,
+                            ExpYear = payment.ExpYear,
+                            Cvc = payment.Cvs.ToString()
+                        }
+                    };
+
+                    var tokenService = new TokenService();
+                    Token stripeToken;
+                    try
+                    {
+                        stripeToken = await tokenService.CreateAsync(tokenOptions);
+                    }
+                    catch (StripeException ex)
+                    {
+                        return BadRequest(ex.Message);
+                    }
+                    // Realizar el pago con Stripe
+                    var chargeService = new ChargeService();
+                    var chargeOptions = new ChargeCreateOptions
+                    {
+                        Amount = Convert.ToInt32(payment.MontoPago * 100), // Monto en centavos
+                        Currency = "usd", // Asume que la moneda es dólares estadounidenses
+                        Description = $"Pago para el cliente {payment.IdCliente}",
+                        Source = stripeToken.Id
+                    };
+
+                    var charge = chargeService.Create(chargeOptions);
+                    if (charge.StripeResponse.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        return BadRequest("No se pudo realizar el pago.");
+                    }
+                    // Almacenar la información del pago en la tabla Pagos
+                    pago = new Pagos
+                    {
+                        idCompra = payment.IdCompra,
+                        FechaPago = DateTime.Now,
+                        MontoPago = payment.MontoPago
+                    };
+
+                    _context.Pagos.Add(pago);
+                    await _context.SaveChangesAsync();
                 }
-
-                var tarjeta = new Tarjetas()
-                {
-                    idCliente=payment.IdCliente,
-                    TokenCard= payment.TokenCard,
-                    Last4 = int.Parse(stripeToken.Card.Last4),
-                    ExpMonth =payment.ExpMonth,
-                    ExpYear=payment.ExpYear,
-                    Csv=payment.Cvs,
-                    Brand = stripeToken.Card.Brand
-                };
-                _context.Tarjetas.Add(tarjeta);
-                await _context.SaveChangesAsync();
-
-                // Realizar el pago con Stripe
-                var chargeService = new ChargeService();
-                var chargeOptions = new ChargeCreateOptions
-                {
-                    Amount = Convert.ToInt32(payment.MontoPago * 100), // Monto en centavos
-                    Currency = "usd", // Asume que la moneda es dólares estadounidenses
-                    Description = $"Pago para el cliente {payment.IdCliente}",
-                    Source = stripeToken.Id
-                };
-
-                var charge = chargeService.Create(chargeOptions);
-                if (charge.StripeResponse.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    return BadRequest("No se pudo realizar el pago.");
-                }
-                // Almacenar la información del pago en la tabla Pagos
-                pago = new Pagos
-                {
-                    idCompra = payment.IdCompra,
-                    FechaPago = DateTime.Now,
-                    MontoPago = payment.MontoPago
-                };
-
-                _context.Pagos.Add(pago);
-                await _context.SaveChangesAsync();
             }
 
             // Generar el itinerario
@@ -196,10 +247,11 @@ namespace API.Controllers
             }
 
             string body = EmailTemplates.ItineraryEmail.Replace("{0}", itineraryTableRows.ToString());
-            
-            await _emailService.SendEmailAsync("Itinerario de Vuelo",body);
+
+            await _emailService.SendEmailAsync("Itinerario de Vuelo", body);
             return Ok(pago);
         }
+
         public static string GetDayNameFromNumber(string dayNumber)
         {
             return dayNumber switch
@@ -213,7 +265,9 @@ namespace API.Controllers
                 "7" => "Domingo"
             };
         }
-        private async Task<List<GenerateItinerary>> generateItinerary(int? idCompra)
+
+        [HttpGet]
+        public async Task<List<GenerateItinerary>> generateItinerary(int? idCompra)
         {
             var parameters = SqlParameterWrapper.Create(("@Compra", idCompra));
             var itinerario = await _context.RunSpAsync<GenerateItinerary>("GenerateItinerary", parameters);

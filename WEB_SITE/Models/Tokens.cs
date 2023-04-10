@@ -33,3 +33,9 @@ public partial class resetPassword
     public bool? Active { get; set; }
     public string? Password { get; set; }
 }
+public class TokenVM
+{
+    [Required]
+    [Display(Name = "Token")]
+    public string Token { get; set; }
+}

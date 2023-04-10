@@ -27,27 +27,49 @@ namespace API.Controllers
             {
                 return BadRequest("Datos Invalidos");
             }
-            var user = _context.Usuarios.Where(x =>
+            
+            var user = _context.Usuarios
+                            .Where(x =>
                             x.Username == usuarios.Username
                             && x.Password == usuarios.Password
-                            && x.Active == true).FirstOrDefault();
+                            && x.Active == true)
+                            .Join(_context.Roles,
+                            u => u.idRol,
+                            r => r.idRol,
+                            (u, r) => new
+                            {
+                                u.idUsuario,
+                                u.Username,
+                                u.Password,
+                                u.idRol,
+                                u.Active,
+                                r.Rol
+                            })
+                            .FirstOrDefault();
             if (user == null)
             {
                 return NotFound("Datos Invalidos");
             }
-            //Esto cambiarlo por la libreria la cual generara los token
-            var token = new Tokens()
+            if (user.Rol.Equals("Usuario"))
             {
-                idUsuario = user.idUsuario,
-                Token = Convert.ToString(Guid.NewGuid()),
-                CreateAt = DateTime.Now,
-                Expiration = DateTime.Now.AddMinutes(15),
-                Active = true
-            };
-            _context.Tokens.Add(token);
-            await _context.SaveChangesAsync();
-            await _emailService.SendEmailAsync("Token para login", $"Su token es :{token.Token} y expira :{token.Expiration}");
-            return Ok();
+                //Esto cambiarlo por la libreria la cual generara los token
+                var token = new Tokens()
+                {
+                    idUsuario = user.idUsuario,
+                    Token = Convert.ToString(Guid.NewGuid()),
+                    CreateAt = DateTime.Now,
+                    Expiration = DateTime.Now.AddMinutes(15),
+                    Active = true
+                };
+                _context.Tokens.Add(token);
+                await _context.SaveChangesAsync();
+                await _emailService.SendEmailAsync("Token para login", $"Su token es :{token.Token} y expira :{token.Expiration}");
+                return Ok(user);
+            }
+            else
+            {
+                return Ok(user);
+            }
         }
         [Route("login-2Auth")]
         [HttpPost]
@@ -76,7 +98,16 @@ namespace API.Controllers
             token.Active = false;
             _context.Entry(token).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok();
+            var dataUser =await _context.Usuarios.Join(_context.Clientes,
+                                                    u => u.idUsuario,
+                                                    c => c.idUsuario,
+                                                    (u, c) => new
+                                                    {
+                                                        u.idUsuario,
+                                                        u.Username,
+                                                        c.idCliente
+                                                    }).FirstOrDefaultAsync();
+            return Ok(dataUser);
         }
         [Route("registryUser")]
         [HttpPost]

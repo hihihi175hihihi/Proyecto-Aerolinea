@@ -9,7 +9,22 @@ public partial class Compras
 
     public int? idCliente { get; set; }
 
-    public DateTime? FechaCompra { get; set; }
+    public DateTime? FechaCompra { get; set; } = DateTime.Now;
 
     public decimal? Total { get; set; }
+}
+
+public class RequestCompraCardSave
+{
+    public int? idCliente { get; set; }
+
+    public DateTime? FechaCompra { get; set; } = DateTime.Now;
+
+    public decimal? Total { get; set; }
+    public int? idVuelo { get; set; }
+
+    public int? Cantidad { get; set; }
+    public int idTarjeta { get; set; }
+    
+
 }

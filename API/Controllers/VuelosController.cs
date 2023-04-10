@@ -34,7 +34,7 @@ namespace API.Controllers
             var parameters = SqlParameterWrapper.Create(("@VUELO", id));
             var result = await _context.RunSpAsync<FiltrosVuelos>("FiltrosVuelos", parameters);
             result.DeserializeEscalasJson();
-            return Ok(result);
+            return Ok(result.FirstOrDefault());
         }
 
 
@@ -51,11 +51,10 @@ namespace API.Controllers
                 ("@PAISDESTINO", filtros.PAIS_DESTINO??null),
                 ("@HASESCALAS", filtros.hasEscalas??null),
                 ("@DIASEMANA", filtros.DiaSemana??null),
-                ("@HORASALIDA", filtros.HoraSalida??null),
-                ("@HORALLEGADA", filtros.HoraLlegada??null),
                 ("@PRECIOMIN", filtros.PrecioMin??null),
                 ("@PRECIOMAX", filtros.PrecioMax??null),
-                ("@ORDENARPRECIOAS", filtros.ORDENARPRECIOAS??null)
+                ("@ORDENARPRECIOAS", filtros.ORDENARPRECIOAS??null),
+                ("@idUsuario", filtros.idUsuario ?? null)
                 );
            
             var result = await _context.RunSpAsync<FiltrosVuelos>("FiltrosVuelos", parameters);

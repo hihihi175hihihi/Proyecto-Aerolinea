@@ -34,7 +34,7 @@ namespace API.Controllers
         {
             var parameters = SqlParameterWrapper.Create(("@YEAR", DateTime.Now.ToString("yyyy")));
             var result = await _context.RunSpAsync<TotalVentasAnual>("TotalVentasAnual", parameters);
-            return Ok(result);
+            return Ok(result.FirstOrDefault());
 
         }
         [Route("TotalVentasxDia")]
@@ -43,7 +43,7 @@ namespace API.Controllers
         {
             var parameters = SqlParameterWrapper.Create(("@FECHAACTUAL", DateTime.Now.ToString("yyyy-MM-dd")));
             var result = await _context.RunSpAsync<TotalVentasxDia>("TotalVentasxDia", parameters);
-            return Ok(result);
+            return Ok(result.FirstOrDefault());
 
         }
     }

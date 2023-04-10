@@ -22,6 +22,19 @@ namespace API.Controllers
             return Ok(await _context.Tarjetas.ToListAsync());
         }
 
+        [Route("GetTarjetasByCliente/{id}")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TarjetasVM>>> GetTarjetasbyCliente(int id)
+        {
+            var result = await _context.Tarjetas.Where(x => x.idCliente == id).Select(x => new TarjetasVM
+            {
+                idTarjeta = x.idTarjeta,
+                Last4 = x.Last4,
+                Brand = x.Brand
+            }).ToListAsync();
+            return Ok(result);
+        }
+        
         // GET: api/Tarjetas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tarjetas>> GetTarjetas(int id)
@@ -72,6 +85,14 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Tarjetas>> PostTarjetas(Tarjetas tarjetas)
         {
+            if (tarjetas == null)
+            {
+                return BadRequest("Error");
+            }
+            if (TarjetasExiste(tarjetas.TokenCard))
+            {
+                return BadRequest("La tarjeta ya existe");
+            }
             _context.Tarjetas.Add(tarjetas);
             await _context.SaveChangesAsync();
 
@@ -94,6 +115,10 @@ namespace API.Controllers
             return Ok("Registro eliminado");
         }
 
+        private bool TarjetasExiste(string token)
+        {
+            return (_context.Tarjetas?.Any(e => e.TokenCard == token)).GetValueOrDefault();
+        }
         private bool TarjetasExists(int id)
         {
             return (_context.Tarjetas?.Any(e => e.idTarjeta == id)).GetValueOrDefault();

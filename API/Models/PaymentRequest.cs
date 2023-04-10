@@ -2,10 +2,11 @@
 {
     public class PaymentRequest
     {
+        public bool saveCard { get; set; }
         public string? NombreTarjeta { get; set; }
-        public int IdCliente { get; set; }
+        public int? IdCliente { get; set; }
         public int? IdTarjeta { get; set; }
-        public decimal MontoPago { get; set; }
+        public decimal? MontoPago { get; set; }
         public int? IdCompra { get; set; }
         public string? TokenCard { get; set; }
 
