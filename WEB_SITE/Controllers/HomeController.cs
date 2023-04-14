@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WEB_SITE.Models;
+using WEB_SITE.Models.ViewModelSP;
 
 namespace WEB_SITE.Controllers
 {
@@ -16,11 +17,16 @@ namespace WEB_SITE.Controllers
             _http = http;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             HttpContext.Session.SetString("Username","Administrador");
-            
-            return View();
+            var client = _http.CreateClient("Base");
+            var response = await client.GetFromJsonAsync<List<ComprasPorMesAnioViewModel>>("Compras/GetComprasMesActual");
+            var TotalComprasDia = await client.GetFromJsonAsync<TotalVentasxDia>("DashBoard/TotalVentasxDia");
+            ViewData["TotalComprasDia"] = TotalComprasDia.Total??0;
+            var TotalVentasAnual = await client.GetFromJsonAsync<TotalVentasAnual>("DashBoard/TotalVentasAnual");
+            ViewData["TotalVentasAnual"] = TotalVentasAnual.TotalAnual??0;
+            return View(response);
         }
 
         public IActionResult Privacy()

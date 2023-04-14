@@ -31,6 +31,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<WishList>> PostWishList(WishList wishList)
         {
+            var result = await _context.WishLists.AnyAsync(x => x.idVuelo == wishList.idVuelo && x.idUsuario == wishList.idUsuario);
+            if (result)
+            {
+                return BadRequest("El vuelo ya se encuentra en la lista de deseos");
+            }
             _context.WishLists.Add(wishList);
             await _context.SaveChangesAsync();
 

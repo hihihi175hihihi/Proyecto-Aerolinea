@@ -14,3 +14,11 @@ public partial class Vuelos
     public decimal? Precio { get; set; }
     
 }
+
+public class vueloById
+{
+    public int? idVuelo { get; set; }
+    public string? CIUDAD_ORIGEN { get; set; }
+    public string? CIUDAD_DESTINO { get; set; }
+    public decimal? Precio { get; set; }
+}

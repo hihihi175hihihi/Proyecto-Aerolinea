@@ -1,4 +1,8 @@
-﻿@{
+﻿@using WEB_SITE.Models.ViewModelSP;
+@model List<WEB_SITE.Models.ViewModelSP.ComprasPorMesAnioViewModel>
+@{
+    var TotalComprasDia = ViewData["TotalComprasDia"];
+    var TotalVentasAnual = ViewData["TotalVentasAnual"];
     ViewData["Title"] = "Home Page";
 }
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -8,15 +12,15 @@
 <div class="row">
 
     <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-4 col-md-6 mb-4">
+    <div class="col-xl-6 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Earnings (Monthly)
+                            Total Compras (Dia)
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Q.@TotalComprasDia</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -27,15 +31,15 @@
     </div>
 
     <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-4 col-md-6 mb-4">
+    <div class="col-xl-6 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Earnings (Annual)
+                            Total Compras (Annual)
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Q.@TotalVentasAnual</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -45,24 +49,24 @@
         </div>
     </div>
 
-    <!-- Earnings (Monthly) Card Example -->
+   @* <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-4 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
+        <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Earnings (Annual)
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Total Ocupacion (Dia)
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 
  
 </div>
@@ -86,11 +90,11 @@
 
 
 @section Scripts {
-        <script src="~/js/demo/chart-bar-demo.js"></script>
-       @* <script>
+       
+        <script>
             const labels=@Html.Raw(Json.Serialize(Model.Select(x => x.Mes).ToList()));
             const data=@Html.Raw(Json.Serialize(Model.Select(x => x.Total).ToList()));
-        var ctx = document.getElementById("myBarChart1").getContext('2d');;
+        var ctx = document.getElementById("myBarChart").getContext('2d');
         const comprasPorMesChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -163,5 +167,9 @@
                 }
             },
         });
-        </script>*@
+        function number_format(value) {
+            return value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        </script>
 }

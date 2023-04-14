@@ -20,3 +20,12 @@ public partial class Tarjetas
     public string? Brand { get; set; }
     public int? Csv { get; set; }
 }
+public partial class TarjetasVM
+{
+    public int idTarjeta { get; set; }
+
+    public int? Last4 { get; set; }
+
+    public string? Brand { get; set; }
+}
+

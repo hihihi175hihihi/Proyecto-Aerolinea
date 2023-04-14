@@ -15,9 +15,11 @@ namespace API.Models.ViewModelSP
         public decimal? Precio { get; set; }
         public string? ESCALAS_JSON { get; set; }
         public List<EscalasVuelos>? Escalas { get; set; }
+        public int? WishlistStatus { get; set; }
     }
     public class filtrosParaVuelos
     {
+        public int? idUsuario { get; set; }
         public int? idVuelo { get; set; }
         public int? CIUDAD_ORIGEN { get; set; }
         public int? CIUDAD_DESTINO { get; set; }
@@ -25,8 +27,6 @@ namespace API.Models.ViewModelSP
         public int? PAIS_DESTINO { get; set; }
         public int? hasEscalas { get; set; }
         public int? DiaSemana { get; set; }
-        public string? HoraSalida { get; set; }
-        public string? HoraLlegada { get; set; }
         public decimal? PrecioMin { get; set; }
         public decimal? PrecioMax { get; set; }
         public string? ORDENARPRECIOAS { get; set; }

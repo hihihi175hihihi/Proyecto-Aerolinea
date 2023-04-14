@@ -2,7 +2,7 @@
 
 namespace WEB_SITE.Models;
 
-public partial class Roles
+public partial class Rols
 {
     [Key]
     public int idRol { get; set; }

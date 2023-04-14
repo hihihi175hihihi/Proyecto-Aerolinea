@@ -27,3 +27,16 @@ public class LoginViewModel
     public string Password { get; set; }
    
 }
+public partial class UsuariosVM
+{
+    public int idUsuario { get; set; }
+
+    public int? idRol { get; set; }
+
+    public string? Username { get; set; }
+    public string? nombreRol { get; set; }
+
+    public string? Password { get; set; }
+
+    public bool? Active { get; set; }
+}

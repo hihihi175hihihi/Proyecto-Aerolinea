@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Je9dYmPDMjImyYwmzBgFXWcMGOXMQ/kHF96Gki7dn5kwLJ57mWTZ/RF3Y0/a1JSFtLTkSbAIciG8iH7r2TIA6Q==",
+  "dgSpecHash": "3YBTUz7McmVmdJmnchhndA4G7x42vdhowovThj3O+u4oEdinz6mJAPHJ/vcYphFxLXprwkLMkg20kvcGqMvSSg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Rodrigo\\Documents\\GitHub\\Proyecto_Aerolinea_Administracion_de_Tecnologias\\Proyecto-Aerolinea\\WEB_SITE\\WEB_SITE.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Rodrigo\\.nuget\\packages\\humanizer.core\\2.2.0\\humanizer.core.2.2.0.nupkg.sha512",
+    "C:\\Users\\Rodrigo\\.nuget\\packages\\jetbrains.annotations\\2022.3.1\\jetbrains.annotations.2022.3.1.nupkg.sha512",
     "C:\\Users\\Rodrigo\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\Rodrigo\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\Rodrigo\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
@@ -173,7 +174,10 @@
     "C:\\Users\\Rodrigo\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\Rodrigo\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
     "C:\\Users\\Rodrigo\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
-    "C:\\Users\\Rodrigo\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
+    "C:\\Users\\Rodrigo\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\Rodrigo\\.nuget\\packages\\x.pagedlist\\8.4.7\\x.pagedlist.8.4.7.nupkg.sha512",
+    "C:\\Users\\Rodrigo\\.nuget\\packages\\x.pagedlist.mvc.core\\8.4.7\\x.pagedlist.mvc.core.8.4.7.nupkg.sha512",
+    "C:\\Users\\Rodrigo\\.nuget\\packages\\x.pagedlist.web.common\\8.0.7\\x.pagedlist.web.common.8.0.7.nupkg.sha512"
   ],
   "logs": []
 }

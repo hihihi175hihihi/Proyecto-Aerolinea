@@ -13,11 +13,11 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ComprasDetallesController : ControllerBase
+    public class ComprasDetalleController : ControllerBase
     {
         private readonly Aerolinea_DesarrolloContext _context;
 
-        public ComprasDetallesController(Aerolinea_DesarrolloContext context)
+        public ComprasDetalleController(Aerolinea_DesarrolloContext context)
         {
             _context = context;
         }
@@ -37,36 +37,33 @@ namespace API.Controllers
         }
 
         
-        // POST: api/ComprasDetalles
+        // POST: api/ComprasDetalle
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<ComprasDetalle>> PostComprasDetalle(ComprasDetalle comprasDetalle)
         {
-          if (_context.ComprasDetalles == null)
-          {
-              return Problem("Entity set 'Aerolinea_DesarrolloContext.ComprasDetalles'  is null.");
-          }
-            _context.ComprasDetalles.Add(comprasDetalle);
+          
+            _context.ComprasDetalle.Add(comprasDetalle);
             await _context.SaveChangesAsync();
 
             return Ok(comprasDetalle);
         }
 
-        // DELETE: api/ComprasDetalles/5
+        // DELETE: api/ComprasDetalle/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComprasDetalle(int id)
         {
-            if (_context.ComprasDetalles == null)
+            if (_context.ComprasDetalle == null)
             {
                 return NotFound();
             }
-            var comprasDetalle = await _context.ComprasDetalles.FindAsync(id);
+            var comprasDetalle = await _context.ComprasDetalle.FindAsync(id);
             if (comprasDetalle == null)
             {
                 return NotFound();
             }
 
-            _context.ComprasDetalles.Remove(comprasDetalle);
+            _context.ComprasDetalle.Remove(comprasDetalle);
             await _context.SaveChangesAsync();
 
             return Ok("Registro eliminado");
@@ -74,7 +71,7 @@ namespace API.Controllers
 
         private bool ComprasDetalleExists(int id)
         {
-            return (_context.ComprasDetalles?.Any(e => e.idComprasDetalle == id)).GetValueOrDefault();
+            return (_context.ComprasDetalle?.Any(e => e.idComprasDetalle == id)).GetValueOrDefault();
         }
     }
 }
