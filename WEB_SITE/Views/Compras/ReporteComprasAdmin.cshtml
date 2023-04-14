@@ -72,12 +72,7 @@
 </div>
 
 @section Scripts{
-    <script src="https://cdn.datatables.net/buttons/2.2.1/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.1/js/buttons.print.min.js"></script>
+    
     <script>
         var tabla;
         $(document).ready(function () {
@@ -144,11 +139,11 @@
             tablaCliente.appendChild(cliente);
             tablaCliente.appendChild(FechaCompra);
 
-            GetDataDetalle(compra, tablaDetalles);
+            GetDataDetalle(compra);
 
         }
         function GetDataDetalle(compra){
-            var url = '@Url.Action("DetallesCompraAdmin", "DetallesCompra", new { id = "__id__" })'.replace('__id__', compra);
+            var url = '@Url.Content("~/DetallesCompra/DetallesCompraAdmin/")' + compra;
             var tabla = document.getElementById('detalles');
             
             $.get(url).done((data)=>{

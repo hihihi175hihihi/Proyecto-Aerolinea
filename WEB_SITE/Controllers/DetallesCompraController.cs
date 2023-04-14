@@ -14,11 +14,10 @@ namespace WEB_SITE.Controllers
         /// <summary>
         /// Metodo que da el detalle de compra para administrador
         /// </summary>
-        [HttpGet("{id}")]
         public async Task<JsonResult> DetallesCompraAdmin(int id)
         {
             var client = _http.CreateClient("Base");
-            var response = await client.GetFromJsonAsync<List<DetalleCompra>>("ComprasDetalles/" + id);
+            var response = await client.GetFromJsonAsync<List<DetalleCompra>>("ComprasDetalle/" + id);
             return Json(response);
         }
     }

@@ -23,7 +23,19 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-            return Ok(await _context.Usuarios.ToListAsync());
+            var result = await _context.Usuarios.Join(_context.Roles,
+                usuario => usuario.idRol,
+                rol => rol.idRol,
+                (usuario, rol) => new 
+                {
+                    idUsuario = usuario.idUsuario,
+                    Username = usuario.Username,
+                    Password = usuario.Password,
+                    Active = usuario.Active,
+                    idRol = rol.idRol,
+                    NombreRol = rol.Rol
+                }).ToListAsync();
+            return Ok(result);
         }
 
         // GET: api/Usuarios/5
