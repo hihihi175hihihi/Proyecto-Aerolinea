@@ -3,20 +3,20 @@ using WEB_SITE.Models;
 
 namespace WEB_SITE.Controllers
 {
-    public class EmpleadosController : Controller
+    public class AccessRolesController : Controller
     {
         private readonly IHttpClientFactory _http;
-        public EmpleadosController(IHttpClientFactory http)
+        public AccessRolesController(IHttpClientFactory http)
         {
             _http = http;
         }
         public async Task<IActionResult> Index()
         {
             var client = _http.CreateClient("Base");
-            var response = await client.GetFromJsonAsync<List<Empleados>>("Empleados");
+            var response = await client.GetFromJsonAsync<List<AccessRoles>>("AccessRoles");
             if (response == null)
             {
-                return View(new List<Empleados>());
+                return View(new List<AccessRoles>());
             }
             return View(response);
         }

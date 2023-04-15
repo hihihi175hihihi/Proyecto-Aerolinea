@@ -1,42 +1,52 @@
 ﻿@model IEnumerable<WEB_SITE.Models.AccessRoles>
 
 @{
-    ViewData["Title"] = "Listado de Accesos Rol";
+    ViewData["Title"] = "Listado de Accesos - Roles";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <input type="submit" value="Create" class="btn btn-primary" />
+    <a class="btn btn-primary" asp-action="Create" asp-controller="AccessRoles">Crear Access Rol</a>
 </p>
 <table class="table">
-    <thead>
+    <thead class="thead-dark">
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idRol)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.idAccess)
             </th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @if(Model != null) { 
+        @if(Model != null ) { 
         @foreach (var item in Model) {
         <tr>
-            
+                    <td>
+                        @Html.DisplayFor(modelItem => item.idRol)
+                    </td>
             <td>
                 @Html.DisplayFor(modelItem => item.idAccess)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+                    <td>
+                        <a href="@Url.Action("Modify","AccessRoles")" class="btn btn-primary">
+                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
+                        </a> |
+                        <a onclick="EliminarAccessRoles();" class="btn btn-danger">
+                            <i class="fas fa-trash" aria-hidden="true"></i> Delete
+                        </a>
+                    </td>
         </tr>
 }
         }
 else
         {
-            <h1>No hay data</h1>
+            <tr>
+                <th scope="row">No Hay Data</th>
+            </tr>
         }
     </tbody>
 </table>
