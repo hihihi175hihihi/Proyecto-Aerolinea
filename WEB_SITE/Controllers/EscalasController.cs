@@ -1,12 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WEB_SITE.Models;
 
 namespace WEB_SITE.Controllers
 {
     public class EscalasController : Controller
     {
-        public IActionResult Index()
+        private readonly IHttpClientFactory _http;
+        public EscalasController(IHttpClientFactory http)
         {
-            return View();
+            _http = http;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var client = _http.CreateClient("Base");
+            var response = await client.GetFromJsonAsync<List<Escalas>>("Escalas");
+            if (response == null)
+            {
+                return View(new List<Escalas>());
+            }
+            return View(response);
         }
 
         public IActionResult Create()
