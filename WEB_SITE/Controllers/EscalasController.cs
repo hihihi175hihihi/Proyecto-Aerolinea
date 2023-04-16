@@ -13,10 +13,10 @@ namespace WEB_SITE.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _http.CreateClient("Base");
-            var response = await client.GetFromJsonAsync<List<Escalas>>("Escalas");
+            var response = await client.GetFromJsonAsync<List<EscalasVM>>("Escalas");
             if (response == null)
             {
-                return View(new List<Escalas>());
+                return View(new List<EscalasVM>());
             }
             return View(response);
         }

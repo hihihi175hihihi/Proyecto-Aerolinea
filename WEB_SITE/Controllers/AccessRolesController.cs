@@ -14,10 +14,10 @@ namespace WEB_SITE.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _http.CreateClient("Base");
-            var response = await client.GetFromJsonAsync<List<AccessRoles>>("AccessRoles");
+            var response = await client.GetFromJsonAsync<List<AccessRolesVM>>("AccessRoles");
             if (response == null)
             {
-                return View(new List<AccessRoles>());
+                return View(new List<AccessRolesVM>());
             }
             return View(response);
         }

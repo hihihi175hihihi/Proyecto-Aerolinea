@@ -13,10 +13,10 @@ namespace WEB_SITE.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _http.CreateClient("Base");
-            var response = await client.GetFromJsonAsync<List<Empleados>>("Empleados");
+            var response = await client.GetFromJsonAsync<List<EmpleadosVM>>("Empleados");
             if (response == null)
             {
-                return View(new List<Empleados>());
+                return View(new List<EmpleadosVM>());
             }
             return View(response);
         }

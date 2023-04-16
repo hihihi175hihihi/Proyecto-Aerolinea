@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WEB_SITE.Models.AccessRoles>
+﻿@model IEnumerable<WEB_SITE.Models.AccessRolesVM>
 
 @{
     ViewData["Title"] = "Listado de Accesos - Roles";
@@ -13,10 +13,10 @@
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.idRol)
+                @Html.DisplayNameFor(model => model.rol)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.idAccess)
+                @Html.DisplayNameFor(model => model.access)
             </th>
             <th>Actions</th>
         </tr>
@@ -26,11 +26,11 @@
         @foreach (var item in Model) {
         <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.idRol)
+                        @Html.DisplayFor(modelItem => item.rol)
                     </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.idAccess)
-            </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.access)
+                    </td>
                     <td>
                         <a href="@Url.Action("Modify","AccessRoles")" class="btn btn-primary">
                             <i class="fas fa-edit" aria-hidden="true"></i> Edit
