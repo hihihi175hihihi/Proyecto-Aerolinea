@@ -109,6 +109,7 @@ namespace API.Controllers
                                                     }).FirstOrDefaultAsync();
             return Ok(dataUser);
         }
+        //Client
         [Route("registryUser")]
         [HttpPost]
         public async Task<ActionResult> Registrousuario(RegistryRequest usuarios)
@@ -151,12 +152,18 @@ namespace API.Controllers
                 Expiration = DateTime.Now.AddMinutes(15),
                 Active = true
             };
+            var response = new
+            {
+                idUsuario = client.idUsuario,
+                idCliente=client.idCliente,
+                username=user.Username
+            };
             _context.Tokens.Add(token);
             await _context.SaveChangesAsync();
             await _emailService.SendEmailAsync("Token para Activar su cuenta", $"Su token es :{token.Token} y expira :{token.Expiration}");
-            return Ok();
+            return Ok(response);
         }
-
+        //Client
         [Route("registryUserActivate")]
         [HttpPost]
         public async Task<ActionResult> Activacionusuario(Tokens modelToken)
