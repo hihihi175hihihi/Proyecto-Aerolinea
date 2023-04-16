@@ -17,9 +17,41 @@ namespace API.Controllers
 
         // GET: api/Empleados
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Empleados>>> GetEmpleados()
+        public async Task<ActionResult> GetEmpleados()
         {
-            return Ok(await _context.Empleados.ToListAsync());
+            var listado = _context.Empleados.ToList().Join(_context.Usuarios,
+             e => e.idUsuario,
+             u => u.idUsuario,
+             (e, u) => new
+             {
+                 idEmpleado = e.idEmpleado,
+                 CodigoEmpleado = e.CodigoEmpleado,
+                 idUsuario = e.idUsuario,
+                 Username=u.Username,
+                 Nombres = e.Nombres,
+                 Apellidos = e.Apellidos,
+                 Direccion = e.Direccion,
+                 Telefono = e.Telefono,
+                 idCargo = e.idCargo
+             }).Join(_context.Cargos,
+              e => e.idCargo,
+             c => c.idCargo,
+             (e, c) => new
+             {
+                 idEmpleado = e.idEmpleado,
+                 CodigoEmpleado = e.CodigoEmpleado,
+                 idUsuario = e.idUsuario,
+                 Username = e.Username,
+                 Nombres = e.Nombres,
+                 Apellidos = e.Apellidos,
+                 Direccion = e.Direccion,
+                 Telefono = e.Telefono,
+                 idCargo = e.idCargo,
+                 Cargo=c.Cargo
+             }).ToList();
+
+
+            return Ok(listado);
         }
 
         // GET: api/Empleados/5

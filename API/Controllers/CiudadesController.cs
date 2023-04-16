@@ -17,10 +17,22 @@ namespace API.Controllers
 
         // GET: api/Ciudades
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ciudades>>> GetCiudades()
+        public async Task<IActionResult> GetCiudades()
         {
+            var listado = _context.Ciudades.ToList().Join(_context.Paises,
+             c=>c.idPais,
+             p => p.idPais,
+             (c, p) => new
+             {
+                 idCiudad=c.idCiudad,
+                 Ciudad=c.Ciudad,
+                 idPais = c.idPais,
+                 Pais = p.Pais
 
-            return Ok(await _context.Ciudades.ToListAsync());
+             }).ToList();
+
+
+            return Ok(listado);
         }
 
         // GET: api/Ciudades/5

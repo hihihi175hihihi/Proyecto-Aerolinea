@@ -139,6 +139,7 @@ namespace API.Controllers
                 DPI = usuarios.DPI,
                 Telefono = usuarios.Telefono,
                 Email = usuarios.Email,
+                FechaRegistro = DateTime.Now
             };
             _context.Clientes.Add(client);
             await _context.SaveChangesAsync();
