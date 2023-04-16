@@ -18,4 +18,5 @@ public partial class Clientes
     public string? Telefono { get; set; }
 
     public string? Email { get; set; }
+    public DateTime? FechaRegistro { get; set; }
 }

@@ -17,10 +17,24 @@ namespace API.Controllers
 
         // GET: api/Clientes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Clientes>>> GetClientes()
+        public async Task<IActionResult> GetClientes()
         {
-          
-            return Ok(await _context.Clientes.ToListAsync());
+            var listado = _context.Clientes.ToList().Join(_context.Usuarios,
+              c => c.idUsuario,
+              u => u.idUsuario,
+              (c, u) => new
+              {
+                  idCliente = c.idCliente,
+                  idUsuario = c.idUsuario,
+                  Username = u.Username,
+                  Nombres = c.Nombres,
+                  Apellidos = c.Apellidos,
+                  DPI = c.DPI,
+                  Telefono = c.Telefono,
+                  Email = c.Email,
+                  FechaRegistro=c.FechaRegistro
+              }).ToList();
+            return Ok(listado);
         }
 
         // GET: api/Clientes/5

@@ -17,9 +17,23 @@ namespace API.Controllers
 
         // GET: api/Escalas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Escalas>>> GetEscalas()
+        public async Task<IActionResult> GetEscalas()
         {
-            return Ok(await _context.Escalas.ToListAsync());
+            var listado = _context.Escalas.ToList().Join(_context.Ciudades,
+             e=>e.idCiudadEscala,
+             c=>c.idCiudad,
+             (e, c) => new
+             {
+                 idEscala = e.idEscala,
+                 idVuelo = e.idVuelo,
+                 idCiudadEscala=e.idCiudadEscala,
+                 CiudadEscala=c.Ciudad,
+                 DuracionEscala=e.DuracionEscala,
+                 DuracionLlegada=e.DuracionLlegada
+             }).ToList();
+
+
+            return Ok(listado);
         }
 
         // GET: api/Escalas/5
