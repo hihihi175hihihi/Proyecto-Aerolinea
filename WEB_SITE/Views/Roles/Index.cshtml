@@ -7,15 +7,15 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create" asp-controller="Rols">Crear Role</a>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Roles">Crear Role</a>
 </p>
 <table class="table">
-    <thead>
+    <thead  class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Rol)
             </th>
-            <th></th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -26,10 +26,10 @@
                 @Html.DisplayFor(modelItem => item.Rol)
             </td>
             <td>
-                        <a href="@Url.Action("Modify","Rols")" class="btn btn-primary">
+                        <a href="@Url.Action("Modify","Roles")" class="btn btn-primary">
                             <i class="fas fa-edit" aria-hidden="true"></i> Edit
                         </a> |
-                        <a onclick="EliminarRols();" class="btn btn-danger">
+                        <a onclick="EliminarRoles();" class="btn btn-danger">
                             <i class="fas fa-trash" aria-hidden="true"></i> Delete
                         </a>
                     </td>
