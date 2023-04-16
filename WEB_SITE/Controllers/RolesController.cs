@@ -1,20 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WEB_SITE.Models;
 
 namespace WEB_SITE.Controllers
 {
     public class RolesController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Create()
-        {
-            return View();
-        }
-        public IActionResult Modify()
-        {
-            return View();
+            private readonly IHttpClientFactory _http;
+            public RolesController(IHttpClientFactory http)
+            {
+                _http = http;
+            }
+            public async Task<IActionResult> Index()
+            {
+                var client = _http.CreateClient("Base");
+                var response = await client.GetFromJsonAsync<List<Rols>>("Roles");
+                if (response == null)
+                {
+                    return View(new List<Rols>());
+                }
+                return View(response);
+            }
+
+            public IActionResult Create()
+            {
+                return View();
+            }
+            public IActionResult Modify()
+            {
+                return View();
+            }
         }
     }
-}
+    

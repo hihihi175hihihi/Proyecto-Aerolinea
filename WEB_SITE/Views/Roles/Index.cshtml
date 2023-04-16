@@ -7,7 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <input type="submit" value="Create" class="btn btn-primary" />
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Rols">Crear Role</a>
 </p>
 <table class="table">
     <thead>
@@ -26,12 +26,21 @@
                 @Html.DisplayFor(modelItem => item.Rol)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+                        <a href="@Url.Action("Modify","Rols")" class="btn btn-primary">
+                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
+                        </a> |
+                        <a onclick="EliminarRols();" class="btn btn-danger">
+                            <i class="fas fa-trash" aria-hidden="true"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
         }
-    </tbody>
+        else
+        {
+            <tr>
+             <th scope="row">No Hay Data</th>
+            </tr>
+        }
+            </tbody>
 </table>

@@ -1,23 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WEB_SITE.Models;
 
-
 namespace WEB_SITE.Controllers
 {
-    public class AccessRolesController : Controller
+    public class AccessController : Controller
     {
         private readonly IHttpClientFactory _http;
-        public AccessRolesController(IHttpClientFactory http)
+        public AccessController(IHttpClientFactory http)
         {
             _http = http;
         }
         public async Task<IActionResult> Index()
         {
             var client = _http.CreateClient("Base");
-            var response = await client.GetFromJsonAsync<List<AccessRoles>>("AccessRoles");
+            var response = await client.GetFromJsonAsync<List<Access>>("Accesses");
             if (response == null)
             {
-                return View(new List<AccessRoles>());
+                return View(new List<Access>());
             }
             return View(response);
         }
