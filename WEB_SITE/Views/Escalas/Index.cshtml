@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WEB_SITE.Models.Escalas>
+﻿@model IEnumerable<WEB_SITE.Models.EscalasVM>
 
 @{
     ViewData["Title"] = "Listado de Escalas";
@@ -12,12 +12,17 @@
 <table class="table">
     <thead class="thead-dark">
         <tr>
-            
             <th>
-                @Html.DisplayNameFor(model => model.DuracionEscala)
+                @Html.DisplayNameFor(model => model.idVuelo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DuracionLlegada)
+                @Html.DisplayNameFor(model => model.ciudadEscala)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuracionEscala) (in Hours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuracionLlegada) (in Hours)
             </th>
             <th>Actions</th>
         </tr>
@@ -29,10 +34,16 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DuracionEscala)
+                        @Html.DisplayFor(modelItem => item.idVuelo)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DuracionLlegada)
+                        @Html.DisplayFor(modelItem => item.ciudadEscala)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DuracionEscala) h
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DuracionLlegada) h
                     </td>
                     <td>
                         <a href="@Url.Action("Modify","Escalas")" class="btn btn-primary">

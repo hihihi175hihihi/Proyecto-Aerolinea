@@ -25,3 +25,17 @@ public class EscalasVuelos
     public string? DuracionLlegada { get; set; }
 }
 
+public partial class EscalasVM
+{
+    public int? idEscala { get; set; }
+
+    [Display(Name = "Vuelo")]
+    public int? idVuelo { get; set; }
+
+    public int? idCiudadEscala { get; set; }
+    public string? ciudadEscala { get; set; }
+
+    public string? DuracionEscala { get; set; }
+
+    public string? DuracionLlegada { get; set; }
+}

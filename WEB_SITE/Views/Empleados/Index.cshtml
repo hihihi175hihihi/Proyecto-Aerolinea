@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WEB_SITE.Models.Empleados>
+﻿@model IEnumerable<WEB_SITE.Models.EmpleadosVM>
 
 @{
     ViewData["Title"] = "Listado de Empleados";
@@ -13,7 +13,7 @@
     <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.idUsuario)
+                @Html.DisplayNameFor(model => model.username)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CodigoEmpleado)
@@ -31,7 +31,7 @@
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.idCargo)
+                @Html.DisplayNameFor(model => model.cargo)
             </th>
             <th>Actions</th>
         </tr>
@@ -44,7 +44,7 @@
                 <tr>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.idUsuario)
+                        @Html.DisplayFor(modelItem => item.username)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CodigoEmpleado)
@@ -62,7 +62,7 @@
                         @Html.DisplayFor(modelItem => item.Telefono)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.idCargo)
+                        @Html.DisplayFor(modelItem => item.cargo)
                     </td>
                     <td>
                         <a href="@Url.Action("Modify","Empleados")" class="btn btn-primary">
