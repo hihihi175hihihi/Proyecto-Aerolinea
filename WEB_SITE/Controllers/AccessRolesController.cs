@@ -2,7 +2,7 @@
 
 namespace WEB_SITE.Controllers
 {
-    public class AccessRoles : Controller
+    public class AccessRolesController : Controller
     {
         public IActionResult Index()
         {
