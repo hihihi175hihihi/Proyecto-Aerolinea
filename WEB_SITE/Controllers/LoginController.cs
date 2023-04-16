@@ -65,9 +65,29 @@ namespace WEB_SITE.Controllers
 
         public IActionResult Registry()
         {
+            
             return View();
         }
-
+        [HttpPost]
+        public async Task<IActionResult> Registry(RegistryRequest model)
+        {
+            var client = _http.CreateClient("Base");
+            var content = JsonConvert.SerializeObject(model);
+            var contenido = new StringContent(content, Encoding.UTF8, "application/json");
+            var respuesta = await client.PostAsync("Authentication/registryUser", contenido);
+            if (respuesta.IsSuccessStatusCode)
+            {
+                string responseContent = await respuesta.Content.ReadAsStringAsync();
+                dynamic resultado = JObject.Parse(responseContent);
+                string idUsuario, idCliente,Username;
+                (idUsuario, idCliente, Username) = (resultado.idUsuario.ToString(), resultado.idCliente.ToString(), resultado.username.ToString());
+                HttpContext.Session.SetString("idUsuario", idUsuario);
+                HttpContext.Session.SetString("idCliente", idCliente);
+                HttpContext.Session.SetString("User", Username);
+                return RedirectToAction("registryUserActivate", "Login");
+            }
+                return Redirect("Error");
+        }
         public IActionResult forgotPassword()
         {
             return View();
@@ -110,6 +130,33 @@ namespace WEB_SITE.Controllers
         public IActionResult registryUserActivate()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult registryUserActivate(TokenVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var client = _http.CreateClient("Base");
+            var token = new
+            {
+                idUsuario = Convert.ToInt32(HttpContext.Session.GetString("idUsuario")),
+                token = model.Token
+            };
+            var content = JsonConvert.SerializeObject(token);
+            var contenido = new StringContent(content, Encoding.UTF8, "application/json");
+            var respuesta = client.PostAsync("Authentication/registryUserActivate", contenido);
+            if (respuesta.Result.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return Redirect("Error");
+        }
+        public IActionResult Logout(){
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Login");
         }
     }
 }
