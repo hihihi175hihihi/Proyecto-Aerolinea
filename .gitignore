@@ -17,4 +17,12 @@
 *.lock
 /WEB_SITE/obj/Debug/net6.0/
 /WEB_SITE/bin/Debug/net6.0/
+/WEB_SITE/.vs/WEB_SITE/DesignTimeBuild/.dtbcache.v2
+/WEB_SITE/.vs/WEB_SITE/v17/.suo
+/WEB_SITE/obj
+/WEB_SITE/bin
 /WEB_SITE/.vs
+/WEB_SITE/bin/Debug/net6.0/
+/WEB_SITE/.vs/WEB_SITE/v17/.suo
+/API/.vs/ProjectEvaluation/api.projects.v6.1
+/API/.vs/ProjectEvaluation/api.metadata.v6.1
