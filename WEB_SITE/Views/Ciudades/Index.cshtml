@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WEB_SITE.Models.Ciudades>
+﻿@model IEnumerable<WEB_SITE.Models.CiudadesVM>
 
 @{
     ViewData["Title"] = "Listado de Ciudades";
@@ -7,18 +7,18 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <input type="submit" value="Create" class="btn btn-primary" />
+   <a class="btn btn-primary" asp-action="Create" asp-controller="Ciudades">Crear Ciudad</a>
 </p>
 <table class="table">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Ciudad)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.idPais)
+                @Html.DisplayNameFor(model => model.Pais)
             </th>
-            <th></th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -30,19 +30,24 @@
                  @Html.DisplayFor(modelItem => item.Ciudad)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.idPais)
+                        @Html.DisplayFor(modelItem => item.Pais)
                 </td>
                 <td>
-                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
+                        <a href="@Url.Action("Modify","Ciudades")" class="btn btn-primary">
+                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
+                        </a> |
+                        <a onclick="EliminarCiudades();" class="btn btn-danger">
+                            <i class="fas fa-trash" aria-hidden="true"></i> Delete
+                        </a>
+                    </td>
              </tr>
             }
         }
         else
           {
-             <h1>No hay data</h1> 
+             <tr>
+             <th scope="row">No Hay Data</th>
+            </tr>
           }
     </tbody>
 </table>
