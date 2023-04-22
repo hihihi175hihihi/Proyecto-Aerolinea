@@ -103,10 +103,18 @@
                     $.post(url, idUsuario).done( function (data) {
                         if (data.success) {
                             Swal.fire(
-                                'Eliminado!',
-                                'Usuario Eliminado.',
-                                'success'
-                            );
+    'Eliminado!',
+    'Usuario Eliminado.',
+    'success'
+).then(() => {
+    // Espera 2 segundos antes de recargar la página
+    setTimeout(() => {
+        location.reload();
+    }, 2000);
+});
+
+
+
                         }else{
                             Swal.fire(
                                 'Fallo!',

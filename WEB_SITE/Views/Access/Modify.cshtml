@@ -1,21 +1,19 @@
 ﻿@model WEB_SITE.Models.Access
 
 @{
-    ViewData["Title"] = "Modificar";
+    ViewData["Title"] = "Modificar Acceso";
 }
 
-<h1>Modificar</h1>
+<h2>@ViewData["Title"]</h2>
 
-<h4>Accesos</h4>
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Modify">
+        <form asp-action="Modify" asp-controller="Access" method="POST">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
 
                 <input asp-for="idAccess" class="form-control" hidden />
-                <span asp-validation-for="idAccess" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
