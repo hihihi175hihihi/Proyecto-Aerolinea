@@ -198,6 +198,7 @@ namespace API.Controllers
             return Ok();
         }
 
+        // For Clients
         [Route("RequestResetPassword")]
         [HttpPost]
         public async Task<ActionResult> RequestResetPassword(RegistryRequest usuarios)
@@ -211,7 +212,7 @@ namespace API.Controllers
                 c => c.idUsuario,
                 (u, c) => new { u, c })
                 .Where(x => x.c.Email == usuarios.Email).FirstOrDefault();
-            if (exist != null)
+            if (exist == null)
             {
                 return BadRequest("Email Incorrecto");
             }
@@ -223,14 +224,20 @@ namespace API.Controllers
                 Expiration = DateTime.Now.AddMinutes(15),
                 Active = true
             };
+            var response = new
+            {
+                idUsuario = exist.u.idUsuario,
+                idCliente = exist.c.idCliente,
+                username = exist.u.Username
+            };
             _context.Tokens.Add(token);
             await _context.SaveChangesAsync();
             await _emailService.SendEmailAsync("Token para Reset Password", $"Su token es :{token.Token} y expira :{token.Expiration}");
-            return Ok();
+            return Ok(response);
         }
-        [Route("ResetPassword")]
+        [Route("ValidateTokenResetPassword")]
         [HttpPost]
-        public async Task<ActionResult> ResetPassword(resetPassword modelToken)
+        public async Task<ActionResult> ValidateTokenResetPassword(Tokens modelToken)
         {
             if (modelToken == null)
             {
@@ -254,8 +261,17 @@ namespace API.Controllers
                                             && x.Active == true).FirstOrDefault();
             token.Active = false;
             _context.Entry(token).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            
+            return Ok();
+        }
+        [Route("ResetPassword")]
+        [HttpPost]
+        public async Task<ActionResult> ResetPassword(ChangePassword modelToken)
+        {
+            if (modelToken == null)
+            {
+                return BadRequest("Datos Invalidos");
+            }
+
             var user = _context.Usuarios.Where(x => x.idUsuario == modelToken.idUsuario).FirstOrDefault();
             user.Active = true;
             user.Password = modelToken.Password;

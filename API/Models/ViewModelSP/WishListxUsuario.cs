@@ -12,6 +12,7 @@ namespace API.Models.ViewModelSP
         public string? CIUDAD_ORIGEN { get; set; }
         public string? CIUDAD_DESTINO { get; set; }
         public string? PAIS_ORIGEN { get; set; }
+        public string? PAIS_DESTINO { get; set; }
         public decimal? Precio { get; set; }
         public string? ESCALAS_JSON { get; set; }
         public List<EscalasVuelos>? Escalas { get; set; }
