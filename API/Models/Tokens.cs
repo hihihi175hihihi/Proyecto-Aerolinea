@@ -19,7 +19,6 @@ public partial class Tokens
 }
 public partial class resetPassword
 {
-    [Key]
     public int idToken { get; set; }
 
     public int? idUsuario { get; set; }
@@ -32,4 +31,10 @@ public partial class resetPassword
 
     public bool? Active { get; set; }
     public string Password { get; set; }
+}
+public partial class ChangePassword
+{
+
+    public int? idUsuario { get; set; }
+    public string? Password { get; set; }
 }

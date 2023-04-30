@@ -58,9 +58,16 @@ namespace API.Controllers
             return Ok("Registro eliminado");
         }
 
-        private bool WishListExists(int id)
+        [Route("GetData")]
+        [HttpPost]
+        public async Task<ActionResult<WishList>> ObtenerWishList(WishList wishList)
         {
-            return (_context.WishLists?.Any(e => e.idWishList == id)).GetValueOrDefault();
+            var result = _context.WishLists.Where(x => x.idVuelo == wishList.idVuelo && x.idUsuario == wishList.idUsuario).FirstOrDefault();
+            if (result == null)
+            {
+                return BadRequest("El vuelo no se encuentra en la lista de deseos");
+            }
+            return Ok(result);
         }
     }
 }

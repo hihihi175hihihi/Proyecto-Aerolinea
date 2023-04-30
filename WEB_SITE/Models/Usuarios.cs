@@ -40,3 +40,20 @@ public partial class UsuariosVM
 
     public bool? Active { get; set; }
 }
+public partial class ChangePassword
+{
+
+    public int? idUsuario { get; set; }
+    public string? Password { get; set; }
+}
+public partial class ChangePasswordVM
+{
+
+    public int? idUsuario { get; set; }
+    [Display(Name = "Contraseña Nueva")]
+    [Required]
+    public string? Password { get; set; }
+    [Display(Name = "Repita Contraseña Nueva")]
+    [Required]
+    public string? ConfirmationPassword { get; set; }
+}
