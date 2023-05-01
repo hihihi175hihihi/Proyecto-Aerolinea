@@ -3,8 +3,25 @@
 @{
     ViewData["Title"] = "Listado de Ciudades";
 }
+@if (TempData["CreateCiudad"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["CreateCiudad"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["ModifyCiudad"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["ModifyCiudad"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <h1>@ViewData["Title"]</h1>
-
 <p>
    <a class="btn btn-primary" asp-action="Create" asp-controller="Ciudades">Crear Ciudad</a>
 </p>
@@ -35,7 +52,7 @@
                         <a href="@Url.Action("Modify","Ciudades")" class="btn btn-primary">
                             <i class="fas fa-edit" aria-hidden="true"></i> Edit
                         </a> |
-                        <a onclick="EliminarCiudades();" class="btn btn-danger">
+                        <a onclick="Eliminar(@item.idCiudad,'@item.Ciudad');" class="btn btn-danger">
                             <i class="fas fa-trash" aria-hidden="true"></i> Delete
                         </a>
                     </td>
@@ -50,3 +67,45 @@
           }
     </tbody>
 </table>
+@section Scripts{
+    <script>
+        function Eliminar(id,ciudad){
+            Swal.fire({
+                title: `Estas seguro de Elimiar la Ciudad ${ciudad}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/Ciudades/Delete/")'+id;
+                    $.post(url, id).done( function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminada!',
+                                'Ciudad Eliminada.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 0);
+                            });
+                        }else{
+                            Swal.fire(
+                                'Fallo!',
+                                'Ciudad No Eliminada.',
+                                'warning'
+                            )
+                        }
+                    });
+                   
+                }
+            });
+        }
+    </script>
+}
+
