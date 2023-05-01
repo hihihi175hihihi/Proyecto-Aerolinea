@@ -3,9 +3,27 @@
 @{
     ViewData["Title"] = "Listado de Paises";
 }
+@if (TempData["CreatePais"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["CreatePais"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["ModifyPais"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["ModifyPais"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <h1>@ViewData["Title"]</h1>
 <p>
-    <input type="submit" value="Create" class="btn btn-primary" />
+    <a   class="btn btn-primary" asp-action="Create" asp-controller="Paises" >Crear Pais</a>
 </p>
 <table class="table">
     <thead>
@@ -13,7 +31,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Pais)
             </th>
-            <th>Action</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -26,16 +44,63 @@
                         @Html.DisplayFor(modelItem => item.Pais)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        <a href="@Url.Action("Modify","Paises")" class="btn btn-primary">
+                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
+                        </a> |
+                        <a onclick="Eliminar(@item.idPais,'@item.Pais');" class="btn btn-danger">
+                            <i class="fas fa-trash" aria-hidden="true"></i> Delete
+                        </a>
                     </td>
                 </tr>
             }
         }
         else
             {
-               <h1>No hay data</h1> 
+              <tr>
+             <td scope="row">No Hay Data</td>
+             </tr>
             }
             </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        function Eliminar(id,pais){
+            Swal.fire({
+                title: `Estas seguro de Elimiar el Pais ${pais}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/Paises/Delete/")'+id;
+                    $.post(url, id).done( function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminado!',
+                                'Pais Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 0);
+                            });
+                        }else{
+                            Swal.fire(
+                                'Fallo!',
+                                'Pais No Eliminado.',
+                                'warning'
+                            )
+                        }
+                    });
+                   
+                }
+            });
+        }
+    </script>
+}

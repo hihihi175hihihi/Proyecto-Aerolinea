@@ -1,12 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WEB_SITE.Models;
 
 namespace WEB_SITE.Controllers
 {
     public class PaisesController : Controller
     {
-        public IActionResult Index()
+        private readonly IHttpClientFactory _http;
+        public PaisesController(IHttpClientFactory http)
         {
-            return View();
+            _http = http;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var client = _http.CreateClient("Base");
+            var response = await client.GetFromJsonAsync<List<Paises>>("Paises");
+            if (response == null)
+            {
+                return View(new List<Rols>());
+            }
+            return View(response);
         }
 
         public IActionResult Create()
