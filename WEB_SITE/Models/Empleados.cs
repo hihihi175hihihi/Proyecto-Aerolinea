@@ -6,7 +6,7 @@ public partial class Empleados
 {
     [Key]
     public int idEmpleado { get; set; }
-
+    [Display(Name = "Usuario")]
     public int? idUsuario { get; set; }
 
     public string? CodigoEmpleado { get; set; }
@@ -18,7 +18,7 @@ public partial class Empleados
     public string? Direccion { get; set; }
 
     public string? Telefono { get; set; }
-
+    [Display(Name = "Cargo")]
     public int? idCargo { get; set; }
 }
 

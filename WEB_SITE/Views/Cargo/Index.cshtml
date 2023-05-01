@@ -24,10 +24,10 @@
                 @Html.DisplayFor(modelItem => item.Cargo)
             </td>
                  <td>
-                        <a href="@Url.Action("Modify","Cargo")" class="btn btn-primary">
+                        <a href='@Url.Content($"~/Cargo/Modify/{item.idCargo}")' class="btn btn-primary">
                             <i class="fas fa-edit" aria-hidden="true"></i> Edit
                         </a> |
-                        <a onclick="EliminarCargos();" class="btn btn-danger">
+                        <a onclick="EliminarCargos(@item.idCargo,'@item.Cargo');" class="btn btn-danger">
                             <i class="fas fa-trash" aria-hidden="true"></i> Delete
                         </a>
                  </td>
@@ -43,3 +43,45 @@
 
     </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        function EliminarCargos(id, Cargo) {
+            Swal.fire({
+                title: `Estas seguro de Elimiar el Cargo ${Cargo}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/Cargo/Delete/")' + id;
+                    $.post(url, id).done(function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminado!',
+                                'Cargo Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 2000);
+                            });
+                        } else {
+                            Swal.fire(
+                                'Fallo!',
+                                'Cargo No Eliminado.',
+                                'warning'
+                            )
+                        }
+                    });
+
+                }
+            });
+        }
+    </script>
+}

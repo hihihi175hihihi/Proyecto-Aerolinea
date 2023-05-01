@@ -46,10 +46,10 @@
                         @Html.DisplayFor(modelItem => item.DuracionLlegada) h
                     </td>
                     <td>
-                        <a href="@Url.Action("Modify","Escalas")" class="btn btn-primary">
+                        <a href='@Url.Content($"~/Escalas/Modify/{item.idEscala}")' class="btn btn-primary">
                             <i class="fas fa-edit" aria-hidden="true"></i> Edit
                         </a> |
-                        <a onclick="EliminarEscala();" class="btn btn-danger">
+                        <a onclick="EliminarEscala(@item.idEscala,'@item.idVuelo');" class="btn btn-danger">
                             <i class="fas fa-trash" aria-hidden="true"></i> Delete
                         </a>
                     </td>
@@ -64,3 +64,46 @@
         }
     </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        function EliminarEscala(id, idVuelo) {
+            Swal.fire({
+                title: `Estas seguro de Eliminar la escala perteneciente al vuelo ${idVuelo}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/Escalas/Delete/")' + id;
+                    $.post(url, id).done(function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminado!',
+                                'Escala Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 2000);
+                            });
+                        } else {
+                            Swal.fire(
+                                'Fallo!',
+                                'Escala No Eliminado.',
+                                'warning'
+                            )
+                        }
+                    });
+
+                }
+            });
+        }
+    </script>
+}
+

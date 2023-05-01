@@ -4,13 +4,11 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Cargos</h4>
+<h2>@ViewData["Title"]</h2>
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Create" asp-controller="Cargos" method="post">
+        <form asp-action="Create" asp-controller="Cargo" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Cargo" class="control-label"></label>

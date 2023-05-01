@@ -2,7 +2,7 @@
 
 namespace WEB_SITE.Services
 {
-    public static class SelectListItemHelperService
+    public static  class SelectListItemHelperService
     {
         public static List<SelectListItem> ToSelectListItems<T>(
        this List<T> items,

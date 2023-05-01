@@ -6,10 +6,11 @@ public partial class AccessRoles
 {
     [Key]
     public int idAccessRoles { get; set; }
-
+    [Display(Name ="Acceso")]
+    public int? idAccess { get; set; }
+    [Display(Name = "Rol")]
     public int? idRol { get; set; }
 
-    public int? idAccess { get; set; }
 }
 
 public partial class AccessRolesVM
