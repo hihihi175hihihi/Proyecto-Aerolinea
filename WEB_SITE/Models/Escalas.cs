@@ -6,8 +6,9 @@ public partial class Escalas
 {
     [Key]
     public int? idEscala { get; set; }
-
+    [Display(Name ="Vuelo")]
     public int? idVuelo { get; set; }
+    [Display(Name = "Ciudad Escala")]
 
     public int? idCiudadEscala { get; set; }
 

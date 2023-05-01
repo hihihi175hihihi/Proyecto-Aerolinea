@@ -1,25 +1,40 @@
 ﻿@model WEB_SITE.Models.Escalas
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Escala";
+    var Ciudad = (List<SelectListItem>)ViewData["ListadoCiudad"];
+    var Vuelo = (List<SelectListItem>)ViewData["ListadoVuelos"];
 }
 
-<h1>Create</h1>
-
-<h4>Escalas</h4>
+<h2>@ViewData["Title"]</h2>
 <hr />
 <div class="row">
     <div class="col-md-6">
+        @if (TempData["ErrorCreate"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> Seleccione un vuelo / Ciudad de Escala.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
         <form asp-action="Create" asp-controller="Escalas" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="idVuelo" class="control-label"></label>
-                <input asp-for="idVuelo" class="form-control" />
+                
+                <select asp-for="idVuelo" asp-items="Vuelo" class="form-control">
+                    <option value="">-- Seleccione un Vuelo --</option>
+                </select>
+
                 <span asp-validation-for="idVuelo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="idCiudadEscala" class="control-label"></label>
-                <input asp-for="idCiudadEscala" class="form-control" />
+                <select asp-for="idCiudadEscala" asp-items="Ciudad" class="form-control">
+                    <option value="">-- Seleccione una ciudad --</option>
+                </select>
                 <span asp-validation-for="idCiudadEscala" class="text-danger"></span>
             </div>
             <div class="form-group">

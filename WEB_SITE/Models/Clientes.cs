@@ -6,7 +6,7 @@ public partial class Clientes
 {
     [Key]
     public int idCliente { get; set; }
-
+    [Display(Name = "Usuario")]
     public int? idUsuario { get; set; }
 
     public string? Nombres { get; set; }

@@ -1,12 +1,13 @@
 ﻿@model WEB_SITE.Models.AccessRoles
 
 @{
-    ViewData["Title"] = "Modificar";
+    ViewData["Title"] = "Modificar Acceso segun Rol";
+    var roles = (List<SelectListItem>)ViewData["ListadoRoles"];
+    var accesos = (List<SelectListItem>)ViewData["ListadoAccesos"];
 }
 
-<h1>Modificar</h1>
+<h2>@ViewData["Title"]</h2>
 
-<h4>Access Roles</h4>
 <hr />
 <div class="row">
     <div class="col-md-6">
@@ -14,16 +15,15 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <input asp-for="idAccessRoles" class="form-control" hidden />
-                <span asp-validation-for="idAccessRoles" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="idRol" class="control-label"></label>
-                <input asp-for="idRol" class="form-control" />
+                <select asp-for="idRol" asp-items="roles" class="form-control"></select>
                 <span asp-validation-for="idRol" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="idAccess" class="control-label"></label>
-                <input asp-for="idAccess" class="form-control" />
+                <select asp-for="idAccess" asp-items="accesos" class="form-control"></select>
                 <span asp-validation-for="idAccess" class="text-danger"></span>
             </div>
             <div class="form-group">
