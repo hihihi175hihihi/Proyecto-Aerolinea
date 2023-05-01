@@ -4,9 +4,9 @@ namespace WEB_SITE.Models;
 
 public partial class FrecuenciaVuelo
 {
-    [Key]
     public int idFrecuenciaVuelo { get; set; }
 
+    [Display(Name = "Vuelo")]
     public int? idVuelo { get; set; }
 
     public string? DiaSemana { get; set; }

@@ -85,6 +85,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<FrecuenciaVuelo>> PostFrecuenciaVuelo(FrecuenciaVuelo frecuenciaVuelo)
         {
+           
             _context.FrecuenciaVuelos.Add(frecuenciaVuelo);
             await _context.SaveChangesAsync();
 

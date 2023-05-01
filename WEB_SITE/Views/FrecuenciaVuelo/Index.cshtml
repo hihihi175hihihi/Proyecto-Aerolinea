@@ -6,7 +6,7 @@
 @if (TempData["CreateFrecuenciaVuelo"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> @TempData["CreateFrecuenciaVuela"].ToString().
+        <strong>Exito!</strong> @TempData["CreateFrecuenciaVuelo"].ToString().
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -23,7 +23,7 @@
 }
 <h1>@ViewData["Title"]</h1>
 <p>
-     <a class="btn btn-primary" asp-action="Create" asp-controller="Roles">Crear Frecuencia de Vuelo</a>
+     <a class="btn btn-primary" asp-action="Create" asp-controller="FrecuenciaVuelo">Crear Frecuencia de Vuelo</a>
 </p>
 <table class="table">
     <thead class="thead-dark">
