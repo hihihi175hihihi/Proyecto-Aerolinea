@@ -21,7 +21,7 @@
     <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
-
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
     <!-- Custom styles for this template-->
     <link href="~/css/sb-admin-2.css" rel="stylesheet">
     <link href="~/sweetalert2/sweetalert2.css" rel="stylesheet" />
@@ -84,61 +84,60 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" asp-action="Index" asp-controller="Usuarios"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp;Usuarios</a>
-                        <a class="collapse-item" href="cards.html">Gestion Roles</a>
-                        <a class="collapse-item" href="cards.html">Gestion Permisos</a>
-                        <a class="collapse-item" href="cards.html">Gestion Cargos</a>
+                        <a class="collapse-item" asp-action="Index" asp-controller="Roles">Gestion Roles</a>
+                        <a class="collapse-item" asp-action="Index" asp-controller="AccessRoles">Gestion Permisos</a>
+                        <a class="collapse-item" asp-action="Index" asp-controller="Access">Gestion Accesos</a>
+                        <a class="collapse-item" asp-action="Index" asp-controller="Cargo">Gestion Cargos</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="Home">
+                <a class="nav-link" asp-action="Index" asp-controller="WishList">
                     <i class="fas fa-fw fa-heart"></i>
                     <span>WishList</span>
                 </a>
             </li>
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reportes"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Reporteria</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                <div id="reportes" class="collapse" aria-labelledby="headingUtilities"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Generador de Reportes:</h6>
                         <a class="collapse-item" asp-action="ReporteComprasAdmin" asp-controller="Compras" >Reporte Compras</a>
                     </div>
                 </div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Vuelos"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Gestion de Vuelos</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                <div id="Vuelos" class="collapse" aria-labelledby="headingUtilities"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="cards.html">Gestion Vuelos</a>
-                        <a class="collapse-item" href="cards.html">Gestion Frecuencia Vuelos</a>
-                        <a class="collapse-item" href="cards.html">Gestion Escalas</a>
+                        <a class="collapse-item" asp-action="ListadoVuelosAdmin" asp-controller="Vuelos">Gestion Vuelos</a>
+                        <a class="collapse-item" asp-action="Index" asp-controller="FrecuenciaVuelo">Gestion Frecuencia Vuelos</a>
+                        <a class="collapse-item" asp-action="Index" asp-controller="Escalas">Gestion Escalas</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Datos"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Gestion de Datos</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                <div id="Datos" class="collapse" aria-labelledby="headingUtilities"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="cards.html">Gestion Paises</a>
-                        <a class="collapse-item" href="cards.html">Gestion Ciudades</a>
-                        <a class="collapse-item" href="cards.html">Gestion Escalas</a>
+                        <a class="collapse-item" asp-action="Index" asp-controller="Paises">Gestion Paises</a>
+                        <a class="collapse-item" asp-action="Index" asp-controller="Ciudades">Gestion Ciudades</a>
                     </div>
                 </div>
             </li>
@@ -268,6 +267,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.1/js/buttons.print.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -151,11 +151,11 @@ else
                             </a>
                             @if (@item.WishlistStatus == 0)
                             {
-                                <button class="btn text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="@item.WishlistStatus" data-clicked="@item.idVuelo" onclick="Wish(this)"><i class="fa fa-heart"></i></button>
+                                <button class="btn text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="@item.WishlistStatus" data-clicked="@item.idVuelo" onclick="Wish(this)" id="btn-@item.idVuelo"><i class="fa fa-heart"></i></button>
                             }
                             else
                             {
-                                <button class="btn btn-danger text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="@item.WishlistStatus" data-clicked="@item.idVuelo" onclick="Wish(this)"><i class="fa fa-heart"></i></button>
+                                <button class="btn btn-danger text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="@item.WishlistStatus" data-clicked="@item.idVuelo" onclick="Wish(this)" id="btn-@item.idVuelo"><i class="fa fa-heart"></i></button>
                             }
 
                         </div>
@@ -203,18 +203,58 @@ else
     <script>
         function Wish(button) {
             var save = button.getAttribute("data-save");
+            var vuelo = button.getAttribute("data-clicked");
             if (save == 0) {
                 // Cambiar el valor de 'data-save' a 1 y agregar la clase 'btn-danger'
                 button.setAttribute("data-save", "1");
                 button.classList.add("btn-danger");
                 //ir a guardar a whishlist
+                var url_add = '@Url.Content("~/WishList/Add/")' + vuelo;
+                $.post(url_add, vuelo).done(function (data) {
+                    if (data.success) {
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+
+
+
+
+                    } else {
+                        Swal.fire(
+                            'Fallo!',
+                            'Usuario No Eliminado.',
+                            'warning'
+                        )
+                    }
+                });
             } else {
                 // Cambiar el valor de 'data-save' a 0 y quitar la clase 'btn-danger'
                 button.setAttribute("data-save", "0");
                 button.classList.remove("btn-danger");
                 //eliminar de wishlist
+                var url_Delete = '@Url.Content("~/WishList/Delete/")' + vuelo;
+                $.post(url_Delete, vuelo).done(function (data) {
+                    if (data.success) {
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+
+
+
+
+                    } else {
+                        Swal.fire(
+                            'Fallo!',
+                            'Usuario No Eliminado.',
+                            'warning'
+                        )
+                    }
+                });
             }
         }
+
     </script>
 
     <script>
@@ -297,11 +337,11 @@ else
                                     </a>`;
                     if (data[i].wishlistStatus == 0)
                     {
-                        html += `<button class="btn text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="${data[i].WishlistStatus}" data-clicked="${data[i].idVuelo}" onclick="Wish(this)"><i class="fa fa-heart"></i></button>`;
+                        html += `<button class="btn text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="${data[i].wishlistStatus}" data-clicked="${data[i].idVuelo}" onclick="Wish(this)"><i class="fa fa-heart"></i></button>`;
                     }
                                             else
                     {
-                        html += `<button class="btn btn-danger text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="${data[i].WishlistStatus}" data-clicked="${data[i].idVuelo}" onclick="Wish(this)"><i class="fa fa-heart"></i></button>`;
+                            html += `<button class="btn btn-danger text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="${data[i].wishlistStatus}" data-clicked="${data[i].idVuelo}" onclick="Wish(this)"><i class="fa fa-heart"></i></button>`;
                     }
                     html+=`</div>
                         <div id="card-element-${data[i].idVuelo}" class="collapse">

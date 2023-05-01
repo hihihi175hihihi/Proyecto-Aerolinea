@@ -1,36 +1,23 @@
 ﻿@{
-    ViewData["Title"] = "Listado de Usuarios";
-}
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> El Usuario Fue Creado.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-}
-@if (TempData["Modify"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> El Usuario Fue Modificado.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+    ViewData["Title"] = "Listado de Vuelos";
 }
 <h1>@ViewData["Title"]</h1>
 <br />
 <p>
-    <a   class="btn btn-primary" asp-action="Create" asp-controller="Usuarios" >Crear Usuario</a>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Vuelos">Crear Vuelo</a>
 </p>
 <table class="display responsive nowrap" id="myTable" style="width:100%">
     <thead>
         <tr>
-            <th>Username</th>
-            <th>Rol</th>
-            <th>Password</th>
-            <th>Active</th>
+            <th>No.Vuelo</th>
+            <th>Ciudad Origen</th>
+            <th>Ciudad Destino</th>
+            <th>Pais Origen</th>
+            <th>Pais Destino</th>
+            <th>Hora Salida</th>
+            <th>Hora Llegada</th>
+            <th>Dia</th>
+            <th>Precio</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -61,22 +48,26 @@
                     }
                 ],
                 "ajax": {
-                    "url": "@Url.Action("ListarUsuarios", "Usuarios")",
+                    "url": "@Url.Action("ListadoVuelos", "Vuelos")",
                     "type": "GET",
                     "datatype": "json"
                 },
                 "columns": [
-                    { "data": "user" },
-                    { "data": "roles" },
-                    { "data": "password" },
-                    { "data": "active" },
+                    { "data": "idVuelo" },
+                    { "data": "ciudaD_ORIGEN" },
+                    { "data": "ciudaD_DESTINO" },
+                    { "data": "paiS_ORIGEN" },
+                    { "data": "paiS_DESTINO" },
+                    { "data": "horaSalida" },
+                    { "data": "horaLlegada" },
+                    { "data": "diaSemana" },
+                    { "data": "precio" },
                     {
                         "data": null,
                         "render": function (data, type, row) {
-                            var idUsuario = row.idUsuario;
-                            var Usuario = row.user;
-                            return "<a class='btn btn-primary btn-sm' href='Usuarios/Modificar/" + idUsuario + "'><i class='fas fa-pen'></i></a>" +
-                                "<button class='btn btn-danger btn-sm ml-2' type='button' onclick='Eliminar(\"" + Usuario + "\","+idUsuario+")'><i class='fa fa-trash'></i></button>"
+                            var idVuelo = row.idVuelo;
+                            return "<a class='btn btn-primary btn-sm' href='/Vuelos/Modify/" + idVuelo + "'><i class='fas fa-pen'></i></a>" +
+                                "<button class='btn btn-danger btn-sm ml-2' type='button' onclick='Eliminar(" + idVuelo + ")'><i class='fa fa-trash'></i></button>"
                         }
                     }
                 ],
@@ -87,9 +78,9 @@
                 }
             });
         });
-        function Eliminar(usuario,idUsuario){
+        function Eliminar(idVuelo) {
             Swal.fire({
-                title: `Estas seguro de Elimiar al usuario ${usuario}?`,
+                title: `Estas seguro de Elimiar al Vuelo #${idVuelo}?`,
                 text: "",
                 icon: 'warning',
                 showCancelButton: true,
@@ -98,13 +89,12 @@
                 confirmButtonText: 'Si Eliminalo!'
             }).then((result) => {
                 if (result.isConfirmed) {
-
-                    var url = '@Url.Content("~/Usuarios/Delete/")'+idUsuario;
-                    $.post(url, idUsuario).done( function (data) {
+                    var url = '@Url.Content("~/Vuelos/Delete/")' + idVuelo;
+                    $.post(url, idVuelo).done(function (data) {
                         if (data.success) {
                             Swal.fire(
                                 'Eliminado!',
-                                'Usuario Eliminado.',
+                                'Vuelo Eliminado.',
                                 'success'
                             ).then(() => {
                                 // Espera 2 segundos antes de recargar la página
@@ -115,15 +105,15 @@
 
 
 
-                        }else{
+                        } else {
                             Swal.fire(
                                 'Fallo!',
-                                'Usuario No Eliminado.',
+                                'Vuelo No Eliminado.',
                                 'warning'
                             )
                         }
                     });
-                   
+
                 }
             });
         }
