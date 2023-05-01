@@ -11,6 +11,7 @@
 /.vs
 /API/bin
 /API/.vs
+/.vs/API/v17
 /API/bin/Debug/net6.0/
 /API/.vs/API/DesignTimeBuild/.dtbcache.v2
 *.v2
