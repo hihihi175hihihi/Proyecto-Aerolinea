@@ -35,6 +35,19 @@ namespace API.Controllers
 
             return Ok(frecuenciaVuelo);
         }
+        [Route("GetFrecuencia/{id}")]
+        [HttpGet]
+        public async Task<ActionResult<FrecuenciaVuelo>> GetFrecuenciaVuelobyId(int id)
+        {
+            var frecuenciaVuelo = await _context.FrecuenciaVuelos.Where(x => x.idVuelo == id).FirstOrDefaultAsync();
+
+            if(frecuenciaVuelo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(frecuenciaVuelo);
+        }
 
         // PUT: api/FrecuenciaVueloes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

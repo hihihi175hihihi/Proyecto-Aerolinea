@@ -18,6 +18,12 @@ namespace API.Controllers
             _context = context;
         }
 
+        [Route("Vuelo/{id}")]
+        [HttpGet]
+        public async Task<ActionResult> getVuelo(int id)
+        {
+            return Ok(await _context.Vuelos.FindAsync(id));
+        }
         // GET: api/Vuelos
         [HttpGet]
         public async Task<ActionResult> GetVuelos()
