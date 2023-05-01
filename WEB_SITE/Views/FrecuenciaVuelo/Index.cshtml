@@ -3,9 +3,25 @@
 @{
     ViewData["Title"] = "Listado de Frecuencias";
 }
-
+@if (TempData["CreateFrecuenciaVuelo"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["CreateFrecuenciaVuela"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["ModifyFrecuenciaVuelo"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["ModifyFrecuenciaVuelo"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <h1>@ViewData["Title"]</h1>
-
 <p>
      <a class="btn btn-primary" asp-action="Create" asp-controller="Roles">Crear Frecuencia de Vuelo</a>
 </p>
@@ -48,7 +64,7 @@
                         <a href="@Url.Action("Modify","FrecuenciaVuelos")" class="btn btn-primary">
                             <i class="fas fa-edit" aria-hidden="true"></i> Edit
                         </a> |
-                        <a onclick="EliminarFrecuenciaVuelos();" class="btn btn-danger">
+                        <a onclick="Eliminar(@item.idFrecuenciaVuelo,'@item.idVuelo');" class="btn btn-danger">
                             <i class="fas fa-trash" aria-hidden="true"></i> Delete
                         </a>
                     </td>
@@ -57,7 +73,50 @@
         }
         else
         {
-            <h1>No hay data</h1>
+             <tr>
+             <th scope="row">No Hay Data</th>
+            </tr>
         }
     </tbody>
 </table>
+@section Scripts{
+    <script>
+        function Eliminar(id, vuelo) {
+            Swal.fire({
+                title: `Estas seguro de Elimiar la Frecuencia del Vuelo #${vuelo}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/FrecuenciaVuelo/Delete/")'+id;
+                    $.post(url, id).done( function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminada!',
+                                'Frecuencia de Vuelo Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 0);
+                            });
+                        }else{
+                            Swal.fire(
+                                'Fallo!',
+                                'Frecuencia de vuelo No Eliminada.',
+                                'warning'
+                            )
+                        }
+                    });
+                   
+                }
+            });
+        }
+    </script>
+}
