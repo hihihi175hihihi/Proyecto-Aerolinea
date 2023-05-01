@@ -5,27 +5,44 @@ namespace WEB_SITE.Controllers
 {
     public class RolesController : Controller
     {
-            private readonly IHttpClientFactory _http;
-            public RolesController(IHttpClientFactory http)
+        private readonly IHttpClientFactory _http;
+        public RolesController(IHttpClientFactory http)
+        {
+            _http = http;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var client = _http.CreateClient("Base");
+            var response = await client.GetFromJsonAsync<List<Rols>>("Roles");
+            if (response == null)
             {
-                _http = http;
+                return View(new List<Rols>());
             }
-            public async Task<IActionResult> Index()
-            {
-                var client = _http.CreateClient("Base");
-                var response = await client.GetFromJsonAsync<List<Rols>>("Roles");
-                if (response == null)
-                {
-                    return View(new List<Rols>());
-                }
-                return View(response);
-            }
+            return View(response);
+        }
 
-            public IActionResult Create()
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Rols model)
+        {
+            if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
-            public IActionResult Modify()
+            var client = _http.CreateClient("Base");
+            var response = await client.PostAsJsonAsync("Roles", model);
+            if (!response.IsSuccessStatusCode)
+            {
+                return Redirect("Error");
+            }
+            TempData["CreateRol"] = "Rol creado correctamente";
+            return RedirectToAction("Index"); 
+        }
+        public IActionResult Modify()
             {
                 return View();
             }
