@@ -36,7 +36,7 @@
     }
 
     .card-opaco {
-        opacity: 0.5;
+      
         position: relative;
     }
 
@@ -67,14 +67,14 @@ else
         <div class="row" id="listado" style="margin-bottom: 1rem;">
             <div class="col-md-3"></div>
             <div class="col-md-5">
-                <div id="card-@item.idVuelo">
+                <div id="card-@item.idVuelo-@item.idWishList">
                     <div class="card @(item.VALIDO=="invalido" ? "" : "card-opaco")">
                         @if (@item.VALIDO == "invalido")
                             {
                                 <div class="liston">Inválido</div>
                             }
                         <div class="card-header">
-                            <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-@item.idVuelo" href="#card-element-@item.idVuelo">
+                            <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-@item.idVuelo-@item.idWishList" href="#card-element-@item.idVuelo-@item.idWishList">
                                 <div class="container-fluid" style="font-size: 20px; font-weight: bold;">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -107,7 +107,7 @@ else
                             </a>
                                 <button class="btn btn-danger text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="1" data-clicked="@item.idVuelo" onclick="Wish(this)"><i class="fa fa-heart"></i></button>
                         </div>
-                        <div id="card-element-@item.idVuelo" class="collapse">
+                        <div id="card-element-@item.idVuelo-@item.idWishList" class="collapse">
                             <div class="card-body">
                                 @if (item.Escalas == null)
                                 {

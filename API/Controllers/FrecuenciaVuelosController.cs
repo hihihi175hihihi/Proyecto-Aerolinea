@@ -85,7 +85,6 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<FrecuenciaVuelo>> PostFrecuenciaVuelo(FrecuenciaVuelo frecuenciaVuelo)
         {
-
             var vuelo = await _context.Vuelos.FindAsync(frecuenciaVuelo.idVuelo);
             var escalas = await _context.Escalas.Where(e => e.idVuelo == vuelo.idVuelo).ToListAsync();
             vuelo.idVuelo = 0;

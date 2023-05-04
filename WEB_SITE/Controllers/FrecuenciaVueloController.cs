@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WEB_SITE.Models;
 using WEB_SITE.Models.ViewModelSP;
@@ -77,14 +77,14 @@ namespace WEB_SITE.Controllers
         {
             var client = _http.CreateClient("Base");
 
-            var vuelos = new List<SelectListItem>();
+            var vuelos = new List<SelectListItem>(); 
             var response = await client.GetFromJsonAsync<List<FiltrosVuelos>>("Vuelos");
             if (response != null)
             {
 
                 if (vuelo == null)
                 {
-                    vuelos = response.ToSelectListItems(
+                    vuelos=response.ToSelectListItems(
                  v => String.Concat("#", v.idVuelo, "-", v.CIUDAD_ORIGEN, " / ", v.CIUDAD_DESTINO),
                  v => v.idVuelo.ToString()
                  );
