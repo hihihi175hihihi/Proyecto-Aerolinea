@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WEB_SITE.Models;
+using WEB_SITE.Models.ViewModelSP;
+using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
@@ -25,9 +28,33 @@ namespace WEB_SITE.Controllers
             return View(response);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["ListadoVuelos"] = await GetVuelos();
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(FrecuenciaVuelo model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData["ListadoVuelos"] = await GetVuelos();
+                return View(model);
+            }
+            if (String.IsNullOrEmpty(model.DiaSemana))
+            {
+                ViewData["ListadoVuelos"] = await GetVuelos();
+                return View(model);
+            }
+            var client = _http.CreateClient("Base");
+            var response = await client.PostAsJsonAsync("FrecuenciaVuelos", model);
+            if (!response.IsSuccessStatusCode)
+            {
+                return Redirect("Error");
+            }
+            TempData["CreateFrecuenciaVuelo"] = "Frecuencia creada correctamente";
+            return RedirectToAction("Index");
         }
         public IActionResult Modify()
         {
@@ -45,6 +72,33 @@ namespace WEB_SITE.Controllers
                 "6" => "Sábado",
                 "7" => "Domingo"
             };
+        }
+        private async Task<List<SelectListItem>> GetVuelos(int? vuelo = null)
+        {
+            var client = _http.CreateClient("Base");
+
+            var vuelos = new List<SelectListItem>();
+            var response = await client.GetFromJsonAsync<List<FiltrosVuelos>>("Vuelos");
+            if (response != null)
+            {
+
+                if (vuelo == null)
+                {
+                    vuelos = response.ToSelectListItems(
+                 v => String.Concat("#", v.idVuelo, "-", v.CIUDAD_ORIGEN, " / ", v.CIUDAD_DESTINO),
+                 v => v.idVuelo.ToString()
+                 );
+                }
+                else
+                {
+                    vuelos = response.ToSelectListItems(
+                    v => String.Concat("#", v.idVuelo, "-", v.CIUDAD_ORIGEN, " / ", v.CIUDAD_DESTINO),
+                    v => v.idVuelo.ToString(),
+                    vuelo.ToString()
+                    );
+                }
+            }
+            return vuelos;
         }
     }
 }

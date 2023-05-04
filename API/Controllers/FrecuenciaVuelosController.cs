@@ -85,6 +85,25 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<FrecuenciaVuelo>> PostFrecuenciaVuelo(FrecuenciaVuelo frecuenciaVuelo)
         {
+
+            var vuelo = await _context.Vuelos.FindAsync(frecuenciaVuelo.idVuelo);
+            var escalas = await _context.Escalas.Where(e => e.idVuelo == vuelo.idVuelo).ToListAsync();
+            vuelo.idVuelo = 0;
+            _context.Vuelos.Add(vuelo);
+            await _context.SaveChangesAsync();
+            foreach (var item in escalas)
+            {
+                var escala = new Escalas()
+                {
+                    idVuelo = vuelo.idVuelo,
+                    DuracionEscala = item.DuracionEscala,
+                    DuracionLlegada = item.DuracionLlegada,
+                    idCiudadEscala = item.idCiudadEscala
+                };
+                _context.Escalas.Add(escala);
+                await _context.SaveChangesAsync();
+            }
+            frecuenciaVuelo.idVuelo = vuelo.idVuelo;
             _context.FrecuenciaVuelos.Add(frecuenciaVuelo);
             await _context.SaveChangesAsync();
 
