@@ -29,5 +29,14 @@ namespace API.Services
 
             await _smtpClient.SendMailAsync(mailMessage);
         }
+        public async Task SendEmailAsync(string subject, string body,string ToEmail)
+        {
+            using var mailMessage = new MailMessage("AuroraGTAirline@gmail.com", ToEmail, subject, body)
+            {
+                IsBodyHtml = true
+            };
+
+            await _smtpClient.SendMailAsync(mailMessage);
+        }
     }
 }

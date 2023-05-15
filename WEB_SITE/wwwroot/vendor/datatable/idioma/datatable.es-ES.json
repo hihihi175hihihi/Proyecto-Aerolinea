@@ -2,7 +2,7 @@
   "processing": "Procesando...",
   "lengthMenu": "Mostrar _MENU_ registros",
   "zeroRecords": "No se encontraron resultados",
-  "emptyTable": "Ningún dato disponible en esta tabla",
+  "emptyTable": "Ningï¿½n dato disponible en esta tabla",
   "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
   "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
   "infoFiltered": "(filtrado de un total de _MAX_ registros)",
@@ -11,7 +11,7 @@
   "loadingRecords": "Cargando...",
   "paginate": {
     "first": "Primero",
-    "last": "Último",
+    "last": "ï¿½ltimo",
     "next": "Siguiente",
     "previous": "Anterior"
   },
@@ -22,7 +22,7 @@
   "buttons": {
     "copy": "Copiar",
     "colvis": "Visibilidad",
-    "collection": "Colección",
+    "collection": "Colecciï¿½n",
     "colvisRestore": "Restaurar visibilidad",
     "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
     "copySuccess": {
@@ -48,19 +48,19 @@
   },
   "decimal": ",",
   "searchBuilder": {
-    "add": "Añadir condición",
+    "add": "Aï¿½adir condiciï¿½n",
     "button": {
-      "0": "Constructor de búsqueda",
-      "_": "Constructor de búsqueda (%d)"
+      "0": "Constructor de bï¿½squeda",
+      "_": "Constructor de bï¿½squeda (%d)"
     },
     "clearAll": "Borrar todo",
-    "condition": "Condición",
+    "condition": "Condiciï¿½n",
     "conditions": {
       "date": {
         "after": "Despues",
         "before": "Antes",
         "between": "Entre",
-        "empty": "Vacío",
+        "empty": "Vacï¿½o",
         "equals": "Igual a",
         "notBetween": "No entre",
         "notEmpty": "No Vacio",
@@ -75,12 +75,12 @@
         "lt": "Menor que",
         "lte": "Menor o igual que",
         "notBetween": "No entre",
-        "notEmpty": "No vacío",
+        "notEmpty": "No vacï¿½o",
         "not": "Diferente de"
       },
       "string": {
         "contains": "Contiene",
-        "empty": "Vacío",
+        "empty": "Vacï¿½o",
         "endsWith": "Termina en",
         "equals": "Igual a",
         "notEmpty": "No Vacio",
@@ -90,9 +90,9 @@
       "array": {
         "not": "Diferente de",
         "equals": "Igual",
-        "empty": "Vacío",
+        "empty": "Vacï¿½o",
         "contains": "Contiene",
-        "notEmpty": "No Vacío",
+        "notEmpty": "No Vacï¿½o",
         "without": "Sin"
       }
     },
@@ -101,23 +101,23 @@
     "leftTitle": "Criterios anulados",
     "logicAnd": "Y",
     "logicOr": "O",
-    "rightTitle": "Criterios de sangría",
+    "rightTitle": "Criterios de sangrï¿½a",
     "title": {
-      "0": "Constructor de búsqueda",
-      "_": "Constructor de búsqueda (%d)"
+      "0": "Constructor de bï¿½squeda",
+      "_": "Constructor de bï¿½squeda (%d)"
     },
     "value": "Valor"
   },
   "searchPanes": {
     "clearMessage": "Borrar todo",
     "collapse": {
-      "0": "Paneles de búsqueda",
-      "_": "Paneles de búsqueda (%d)"
+      "0": "Paneles de bï¿½squeda",
+      "_": "Paneles de bï¿½squeda (%d)"
     },
     "count": "{total}",
     "countFiltered": "{shown} ({total})",
-    "emptyPanes": "Sin paneles de búsqueda",
-    "loadMessage": "Cargando paneles de búsqueda",
+    "emptyPanes": "Sin paneles de bï¿½squeda",
+    "loadMessage": "Cargando paneles de bï¿½squeda",
     "title": "Filtros Activos - %d"
   },
   "select": {
@@ -162,16 +162,16 @@
       "title": "Eliminar Registro",
       "submit": "Eliminar",
       "confirm": {
-        "_": "¿Está seguro que desea eliminar %d filas?",
-        "1": "¿Está seguro que desea eliminar 1 fila?"
+        "_": "ï¿½Estï¿½ seguro que desea eliminar %d filas?",
+        "1": "ï¿½Estï¿½ seguro que desea eliminar 1 fila?"
       }
     },
     "error": {
-      "system": "Ha ocurrido un error en el sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Más información&lt;\\\/a&gt;).<\/a>"
+      "system": "Ha ocurrido un error en el sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Mï¿½s informaciï¿½n&lt;\\\/a&gt;).<\/a>"
     },
     "multi": {
-      "title": "Múltiples Valores",
-      "info": "Los elementos seleccionados contienen diferentes valores para este registro. Para editar y establecer todos los elementos de este registro con el mismo valor, hacer click o tap aquí, de lo contrario conservarán sus valores individuales.",
+      "title": "Mï¿½ltiples Valores",
+      "info": "Los elementos seleccionados contienen diferentes valores para este registro. Para editar y establecer todos los elementos de este registro con el mismo valor, hacer click o tap aquï¿½, de lo contrario conservarï¿½n sus valores individuales.",
       "restore": "Deshacer Cambios",
       "noMulti": "Este registro puede ser editado individualmente, pero no como parte de un grupo."
     }

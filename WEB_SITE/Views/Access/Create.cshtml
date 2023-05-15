@@ -21,6 +21,18 @@
                 <span asp-validation-for="URL" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="idCategoriesMenu" class="control-label"></label>
+                <input asp-for="idCategoriesMenu" class="form-control" />
+                <span asp-validation-for="idCategoriesMenu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Icon" class="control-label"></label>&nbsp;&nbsp;<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Solo se aceptan de FontAwesome"></i>
+                <input asp-for="Icon" class="form-control" />
+                <span asp-validation-for="Icon" class="text-danger"></span>
+                <br/>
+                <label style="font-size:18px;">Preview:  <i style ="font-size:30px;" id="previewIcon"></i></label>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -31,3 +43,24 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script>
+        document.getElementById('Icon').addEventListener('input', function (e) {
+            const previewIconElement = document.getElementById('previewIcon');
+            previewIconElement.className = ''; // Limpiar las clases anteriores
+            const inputText = e.target.value; // Obtener el texto ingresado
+            const classes = inputText.split(' '); // Dividir el texto ingresado en varias clases
+            classes.forEach((className) => {
+                if (className) {
+                    previewIconElement.classList.add(className); // Agregar cada clase al elemento <i>
+                }
+            });
+        });
+    </script>
+
+}

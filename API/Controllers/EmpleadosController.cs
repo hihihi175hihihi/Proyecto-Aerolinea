@@ -106,7 +106,10 @@ namespace API.Controllers
         {
             _context.Empleados.Add(empleados);
             await _context.SaveChangesAsync();
-
+            var oUser = await _context.Usuarios.FindAsync(empleados.idUsuario);
+            oUser.Active = true;
+            _context.Entry(oUser).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             return Ok(empleados);
         }
 

@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
+using AerolineLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -30,10 +32,10 @@ namespace WEB_SITE.Controllers
             }
 
             var client = _http.CreateClient("Base");
-            var user =new 
+            var user = new
             {
                 username = model.Email,
-                password = model.Password
+                password = Encrypt.GetHash(model.Password)
                 };
             var content = JsonConvert.SerializeObject(user);
             var contenido = new StringContent(content, Encoding.UTF8, "application/json");
@@ -43,6 +45,11 @@ namespace WEB_SITE.Controllers
                 string responseContent = await respuesta.Content.ReadAsStringAsync();
                 dynamic resultado = JObject.Parse(responseContent);
                 string rol = resultado.rol.ToString();
+                int idRol = Convert.ToInt32(resultado.idRol.ToString());
+                HttpContext.Session.SetString("Rol", rol);
+                var menuList = await GetMenu(idRol, client);
+                var menuListJson = JsonConvert.SerializeObject(menuList);
+                HttpContext.Session.SetString("MenuList", menuListJson);
                 if (rol.Equals("Usuario", StringComparison.OrdinalIgnoreCase))
                 {
                     string username = resultado.username.ToString();
@@ -63,6 +70,16 @@ namespace WEB_SITE.Controllers
         return View(model);
     }
 
+        private async Task<List<MenuVM>> GetMenu(int idRol, HttpClient client)
+        {
+            var respuesta = await client.GetFromJsonAsync<List<MenuVM>>($"AccessRoles/GetAccessRolesByRol/{idRol}");
+            if (respuesta == null)
+            {
+                return null;
+            }
+            return respuesta;
+        }
+
         public IActionResult Registry()
         {
             
@@ -71,6 +88,7 @@ namespace WEB_SITE.Controllers
         [HttpPost]
         public async Task<IActionResult> Registry(RegistryRequest model)
         {
+            model.Password = Encrypt.GetHash(model.Password);
             var client = _http.CreateClient("Base");
             var content = JsonConvert.SerializeObject(model);
             var contenido = new StringContent(content, Encoding.UTF8, "application/json");
@@ -161,7 +179,7 @@ namespace WEB_SITE.Controllers
             var cPassword = new ChangePassword()
             {
                 idUsuario = Convert.ToInt32(HttpContext.Session.GetString("idUsuario")),
-                Password = model.Password
+                Password = Encrypt.GetHash(model.Password)
             };
             var content = JsonConvert.SerializeObject(cPassword);
             var contenido = new StringContent(content, Encoding.UTF8, "application/json");
@@ -204,7 +222,7 @@ namespace WEB_SITE.Controllers
 
                 string idCliente = resultado.idCliente.ToString();
                     HttpContext.Session.SetString("idCliente", idCliente);
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Vuelos");
             }
 
             return View(model);
@@ -232,7 +250,7 @@ namespace WEB_SITE.Controllers
             var respuesta = client.PostAsync("Authentication/registryUserActivate", contenido);
             if (respuesta.Result.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Login");
             }
             return Redirect("Error");
         }

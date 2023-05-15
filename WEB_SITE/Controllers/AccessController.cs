@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WEB_SITE.Models;
+using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
+    //[ValidateMenu(Rol =new[] { "Administrador" })]
     public class AccessController : Controller
     {
         private readonly IHttpClientFactory _http;

@@ -15,12 +15,12 @@ namespace WEB_SITE.Controllers
         {
             _http = http;
         }
-        
+        [ValidateMenu(Rol = new[] { "Usuario" })]
         public async Task<IActionResult> Index()
         {
             var client = _http.CreateClient("Base");
             var filtro = new filtrosParaVuelos();
-            filtro.idUsuario = 1;
+            filtro.idUsuario = Convert.ToInt32(HttpContext.Session.GetString("idUsuario"));
             var content = JsonSerializer.Serialize(filtro);
             var contenido = new StringContent(content, Encoding.UTF8, "application/json");
             var respuesta = await client.PostAsync("Vuelos/Filtros", contenido);
@@ -39,10 +39,11 @@ namespace WEB_SITE.Controllers
             return View(new List<FiltrosVuelos>());
         }
         [HttpPost]
+        [ValidateMenu(Rol = new[] { "Usuario" })]
         public async Task<IActionResult> Filtrado(filtrosParaVuelos filtro)
         {
             var client = _http.CreateClient("Base");
-            filtro.idUsuario = 1;
+            filtro.idUsuario = Convert.ToInt32(HttpContext.Session.GetString("idUsuario"));
             var content = JsonSerializer.Serialize(filtro);
             var contenido = new StringContent(content, Encoding.UTF8, "application/json");
             var respuesta = await client.PostAsync("Vuelos/Filtros", contenido);
@@ -107,10 +108,12 @@ namespace WEB_SITE.Controllers
         }
 
         //Admin
+        [ValidateMenu(Rol = new[] { "Administrador","Empleado" })]
         public IActionResult ListadoVuelosAdmin(){
             return View();
         }
         [HttpGet]
+        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<JsonResult> ListadoVuelos()
         {
             var client = _http.CreateClient("Base");
@@ -121,6 +124,7 @@ namespace WEB_SITE.Controllers
             }
             return Json(new { data = response });
         }
+        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Create()
         {
             var client = _http.CreateClient("Base");
@@ -133,6 +137,7 @@ namespace WEB_SITE.Controllers
         }
 
         [HttpPost]
+        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Create(VuelosVM model)
         {
             if (!ModelState.IsValid)
@@ -167,7 +172,8 @@ namespace WEB_SITE.Controllers
             TempData["Success"] = "Vuelo creado correctamente";
             return RedirectToAction("ListadoVuelosAdmin");
         }
-
+        
+        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Modify(int id)
         {
             var client = _http.CreateClient("Base");
@@ -201,6 +207,7 @@ namespace WEB_SITE.Controllers
         }
 
         [HttpPost]
+        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Modify(VuelosVM model)
         {
             if (!ModelState.IsValid)
@@ -238,6 +245,7 @@ namespace WEB_SITE.Controllers
         }
         
         [HttpPost]
+        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Delete(int id)
         {
             var client = _http.CreateClient("Base");

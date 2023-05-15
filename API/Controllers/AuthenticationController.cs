@@ -63,7 +63,8 @@ namespace API.Controllers
                 };
                 _context.Tokens.Add(token);
                 await _context.SaveChangesAsync();
-                await _emailService.SendEmailAsync("Token para login", $"Su token es :{token.Token} y expira :{token.Expiration}");
+                var ToEmail = await _context.Clientes.Where(x => x.idUsuario == user.idUsuario).Select(x => x.Email).FirstOrDefaultAsync();
+                await _emailService.SendEmailAsync("Token para login", $"Su token es :{token.Token} y expira :{token.Expiration}", ToEmail);
                 return Ok(user);
             }
             else
@@ -160,7 +161,8 @@ namespace API.Controllers
             };
             _context.Tokens.Add(token);
             await _context.SaveChangesAsync();
-            await _emailService.SendEmailAsync("Token para Activar su cuenta", $"Su token es :{token.Token} y expira :{token.Expiration}");
+            var ToEmail = await _context.Clientes.Where(x => x.idUsuario == user.idUsuario).Select(x => x.Email).FirstOrDefaultAsync();
+            await _emailService.SendEmailAsync("Token para Activar su cuenta", $"Su token es :{token.Token} y expira :{token.Expiration}",ToEmail);
             return Ok(response);
         }
         //Client
@@ -232,7 +234,7 @@ namespace API.Controllers
             };
             _context.Tokens.Add(token);
             await _context.SaveChangesAsync();
-            await _emailService.SendEmailAsync("Token para Reset Password", $"Su token es :{token.Token} y expira :{token.Expiration}");
+            await _emailService.SendEmailAsync("Token para Reset Password", $"Su token es :{token.Token} y expira :{token.Expiration}",exist.c.Email);
             return Ok(response);
         }
         [Route("ValidateTokenResetPassword")]
@@ -277,6 +279,8 @@ namespace API.Controllers
             user.Password = modelToken.Password;
             _context.Entry(user).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+            var ToEmail = await _context.Clientes.Where(x => x.idUsuario == user.idUsuario).Select(x => x.Email).FirstOrDefaultAsync();
+            await _emailService.SendEmailAsync("Cambio de Password Exitoso", $"Se realizo el Cambio de Password Con Exito el {DateTime.Now.ToString()}", ToEmail);
             return Ok();
         }
 

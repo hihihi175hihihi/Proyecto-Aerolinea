@@ -18,4 +18,10 @@
     <PackageReference Include="X.PagedList.Web.Common" Version="8.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="AerolineLibrary">
+      <HintPath>..\AerolineLibrary\bin\Release\net6.0\publish\AerolineLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

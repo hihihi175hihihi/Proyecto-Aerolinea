@@ -1,6 +1,10 @@
-﻿@{
-    string username = Context.Session.GetString("User");
+﻿
+@{
+    string? username = Context.Session.GetString("User");
 }
+
+    
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,117 +41,7 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-action="Index" asp-controller="Home">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-plane"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">LA AURORA<sup>GT</sup></div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="Home">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="~/Vuelos/Index">
-                    <i class="fas fa-plane"></i>
-                    <span>Vuelos</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Opciones
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                   aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Gestion Usuarios</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" asp-action="Index" asp-controller="Usuarios"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp;Usuarios</a>
-                        <a class="collapse-item" asp-action="Index" asp-controller="Roles">Gestion Roles</a>
-                        <a class="collapse-item" asp-action="Index" asp-controller="AccessRoles">Gestion Permisos</a>
-                        <a class="collapse-item" asp-action="Index" asp-controller="Access">Gestion Accesos</a>
-                        <a class="collapse-item" asp-action="Index" asp-controller="Cargo">Gestion Cargos</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="WishList">
-                    <i class="fas fa-fw fa-heart"></i>
-                    <span>WishList</span>
-                </a>
-            </li>
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reportes"
-                   aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Reporteria</span>
-                </a>
-                <div id="reportes" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" asp-action="ReporteComprasAdmin" asp-controller="Compras" >Reporte Compras</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Vuelos"
-                   aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Gestion de Vuelos</span>
-                </a>
-                <div id="Vuelos" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" asp-action="ListadoVuelosAdmin" asp-controller="Vuelos">Gestion Vuelos</a>
-                        <a class="collapse-item" asp-action="Index" asp-controller="FrecuenciaVuelo">Gestion Frecuencia Vuelos</a>
-                        <a class="collapse-item" asp-action="Index" asp-controller="Escalas">Gestion Escalas</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Datos"
-                   aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Gestion de Datos</span>
-                </a>
-                <div id="Datos" class="collapse" aria-labelledby="headingUtilities"
-                     data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" asp-action="Index" asp-controller="Paises">Gestion Paises</a>
-                        <a class="collapse-item" asp-action="Index" asp-controller="Ciudades">Gestion Ciudades</a>
-                    </div>
-                </div>
-            </li>
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
-        <!-- End of Sidebar -->
+    <partial name="_Menu" />
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 

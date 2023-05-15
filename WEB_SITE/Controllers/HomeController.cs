@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WEB_SITE.Models;
 using WEB_SITE.Models.ViewModelSP;
+using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
+   // [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,7 +21,6 @@ namespace WEB_SITE.Controllers
 
         public async Task<IActionResult> Index()
         {
-            HttpContext.Session.SetString("Username","Administrador");
             var client = _http.CreateClient("Base");
             var response = await client.GetFromJsonAsync<List<ComprasPorMesAnioViewModel>>("Compras/GetComprasMesActual");
             var TotalComprasDia = await client.GetFromJsonAsync<TotalVentasxDia>("DashBoard/TotalVentasxDia");
