@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WEB_SITE.Models;
+using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
+    [ValidateMenu(Rol = new[] { "Administrador" })]
     public class UsuariosController : Controller
     {
         //2)
@@ -115,6 +117,7 @@ namespace WEB_SITE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Usuarios model)
         {
+            model.Active = false;
             if (!ModelState.IsValid)
             {
                 return View(model);

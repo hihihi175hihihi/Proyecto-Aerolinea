@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WEB_SITE.Models;
 using WEB_SITE.Models.ViewModelSP;
+using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
+    [ValidateMenu(Rol = new[] { "Administrador", "Empleado", "Usuario" })]
     public class DetallesCompraController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -11,9 +14,7 @@ namespace WEB_SITE.Controllers
             _http = http;
         }
 
-        /// <summary>
-        /// Metodo que da el detalle de compra para administrador
-        /// </summary>
+        
         public async Task<JsonResult> DetallesCompraAdmin(int id)
         {
             var client = _http.CreateClient("Base");

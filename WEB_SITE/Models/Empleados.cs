@@ -25,7 +25,7 @@ public partial class Empleados
 public partial class EmpleadosVM
 {
     public int idEmpleado { get; set; }
-
+    [Display(Name = "Usuario")]
     public int? idUsuario { get; set; }
 
     public string? username { get; set; }
@@ -39,7 +39,7 @@ public partial class EmpleadosVM
     public string? Direccion { get; set; }
 
     public string? Telefono { get; set; }
-
+    [Display(Name = "Cargo")]
     public int? idCargo { get; set; }
     public string? cargo { get; set; }
 }

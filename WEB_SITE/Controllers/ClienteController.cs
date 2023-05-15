@@ -5,6 +5,7 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
+   
     public class ClienteController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -12,6 +13,7 @@ namespace WEB_SITE.Controllers
         {
             _http = http;
         }
+        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Index()
         {
             var client = _http.CreateClient("Base");
@@ -22,7 +24,7 @@ namespace WEB_SITE.Controllers
             }
             return View(response);
         }
-
+        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Modify(int id)
         {
             var client = _http.CreateClient("Base");
@@ -37,6 +39,7 @@ namespace WEB_SITE.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Modify(Clientes model)
         {
             if (!ModelState.IsValid)
@@ -54,6 +57,7 @@ namespace WEB_SITE.Controllers
         }
 
         [HttpPost]
+        [ValidateMenu(Rol = new[] { "Administrador" })]
         public async Task<IActionResult> Delete(int id)
         {
             var client = _http.CreateClient("Base");

@@ -1,0 +1,181 @@
+﻿@using Newtonsoft.Json;
+@using WEB_SITE.Models
+@{
+    string? menuListJson = Context.Session.GetString("MenuList");
+    string? Rol = Context.Session.GetString("Rol");
+    var menuItems = menuListJson != null
+        ? JsonConvert.DeserializeObject<List<MenuVM>>(menuListJson)
+        : new List<MenuVM>();
+    List<MenuVM> FilterMenuItems(string access) => menuItems.Where(item => item.Categoria.Equals(access)).ToList();
+   
+}
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    @if (Rol == "Administrador" || Rol == "Empleado")
+        {
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-action="Index" asp-controller="Home">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-plane"></i>
+        </div>
+        
+            <div class="sidebar-brand-text mx-3">LA AURORA<sup>GT</sup> Admin</div>
+        
+    </a>
+    }
+    else
+    {
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-action="Index" asp-controller="Vuelos">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-plane"></i>
+            </div>
+
+            <div class="sidebar-brand-text mx-3">LA AURORA<sup>GT</sup></div>
+
+        </a>
+    }
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+    <!-- Nav Item - Dashboard -->
+    @{
+        var Top = FilterMenuItems("Top");
+    }
+    <li class="nav-item">
+        @foreach (var item in Top)
+        {
+            <a class="nav-link" href="@Url.Content(@item.Url)">
+                <i class="@item.Icon"></i>
+            <span>@item.Access</span>
+        </a>
+        }
+        </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider"/>
+
+    <!-- Heading -->
+    @{
+        var Down = FilterMenuItems("Down");
+    }
+    <li class="nav-item">
+        @foreach (var item in Down)
+        {
+            <a class="nav-link" href="@Url.Content(@item.Url)">
+                <i class="@item.Icon"></i>
+                <span>@item.Access</span>
+            </a>
+        }
+    </li>
+        @if (Rol == "Administrador" || Rol == "Empleado")
+        {
+            <div class="sidebar-heading">
+                Opciones
+            </div>
+        }
+            @{
+                var GestionUsuarios = FilterMenuItems("Gestion Usuarios");
+            }
+            @if (GestionUsuarios.Count > 0)
+            {
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Gestion Usuarios</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                    @foreach (var item in GestionUsuarios)
+                    {
+                        <a class="collapse-item" href="@Url.Content(@item.Url)">
+                                <i class="@item.Icon" aria-hidden="true"></i>
+                                &nbsp;&nbsp;@item.Access</a>
+                    }
+                        </div>
+                    </div>
+                </li>
+            }
+    @{
+        var Reporteria = FilterMenuItems("Reporteria");
+    }
+    @if (Reporteria.Count > 0)
+    {
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reportes"
+            aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Reporteria</span>
+            </a>
+            <div id="reportes" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    @foreach (var item in Reporteria)
+                    {
+                        <a class="collapse-item" href="@Url.Content(@item.Url)">
+                            <i class="@item.Icon" aria-hidden="true"></i>
+                            &nbsp;&nbsp;@item.Access
+                        </a>
+                    }
+                </div>
+            </div>
+        </li>
+    }
+    @{
+        var GestionVuelos = FilterMenuItems("Gestion de Vuelos");
+    }
+    @if (GestionVuelos.Count > 0)
+    {
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Vuelos"
+            aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Gestion de Vuelos</span>
+            </a>
+            <div id="Vuelos" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    @foreach (var item in GestionVuelos)
+                    {
+                        <a class="collapse-item" href="@Url.Content(@item.Url)">
+                            <i class="@item.Icon" aria-hidden="true"></i>
+                            &nbsp;&nbsp;@item.Access
+                        </a>
+                    }
+                </div>
+            </div>
+        </li>
+    }
+    @{
+        var GestionDatos = FilterMenuItems("Gestion de Datos");
+    }
+    @if (GestionDatos.Count > 0)
+    {
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Datos"
+            aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Gestion de Datos</span>
+            </a>
+            <div id="Datos" class="collapse" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    @foreach (var item in GestionDatos)
+                    {
+                        <a class="collapse-item" href="@Url.Content(@item.Url)">
+                            <i class="@item.Icon" aria-hidden="true"></i>
+                            &nbsp;&nbsp;@item.Access
+                        </a>
+                    }
+                </div>
+            </div>
+        </li>
+    }
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+<!-- End of Sidebar -->

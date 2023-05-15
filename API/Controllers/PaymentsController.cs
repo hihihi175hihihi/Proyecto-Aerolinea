@@ -4,6 +4,7 @@ using API.Services;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -247,8 +248,8 @@ namespace API.Controllers
             }
 
             string body = EmailTemplates.ItineraryEmail.Replace("{0}", itineraryTableRows.ToString());
-
-            await _emailService.SendEmailAsync("Itinerario de Vuelo", body);
+            var ToEmail = await _context.Clientes.Where(x => x.idCliente == payment.IdCliente).Select(x => x.Email).FirstOrDefaultAsync();
+            await _emailService.SendEmailAsync("Itinerario de Vuelo", body, ToEmail);
             return Ok(pago);
         }
 

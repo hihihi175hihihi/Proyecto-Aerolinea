@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using WEB_SITE.Models;
 using WEB_SITE.Models.ViewModelSP;
+using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
+    [ValidateMenu(Rol = new[] { "Usuario" })]
     public class WishListController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -19,7 +21,7 @@ namespace WEB_SITE.Controllers
         {
             var client = _http.CreateClient("Base");
             var wishList=new WishList(){
-                idUsuario = 1,
+                idUsuario = Convert.ToInt32(HttpContext.Session.GetString("idUsuario")),
                 idVuelo = id,
                 FechaSave = DateTime.Now
             };
@@ -36,7 +38,7 @@ namespace WEB_SITE.Controllers
             var client = _http.CreateClient("Base");
             var wishList = new WishList()
             {
-                idUsuario = 1,
+                idUsuario = Convert.ToInt32(HttpContext.Session.GetString("idUsuario")),
                 idVuelo = id,
                 FechaSave = DateTime.Now
             };
@@ -59,7 +61,8 @@ namespace WEB_SITE.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _http.CreateClient("Base");
-            var respuesta = await client.GetAsync($"WishLists/1");
+            var oUser = Convert.ToInt32(HttpContext.Session.GetString("idUsuario"));
+            var respuesta = await client.GetAsync($"WishLists/{oUser}");
             var response = await respuesta.Content.ReadFromJsonAsync<List<WishListxUsuario>>();
             if (response != null)
             {

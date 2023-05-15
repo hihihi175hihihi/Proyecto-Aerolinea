@@ -5,6 +5,7 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
+    [ValidateMenu(Rol = new[] { "Administrador" })]
     public class AccessRolesController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -129,14 +130,14 @@ namespace WEB_SITE.Controllers
                 if (acceso == null)
                 {
                     access = responseAccess.ToSelectListItems(
-                   a => String.Concat(a.Name, "/", a.URL),
+                   a => String.Concat(a.Name, "- ", a.URL),
                    a => a.idAccess.ToString()
                    );
                 }
                 else
                 {
                     access = responseAccess.ToSelectListItems(
-                   a => String.Concat(a.Name, "/", a.URL),
+                   a => String.Concat(a.Name, "- ", a.URL),
                    a => a.idAccess.ToString(),
                    acceso.ToString()
                    );

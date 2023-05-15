@@ -44,6 +44,53 @@ namespace API.Controllers
 
             return Ok(listado);
         }
+        [Route("GetAccessRolesByRol/{id}")]
+        [HttpGet]
+        public async Task<ActionResult> GetAccessRolesByRol(int id)
+        {
+            var listado = _context.AccessRoles.ToList().Where(x=>x.idRol==id)
+                .Join(_context.Roles,
+              Accesroles => Accesroles.idRol,
+              Roles => Roles.idRol,
+              (Accesroles, Roles) => new
+              {
+                  idAccessRoles = Accesroles.idAccessRoles,
+                  idRol = Accesroles.idRol,
+                  idAccess = Accesroles.idAccess,
+                  Rol = Roles.Rol
+
+              }).ToList().Join(_context.Access,
+              Accesroles => Accesroles.idAccess,
+              Access => Access.idAccess,
+              (Accesroles, Access) => new
+              {
+                  idAccessRoles = Accesroles.idAccessRoles,
+                  idRol = Accesroles.idRol,
+                  idAccess = Accesroles.idAccess,
+                  Rol = Accesroles.Rol,
+                  Access = Access.Name,
+                  URL=Access.URL,
+                  Icon = Access.Icon,
+                  idCategoriesMenu=Access.idCategoriesMenu
+              }).ToList().Join(_context.MenuCategories,
+              Access => Access.idCategoriesMenu,
+              Categoria=>Categoria.idCategoriesMenu,
+              (Access, Categoria) => new
+              {
+                  idAccessRoles = Access.idAccessRoles,
+                  idRol = Access.idRol,
+                  idAccess = Access.idAccess,
+                  Rol = Access.Rol,
+                  Access = Access.Access,
+                  URL = Access.URL,
+                  Icon = Access.Icon,
+                  idCategoriesMenu = Access.idCategoriesMenu,
+                  Categoria = Categoria.Categoria
+              }).ToList();
+
+
+            return Ok(listado);
+        }
 
         // GET: api/AccessRoles/5
         [HttpGet("{id}")]

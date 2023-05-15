@@ -6,6 +6,7 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
+    [ValidateMenu(Rol = new[] { "Administrador" })]
     public class EscalasController : Controller
     {
         private readonly IHttpClientFactory _http;
