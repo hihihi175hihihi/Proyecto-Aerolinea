@@ -5,7 +5,6 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-    [ValidateMenu(Rol = new[] { "Administrador" })]
     public class EmpleadosController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -35,12 +34,13 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorCreateEmpleado"] = "El Empleado no fue Creado";
                 return View("Error");
             }
             if (model.idUsuario == null || model.idCargo == null)
             {
                 (ViewData["ListadoUsuarios"], ViewData["ListadoCargos"]) = await GetUsuarioCargo();
-                TempData["ErrorCreate"] = "El Usuario/Cargo no fue Creado";
+                TempData["ErrorCreateEmpleado"] = "El Empleado no fue Creado";
                 return View(model);
             }
             var client = _http.CreateClient("Base");
@@ -49,7 +49,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessCreateEmpleado"] = "Empleado creado correctamente";
             return RedirectToAction("Index");
         }
 
@@ -70,7 +70,8 @@ namespace WEB_SITE.Controllers
         public async Task<IActionResult> Modify(Empleados model)
         {
             if (!ModelState.IsValid)
-            { 
+            {
+                TempData["ErrorModifyEmpleado"] = "El Empleado no fue modificado";
                 return View("Error");
             }
             var client = _http.CreateClient("Base");
@@ -79,7 +80,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessModifyEmpleado"] = "Empleado modificado correctamente";
             return RedirectToAction("Index");
         }
 

@@ -4,7 +4,6 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-    [ValidateMenu(Rol = new[] { "Administrador" })]
     public class CargoController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -39,6 +38,7 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorCreateCargo"] = "El Cargo no fue Creado";
                 return View("Error");
             }
             var client = _http.CreateClient("Base");
@@ -47,7 +47,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessCreateCargo"] = "Cargo creado correctamente";
             return RedirectToAction("Index");
         }
 
@@ -68,6 +68,7 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorModifyCargo"] = "El cargo no fue modificado";
                 return View("Error");
             }
             var client = _http.CreateClient("Base");
@@ -76,7 +77,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessModifyCargo"] = "Cargo modificado correctamente";
             return RedirectToAction("Index");
         }
 

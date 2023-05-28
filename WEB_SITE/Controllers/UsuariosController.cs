@@ -6,7 +6,7 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-    [ValidateMenu(Rol = new[] { "Administrador" })]
+    
     public class UsuariosController : Controller
     {
         //2)
@@ -120,6 +120,7 @@ namespace WEB_SITE.Controllers
             model.Active = false;
             if (!ModelState.IsValid)
             {
+                TempData["ErrorCreateUsuarios"] = "Error al crear el Usuario";
                 return View(model);
             }
             var client = _http.CreateClient("Base");
@@ -128,7 +129,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessCreateUsuarios"] = "Usuario creado correctamente";
             return RedirectToAction("Index");
         }
 
@@ -141,6 +142,7 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorModifyUsuarios"] = "Error al modificar el usuario";
                 return View(model);
             }
             var client = _http.CreateClient("Base");
@@ -149,7 +151,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            TempData["Modify"] = "El usuario fue modificado";
+            TempData["SuccessModifyUsuarios"] = "El usuario fue modificado";
             return RedirectToAction("Index");
         }
 

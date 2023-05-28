@@ -6,7 +6,7 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-    [ValidateMenu(Rol = new[] { "Administrador" })]
+    
     public class EscalasController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -37,6 +37,7 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorCreateEscalas"] = "La escala no fue Creada";
                 return View("Error");
             }
             if (model.idVuelo == null || model.idCiudadEscala == null)
@@ -51,7 +52,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessCreateEscalas"] = "Escala creada correctamente";
             return RedirectToAction("Index");
         }
 
@@ -73,6 +74,7 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorModifyEscalas"] = "La Escala no fue modificada";
                 return View("Error");
             }
             var client = _http.CreateClient("Base");
@@ -81,7 +83,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessModifyEscalas"] = "Escala modificada correctamente";
             return RedirectToAction("Index");
         }
 

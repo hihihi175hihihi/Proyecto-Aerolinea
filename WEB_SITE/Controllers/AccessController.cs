@@ -4,7 +4,6 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-    //[ValidateMenu(Rol =new[] { "Administrador" })]
     public class AccessController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -33,6 +32,7 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorCreateAccess"] = "El Acceso no fue Creado";
                 return View("Error");
             }
             var client = _http.CreateClient("Base");
@@ -41,7 +41,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessCreateAccess"] = "Acceso creado correctamente";
             return RedirectToAction("Index");
         }
 
@@ -62,6 +62,7 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorModifyAccess"] = "El Acceso no fue Creado";
                 return View("Error");
             }
             var client = _http.CreateClient("Base");
@@ -70,7 +71,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessModifyAccess"] = "Acceso creado correctamente";
             return RedirectToAction("Index");
         }
 

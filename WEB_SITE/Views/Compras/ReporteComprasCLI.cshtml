@@ -77,19 +77,21 @@
         var tabla;
         $(document).ready(function () {
             tabla = $('#myTable').DataTable({
-                "dom": 'lBfrtip',
+                "dom": "<'text-center'B>lfrtip",
                 "buttons": [
                     {
                         extend: 'excelHtml5',
-                        text: 'Exportar a Excel',
+                        text: '<i class="fa fa-file-excel"> Excel</i>',
                         titleAttr: 'Exportar a Excel',
-                        className: 'btn-success'
+                        className: 'btn btn-primary',
+                        attr: { id: 'buttonExcel' }
                     },
                     {
                         extend: 'print',
-                        text: 'Imprimir',
+                        text: '<i class="fa fa-print"> Print</i>',
                         titleAttr: 'Imprimir',
-                        className: 'table-button'
+                        className: 'btn btn-primary',
+                        attr: { id: 'buttonPrint' }
                     }
                 ],
                 "ajax": {
@@ -120,6 +122,10 @@
                     "url": "@Url.Content("~/vendor/datatable/idioma/datatable.es-ES.json")"
                 }
             });
+            setTimeout(function () {
+                $('#buttonExcel').removeClass('dt-button');
+                $('#buttonPrint').removeClass('dt-button');
+            }, 0);
         });
         function GetDetalle(compra, client, fecha, total) {
             var tablaCliente = document.getElementById('datosCliente');

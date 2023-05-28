@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Modificar";
+    var ListadoDias = (List<SelectListItem>)ViewData["ListadoDias"];
 }
 
 <h1>Modificar</h1>
@@ -10,30 +11,40 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Modify">
+        @if (TempData["ErrorModifyFrecuenciaVuelo"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> @TempData["ErrorModifyFrecuenciaVuelo"].ToString()
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <form asp-action="Modify" asp-controller="FrecuenciaVuelo" method="post" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <input asp-for="idFrecuenciaVuelo" class="form-control" hidden />
-                <span asp-validation-for="idFrecuenciaVuelo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="idVuelo" class="control-label"></label>
-                <input asp-for="idVuelo" class="form-control" />
+                <input asp-for="idVuelo" class="form-control" readonly/>
                 <span asp-validation-for="idVuelo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DiaSemana" class="control-label"></label>
-                <input asp-for="DiaSemana" class="form-control" />
+                <select asp-for="DiaSemana" asp-items="ListadoDias" class="form-control">
+                    <option value="">-- Seleccione un Dia de la Semana --</option>
+                </select>
                 <span asp-validation-for="DiaSemana" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HoraSalida" class="control-label"></label>
-                <input asp-for="HoraSalida" class="form-control" />
+                <input asp-for="HoraSalida" class="form-control" class="form-control timepicker1" placeholder="Seleccione la hora de Salida" />
                 <span asp-validation-for="HoraSalida" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HoraLlegada" class="control-label"></label>
-                <input asp-for="HoraLlegada" class="form-control" />
+                <input asp-for="HoraLlegada" class="form-control" class="form-control timepicker2" placeholder="Seleccione la hora de Llegada" />
                 <span asp-validation-for="HoraLlegada" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -46,4 +57,22 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+@section Scripts{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            flatpickr(".timepicker1", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+            });
+            flatpickr(".timepicker2", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+            });
+        });
+    </script>
 
+}

@@ -3,19 +3,19 @@
 @{
     ViewData["Title"] = "Listado de Frecuencias";
 }
-@if (TempData["CreateFrecuenciaVuelo"] != null)
+@if (TempData["SuccessCreateFrecuenciaVuelo"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> @TempData["CreateFrecuenciaVuelo"].ToString().
+        <strong>Exito!</strong> @TempData["SuccessCreateFrecuenciaVuelo"].ToString().
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 }
-@if (TempData["ModifyFrecuenciaVuelo"] != null)
+@if (TempData["SuccessModifyFrecuenciaVuelo"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> @TempData["ModifyFrecuenciaVuelo"].ToString().
+        <strong>Exito!</strong> @TempData["SuccessModifyFrecuenciaVuelo"].ToString().
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -61,7 +61,7 @@
                 @Html.DisplayFor(modelItem => item.HoraLlegada)
             </td>
             <td>
-                        <a href="@Url.Action("Modify","FrecuenciaVuelos")" class="btn btn-primary">
+                        <a href='@Url.Content($"~/FrecuenciaVuelo/Modify/{item.idFrecuenciaVuelo}")' class="btn btn-primary">
                             <i class="fas fa-edit" aria-hidden="true"></i> Edit
                         </a> |
                         <a onclick="Eliminar(@item.idFrecuenciaVuelo,'@item.idVuelo');" class="btn btn-danger">

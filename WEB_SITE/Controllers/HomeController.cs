@@ -7,7 +7,7 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-   // [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
+   
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

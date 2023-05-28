@@ -4,7 +4,7 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-    [ValidateMenu(Rol = new[] { "Administrador" })]
+    
     public class PaisesController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -33,6 +33,7 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorCreatePais"] = "Error al crear el Pais";
                 return View(model);
             }
             var client = _http.CreateClient("Base");
@@ -41,12 +42,50 @@ namespace WEB_SITE.Controllers
             {
                 return Redirect("Error");
             }
-            TempData["CreatePais"] = "Pais creado correctamente";
+            TempData["SuccessCreatePais"] = "Pais creado correctamente";
             return RedirectToAction("Index");
         }
-        public IActionResult Modify()
+        public async Task<IActionResult> Modify(int id)
         {
-            return View();
+            var client = _http.CreateClient("Base");
+            var response = await client.GetFromJsonAsync<Paises>($"Paises/{id}");
+            if (response == null)
+            {
+                return RedirectToAction("Error");
+            }
+            return View(response);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Modify(Paises model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorModifyPais"] = "Error al modificar el Pais";
+                return View("Error");
+            }
+            var client = _http.CreateClient("Base");
+            var response = await client.PutAsJsonAsync($"Paises/{model.idPais}", model);
+            if (!response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Error");
+            }
+            TempData["SuccessModifyPais"] = "Pais Modificado correctamente";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var client = _http.CreateClient("Base");
+            var response = await client.DeleteAsync($"Paises/{id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                return Json(new { success = false });
+            }
+            return Json(new { success = true });
+        }
+
     }
 }
