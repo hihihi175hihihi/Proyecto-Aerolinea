@@ -109,6 +109,17 @@ namespace API.Controllers
             return Ok(frecuenciaVuelo);
         }
 
+        [Route("OnlyFrec")]
+        [HttpPost]
+        public async Task<ActionResult<FrecuenciaVuelo>> PostOnlyFrecuenciaVuelo(FrecuenciaVuelo frecuenciaVuelo)
+        {
+           
+            _context.FrecuenciaVuelos.Add(frecuenciaVuelo);
+            await _context.SaveChangesAsync();
+
+            return Ok(frecuenciaVuelo);
+        }
+
         // DELETE: api/FrecuenciaVueloes/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFrecuenciaVuelo(int id)
