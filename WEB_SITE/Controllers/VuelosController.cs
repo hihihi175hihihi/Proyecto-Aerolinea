@@ -159,7 +159,7 @@ namespace WEB_SITE.Controllers
                 HoraSalida = model.HoraSalida,
                 DiaSemana = model.DiaSemana
             };
-            var responseFrecuencia = await client.PostAsJsonAsync("FrecuenciaVuelos", frecuencia);
+            var responseFrecuencia = await client.PostAsJsonAsync("FrecuenciaVuelos/OnlyFrec", frecuencia);
             if (!responseFrecuencia.IsSuccessStatusCode)
             {
                 return RedirectToAction("Error");

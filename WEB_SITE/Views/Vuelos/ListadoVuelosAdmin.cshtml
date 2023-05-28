@@ -6,6 +6,24 @@
 <p>
     <a class="btn btn-primary" asp-action="Create" asp-controller="Vuelos">Crear Vuelo</a>
 </p>
+@if (TempData["SuccessCreateVuelo"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong>  @TempData["SuccessCreateVuelo"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["SuccessModifyVuelo"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong>  @TempData["SuccessModifyVuelo"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <table class="display responsive nowrap" id="myTable" style="width:100%">
     <thead>
         <tr>
