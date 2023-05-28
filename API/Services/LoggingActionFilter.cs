@@ -1,5 +1,6 @@
 ﻿using System;
 using API.Models;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -13,12 +14,18 @@ namespace API.Services
         private readonly ILogger<LoggingActionFilter> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Aerolinea_DesarrolloContext _context;
+        private readonly TelemetryClient _telemetryClient;
 
-        public LoggingActionFilter(ILogger<LoggingActionFilter> logger, IHttpContextAccessor httpContextAccessor, Aerolinea_DesarrolloContext context)
+        public LoggingActionFilter(
+       ILogger<LoggingActionFilter> logger,
+       IHttpContextAccessor httpContextAccessor,
+       Aerolinea_DesarrolloContext context,
+       TelemetryClient telemetryClient)  // <-- Inject TelemetryClient
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             _context = context;
+            _telemetryClient = telemetryClient;  // <-- Initialize TelemetryClient
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -28,6 +35,8 @@ namespace API.Services
 
             // Registra la solicitud HTTP
             _logger.LogInformation($"Solicitud HTTP: URL {request.Path}, Método {request.Method}");
+            // Log to Application Insights
+            _telemetryClient.TrackTrace($"Request: {request.Path}, Method: {request.Method}");
 
             // Ejecuta la acción del controlador
             var startTime = DateTimeOffset.UtcNow;
@@ -77,7 +86,8 @@ namespace API.Services
         {
             // Log the exception details
             _logger.LogError(context.Exception, "An exception occurred in the action filter");
-
+            // Log to Application Insights
+            _telemetryClient.TrackException(context.Exception);
             // Don't handle the exception further, let other filters or middleware handle it
             return Task.CompletedTask;
         }

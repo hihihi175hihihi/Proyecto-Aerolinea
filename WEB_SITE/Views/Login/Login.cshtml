@@ -45,7 +45,7 @@
                                         <div class="form-group">
                                             <input asp-for="Email" type="text" class="form-control form-control-user" aria-describedby="emailHelp"
                                                    placeholder="Enter Username...">
-                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                           
                                         </div>
                                         <div class="form-group">
                                             <input asp-for="Password" type="password" class="form-control form-control-user"
@@ -55,6 +55,7 @@
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
                                     </form>
                                     
                                     <hr>

@@ -3,19 +3,19 @@
 @{
     ViewData["Title"] = "Listado de Paises";
 }
-@if (TempData["CreatePais"] != null)
+@if (TempData["SuccessCreatePais"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> @TempData["CreatePais"].ToString().
+        <strong>Exito!</strong> @TempData["SuccessCreatePais"].ToString().
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 }
-@if (TempData["ModifyPais"] != null)
+@if (TempData["SuccessModifyPais"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> @TempData["ModifyPais"].ToString().
+        <strong>Exito!</strong> @TempData["SuccessModifyPais"].ToString().
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -44,7 +44,7 @@
                         @Html.DisplayFor(modelItem => item.Pais)
                     </td>
                     <td>
-                        <a href="@Url.Action("Modify","Paises")" class="btn btn-primary">
+                        <a href='@Url.Content($"~/Paises/Modify/{item.idPais}")' class="btn btn-primary">
                             <i class="fas fa-edit" aria-hidden="true"></i> Edit
                         </a> |
                         <a onclick="Eliminar(@item.idPais,'@item.Pais');" class="btn btn-danger">

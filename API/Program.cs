@@ -14,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //Registrar el interceptor personalizado, el middleware y el IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddDbContext<Aerolinea_DesarrolloContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Aerolinea"), option => option.EnableRetryOnFailure());
@@ -46,6 +47,11 @@ builder.Services.AddControllers(options =>
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
 {
     app.UseSwagger();
     app.UseSwaggerUI();

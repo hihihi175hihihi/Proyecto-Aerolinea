@@ -1,19 +1,19 @@
 ﻿@{
     ViewData["Title"] = "Listado de Usuarios";
 }
-@if (TempData["Success"] != null)
+@if (TempData["SuccessCreateUsuarios"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> El Usuario Fue Creado.
+        <strong>Exito!</strong>  @TempData["SuccessCreateUsuarios"].ToString().
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 }
-@if (TempData["Modify"] != null)
+@if (TempData["SuccessModifyUsuarios"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> El Usuario Fue Modificado.
+        <strong>Exito!</strong>  @TempData["SuccessModifyUsuarios"].ToString().
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -75,7 +75,7 @@
                         "render": function (data, type, row) {
                             var idUsuario = row.idUsuario;
                             var Usuario = row.user;
-                            return "<a class='btn btn-primary btn-sm' href='Usuarios/Modificar/" + idUsuario + "'><i class='fas fa-pen'></i></a>" +
+                            return "<a class='btn btn-primary btn-sm' href='@Url.Content("~/Usuarios/Modificar/")" + idUsuario + "'><i class='fas fa-pen'></i></a>" +
                                 "<button class='btn btn-danger btn-sm ml-2' type='button' onclick='Eliminar(\"" + Usuario + "\","+idUsuario+")'><i class='fa fa-trash'></i></button>"
                         }
                     }
@@ -110,7 +110,7 @@
                                 // Espera 2 segundos antes de recargar la página
                                 setTimeout(() => {
                                     location.reload();
-                                }, 2000);
+                                }, 0);
                             });
 
 

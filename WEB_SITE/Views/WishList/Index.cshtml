@@ -69,10 +69,7 @@ else
             <div class="col-md-5">
                 <div id="card-@item.idVuelo-@item.idWishList">
                     <div class="card @(item.VALIDO=="invalido" ? "" : "card-opaco")">
-                        @if (@item.VALIDO == "invalido")
-                            {
-                                <div class="liston">Inválido</div>
-                            }
+                       
                         <div class="card-header">
                             <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-@item.idVuelo-@item.idWishList" href="#card-element-@item.idVuelo-@item.idWishList">
                                 <div class="container-fluid" style="font-size: 20px; font-weight: bold;">
@@ -97,10 +94,9 @@ else
                                             Q @item.Precio
                                         </div>
                                         <div class="col-md-3" style="margin-left:170px">
-                                            @if (@item.VALIDO != "invalido")
-                                            {
+                                            
                                             <a type="button" class="btn btn-success" href="~/Compras/compraVuelo/@item.idVuelo"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;&nbsp;Comprar</a>
-                                            }
+                                            
                                         </div>
                                     </div>
                                 </div>

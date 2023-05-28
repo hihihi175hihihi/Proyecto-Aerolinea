@@ -4,6 +4,7 @@ using AerolineLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Polly;
 using WEB_SITE.Models;
 
 namespace WEB_SITE.Controllers
@@ -50,7 +51,8 @@ namespace WEB_SITE.Controllers
                 var menuList = await GetMenu(idRol, client);
                 var menuListJson = JsonConvert.SerializeObject(menuList);
                 HttpContext.Session.SetString("MenuList", menuListJson);
-                if (rol.Equals("Usuario", StringComparison.OrdinalIgnoreCase))
+                if (!rol.Equals("Administrador") && !rol.Equals("Empleado"))
+
                 {
                     string username = resultado.username.ToString();
                     string Usuario = resultado.idUsuario.ToString();
@@ -67,6 +69,7 @@ namespace WEB_SITE.Controllers
                     return RedirectToAction("Index","Home");
                 }
             }
+            ModelState.AddModelError("Email", "Email o Password Incorrectas");
         return View(model);
     }
 
@@ -77,6 +80,10 @@ namespace WEB_SITE.Controllers
             {
                 return null;
             }
+            List<string> permissionsList = respuesta.Select(p => p.Access).ToList();  // selecciona el campo Access de cada permiso
+            string permissionsString = string.Join(",", permissionsList);  // convierte la lista de permisos en una cadena de texto
+            HttpContext.Session.SetString("Permissions", permissionsString);  // guarda los permisos en la sesión
+
             return respuesta;
         }
 

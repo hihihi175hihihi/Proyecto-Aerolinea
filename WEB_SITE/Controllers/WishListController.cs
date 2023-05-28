@@ -8,7 +8,7 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-    [ValidateMenu(Rol = new[] { "Usuario" })]
+    
     public class WishListController : Controller
     {
         private readonly IHttpClientFactory _http;

@@ -5,7 +5,6 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-    [ValidateMenu(Rol = new[] { "Administrador" })]
     public class AccessRolesController : Controller
     {
         private readonly IHttpClientFactory _http;
@@ -36,12 +35,13 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorCreateAccesosRoles"] = "El Permiso no fue Creado";
                 return View("Error");
             }
             if (model.idAccess==null || model.idRol==null)
             {
                 (ViewData["ListadoRoles"], ViewData["ListadoAccesos"]) = await GetAccesosRoles();
-                TempData["ErrorCreate"] = "El Rol/Acceso no fue Creado";
+                TempData["ErrorCreateAccesosRoles"] = "El Permiso no fue Creado";
                 return View(model);
             }
             var client = _http.CreateClient("Base");
@@ -50,7 +50,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessCreateAccessRoles"] = "Permiso creado correctamente";
             return RedirectToAction("Index");
         }
 
@@ -72,6 +72,7 @@ namespace WEB_SITE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorModifyAccesosRoles"] = "El Permiso no fue Modificado";
                 return View("Error");
             }
             var client = _http.CreateClient("Base");
@@ -80,7 +81,7 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            //TempData["Success"] = "Usuario creado correctamente";
+            TempData["SuccessModifyAccessRole"] = "Permiso Modificado correctamente";
             return RedirectToAction("Index");
         }
 

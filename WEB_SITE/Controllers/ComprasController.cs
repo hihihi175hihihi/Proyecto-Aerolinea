@@ -16,13 +16,11 @@ namespace WEB_SITE.Controllers
         {
             _http = http;
         }
-        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> ReporteComprasAdmin()
         {
             return View();
         }
         [HttpGet]
-        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<JsonResult> GetReporteComprasAdmin()
         {
             var client = _http.CreateClient("Base");
@@ -39,13 +37,11 @@ namespace WEB_SITE.Controllers
 
             return Json(new { data = modelView });
         }
-        [ValidateMenu(Rol = new[] { "Usuario" })]
         public async Task<IActionResult> ReporteComprasCLI()
         {
             return View();
         }
         [HttpGet]
-        [ValidateMenu(Rol = new[] { "Usuario" })]
         public async Task<JsonResult> GetReporteComprasCLI()
         {
             var username = HttpContext.Session.GetString("User");
@@ -63,7 +59,6 @@ namespace WEB_SITE.Controllers
 
             return Json(new { data = modelView });
         }
-        [ValidateMenu(Rol = new[] { "Usuario"})]
         public async Task<IActionResult> compraVuelo(int id)
         {
             var client = _http.CreateClient("Base");
@@ -92,7 +87,6 @@ namespace WEB_SITE.Controllers
         }
 
         [HttpPost]
-        [ValidateMenu(Rol = new[] { "Usuario" })]
         public async Task<IActionResult> ComprarConTarjetaGuardada(RequestCompraCardSave model)
         {
             if (model.idTarjeta == 0)
@@ -148,7 +142,6 @@ namespace WEB_SITE.Controllers
         }
 
         [HttpPost]
-        [ValidateMenu(Rol = new[] { "Usuario" })]
         public async Task<IActionResult> ComprarConTarjeta(PaymentRequestVM model)
         {
             var client = _http.CreateClient("Base");

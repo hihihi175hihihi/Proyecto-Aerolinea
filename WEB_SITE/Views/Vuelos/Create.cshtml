@@ -9,6 +9,15 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        @if (TempData["ErrorCreateVuelo"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> @TempData["ErrorCreateVuelo"].ToString()
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
         <form asp-action="Create" asp-controller="Vuelos" method="post">
             <div class="form-group">
                 <label asp-for="idCiudadOrigen" class="control-label"></label>

@@ -4,6 +4,25 @@
     ViewData["Title"] = "Listado de Accesos";
 }
 
+@if (TempData["SuccessCreateAccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessCreateAccess"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["SuccessModifyAccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessModifyAccess"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
 <h1>@ViewData["Title"]</h1>
 
 <p>

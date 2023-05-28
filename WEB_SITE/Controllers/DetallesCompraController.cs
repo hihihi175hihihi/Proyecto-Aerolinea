@@ -5,7 +5,6 @@ using WEB_SITE.Services;
 
 namespace WEB_SITE.Controllers
 {
-    [ValidateMenu(Rol = new[] { "Administrador", "Empleado", "Usuario" })]
     public class DetallesCompraController : Controller
     {
         private readonly IHttpClientFactory _http;

@@ -3,19 +3,19 @@
 @{
     ViewData["Title"] = "Listado de Roles";
 }
-@if (TempData["CreateRol"] != null)
+@if (TempData["SuccessCreateRoles"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> @TempData["CreateRol"].ToString().
+        <strong>Exito!</strong> @TempData["SuccessCreateRoles"].ToString().
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 }
-@if (TempData["ModifyRol"] != null)
+@if (TempData["SuccessModifyRoles"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Exito!</strong> @TempData["ModifyRol"].ToString().
+        <strong>Exito!</strong> @TempData["SuccessModifyRoles"].ToString().
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.Rol)
             </td>
             <td>
-                        <a href="@Url.Action("Modify","Roles")" class="btn btn-primary">
+                        <a href='@Url.Content($"~/Roles/Modify/{item.idRol}")' class="btn btn-primary">
                             <i class="fas fa-edit" aria-hidden="true"></i> Edit
                         </a> |
                         <a onclick="Eliminar(@item.idRol,'@item.Rol');" class="btn btn-danger">
@@ -63,7 +63,7 @@
 </table>
 @section Scripts{
     <script>
-        function Eliminar(id,ciudad){
+        function Eliminar(id,rol){
             Swal.fire({
                 title: `Estas seguro de Elimiar el Rol ${rol}?`,
                 text: "",

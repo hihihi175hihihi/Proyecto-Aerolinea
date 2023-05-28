@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 //Fabrica de HttpClient
 builder.Services.AddHttpClient("Base", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7022/api/");
+    client.BaseAddress = new Uri("https://auroraaerlinesapi.azurewebsites.net/api/");
     client.Timeout = TimeSpan.FromSeconds(120);
 }).AddPolicyHandler(HttpPolicyExtensions.HandleTransientHttpError()
             .RetryAsync(3))
@@ -41,6 +41,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.Run();

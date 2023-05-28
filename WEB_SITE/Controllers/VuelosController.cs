@@ -15,7 +15,6 @@ namespace WEB_SITE.Controllers
         {
             _http = http;
         }
-        [ValidateMenu(Rol = new[] { "Usuario" })]
         public async Task<IActionResult> Index()
         {
             var client = _http.CreateClient("Base");
@@ -39,7 +38,6 @@ namespace WEB_SITE.Controllers
             return View(new List<FiltrosVuelos>());
         }
         [HttpPost]
-        [ValidateMenu(Rol = new[] { "Usuario" })]
         public async Task<IActionResult> Filtrado(filtrosParaVuelos filtro)
         {
             var client = _http.CreateClient("Base");
@@ -107,13 +105,10 @@ namespace WEB_SITE.Controllers
             };
         }
 
-        //Admin
-        [ValidateMenu(Rol = new[] { "Administrador","Empleado" })]
         public IActionResult ListadoVuelosAdmin(){
             return View();
         }
         [HttpGet]
-        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<JsonResult> ListadoVuelos()
         {
             var client = _http.CreateClient("Base");
@@ -124,7 +119,7 @@ namespace WEB_SITE.Controllers
             }
             return Json(new { data = response });
         }
-        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
+
         public async Task<IActionResult> Create()
         {
             var client = _http.CreateClient("Base");
@@ -137,11 +132,11 @@ namespace WEB_SITE.Controllers
         }
 
         [HttpPost]
-        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Create(VuelosVM model)
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorCreateVuelo"] = "Error al crear el vuelo";
                 return View(model);
             }
             var client = _http.CreateClient("Base");
@@ -169,11 +164,10 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            TempData["Success"] = "Vuelo creado correctamente";
+            TempData["SuccessCreateVuelo"] = "El vuelo fue creado correctamente";
             return RedirectToAction("ListadoVuelosAdmin");
         }
         
-        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Modify(int id)
         {
             var client = _http.CreateClient("Base");
@@ -207,11 +201,11 @@ namespace WEB_SITE.Controllers
         }
 
         [HttpPost]
-        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Modify(VuelosVM model)
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorModifyVuelo"] = "Error al modificar el vuelo";
                 return View(model);
             }
             var vuelo = new Vuelos()
@@ -240,12 +234,11 @@ namespace WEB_SITE.Controllers
             {
                 return RedirectToAction("Error");
             }
-            TempData["Modify"] = "El Vuelo fue modificado";
+            TempData["SuccessModifyVuelo"] = "El vuelo fue modificado correctamente";
             return RedirectToAction("ListadoVuelosAdmin");
         }
         
         [HttpPost]
-        [ValidateMenu(Rol = new[] { "Administrador", "Empleado" })]
         public async Task<IActionResult> Delete(int id)
         {
             var client = _http.CreateClient("Base");

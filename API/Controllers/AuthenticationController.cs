@@ -50,7 +50,7 @@ namespace API.Controllers
             {
                 return NotFound("Datos Invalidos");
             }
-            if (user.Rol.Equals("Usuario"))
+            if (!user.Rol.Equals("Administrador")&& !user.Rol.Equals("Empleado"))
             {
                 //Esto cambiarlo por la libreria la cual generara los token
                 var token = new Tokens()
