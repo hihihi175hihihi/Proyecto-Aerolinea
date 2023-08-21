@@ -1,0 +1,122 @@
+﻿@model IEnumerable<WEB_SITE.Models.FrecuenciaVueloVM>
+
+@{
+    ViewData["Title"] = "Listado de Frecuencias";
+}
+@if (TempData["SuccessCreateFrecuenciaVuelo"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessCreateFrecuenciaVuelo"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["SuccessModifyFrecuenciaVuelo"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessModifyFrecuenciaVuelo"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<h1>@ViewData["Title"]</h1>
+<p>
+     <a class="btn btn-primary" asp-action="Create" asp-controller="FrecuenciaVuelo">Crear Frecuencia de Vuelo</a>
+</p>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idVuelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiaSemana)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraSalida)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraLlegada)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null){
+
+            @foreach (var item in Model) {
+                 <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idVuelo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaSemana)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraSalida)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraLlegada)
+            </td>
+            <td>
+                        <a href='@Url.Content($"~/FrecuenciaVuelo/Modify/{item.idFrecuenciaVuelo}")' class="btn btn-primary">
+                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
+                        </a> |
+                        <a onclick="Eliminar(@item.idFrecuenciaVuelo,'@item.idVuelo');" class="btn btn-danger">
+                            <i class="fas fa-trash" aria-hidden="true"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+             <tr>
+             <th scope="row">No Hay Data</th>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        function Eliminar(id, vuelo) {
+            Swal.fire({
+                title: `Estas seguro de Elimiar la Frecuencia del Vuelo #${vuelo}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/FrecuenciaVuelo/Delete/")'+id;
+                    $.post(url, id).done( function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminada!',
+                                'Frecuencia de Vuelo Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 0);
+                            });
+                        }else{
+                            Swal.fire(
+                                'Fallo!',
+                                'Frecuencia de vuelo No Eliminada.',
+                                'warning'
+                            )
+                        }
+                    });
+                   
+                }
+            });
+        }
+    </script>
+}

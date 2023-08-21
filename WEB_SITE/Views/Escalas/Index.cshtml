@@ -1,0 +1,128 @@
+﻿@model IEnumerable<WEB_SITE.Models.EscalasVM>
+
+@{
+    ViewData["Title"] = "Listado de Escalas";
+}
+
+@if (TempData["SuccessCreateEscalas"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessCreateEscalas"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["SuccessModifyEscalas"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessModifyEscalas"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Escalas">Crear Escalas</a>
+</p>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idVuelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ciudadEscala)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuracionEscala) (in Hours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuracionLlegada) (in Hours)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.idVuelo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ciudadEscala)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DuracionEscala) h
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DuracionLlegada) h
+                    </td>
+                    <td>
+                        <a href='@Url.Content($"~/Escalas/Modify/{item.idEscala}")' class="btn btn-primary">
+                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
+                        </a> |
+                        <a onclick="EliminarEscala(@item.idEscala,'@item.idVuelo');" class="btn btn-danger">
+                            <i class="fas fa-trash" aria-hidden="true"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <th scope="row">No Hay Data</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        function EliminarEscala(id, idVuelo) {
+            Swal.fire({
+                title: `Estas seguro de Eliminar la escala perteneciente al vuelo ${idVuelo}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/Escalas/Delete/")' + id;
+                    $.post(url, id).done(function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminado!',
+                                'Escala Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 2000);
+                            });
+                        } else {
+                            Swal.fire(
+                                'Fallo!',
+                                'Escala No Eliminado.',
+                                'warning'
+                            )
+                        }
+                    });
+
+                }
+            });
+        }
+    </script>
+}
+

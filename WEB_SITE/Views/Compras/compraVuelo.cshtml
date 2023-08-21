@@ -1,0 +1,330 @@
+﻿@model WEB_SITE.Models.vueloById
+@{
+    var tarjetas = ViewData["Cards"];
+    
+}
+<style>
+    .products {
+        background-color: #f7fbff;
+        padding: 25px;
+    }
+
+        .products .title {
+            font-size: 1em;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 0.8em;
+            font-weight: 600;
+            padding-bottom: 8px;
+        }
+
+        .products .item {
+            margin-bottom: 1em;
+        }
+
+        .products .item-name {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .products .item-description {
+            font-size: 0.8em;
+            opacity: 0.6;
+        }
+
+        .products .item p {
+            margin-bottom: 0.2em;
+        }
+
+        .products .price {
+            float: right;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .products .total {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            padding-top: 19px;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+    .quantity {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+        .quantity label {
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+
+        .quantity input[type="number"] {
+            width: 60px;
+            height: 30px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+     .card-details {
+        padding: 25px 25px 15px;
+    }
+
+         .card-details label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #79818a;
+            text-transform: uppercase;
+        }
+
+         .card-details button {
+            margin-top: 0.6em;
+            padding: 12px 0;
+            font-weight: 600;
+        }
+
+     .date-separator {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 5px;
+    }
+
+</style>
+@if (TempData["ErrorSeleccionTarjeta"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> @TempData["ErrorSeleccionTarjeta"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 offset-xl-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12 offset-xl-0">
+                            <div class="products">
+                                <input type="hidden" id="vuelo" value="@Model.idVuelo"/>
+                                <h1 class="title">Checkout</h1>
+                                <div class="item">
+                                    <span class="price">Q <span id="precio">@Model.Precio</span></span>
+                                    <p class="item-name">@Model.CIUDAD_ORIGEN-@Model.CIUDAD_DESTINO</p>
+                                    <div class="quantity"><label for="quantity">Cantidad:</label><input type="number" id="quantity" name="quantity" min="1" step="1" value="1" onchange="total(this)"></div>
+                                </div>
+                                <div class="total"><span>Total Q </span><span class="price" id="total">@Model.Precio</span></div>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="newCard" name="radioGroup">
+                                <label class="form-check-label" for="formCheck-2">Ingresar Nueva Tarjeta</label>
+                            </div>
+                            <div class="row" id="newCards" hidden="hidden">
+                                <div class="col-xl-12">
+                                    <br />
+                                    <div class="card-details">
+                                        <h3 class="title">Detalles de la Tarjeta</h3>
+                                        <div class="row">
+                                            <div class="form-group col-xl-12">
+                                                <label for="card-holder">Nombre de la Tarjeta</label>
+                                                <input id="card-holder" type="text" class="form-control" placeholder="Card Holder" aria-label="Nombre de la Tarjeta" aria-describedby="basic-addon1">
+                                            </div>
+                                            <div class="form-group col-xl-12">
+                                                <label for="">Expiration Date</label>
+                                                <div class="input-group expiration-date">
+                                                    <input type="text" class="form-control" id="mes" placeholder="MM" aria-label="MM" aria-describedby="basic-addon1" maxlength="2" min="1" max="12">
+                                                    <span class="date-separator">/</span>
+                                                    <input type="text" class="form-control" id="anio" placeholder="YY" aria-label="YY" maxlength="4" min="2023" max="2040" aria-describedby="basic-addon1">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-xl-12">
+                                                <label for="card-number">Card Number</label>
+                                                <input id="card-number" type="text" class="form-control" placeholder="Card Number" maxlength="16" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                            </div>
+                                            <div class="form-group col-xl-12">
+                                                <label for="cvc">CVC</label>
+                                                <input id="cvc" type="text" class="form-control" placeholder="CVC" maxlength="3" aria-label="Card Holder" aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <br />
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="saveCardNew">
+                                            <label class="form-check-label" for="formCheck-3">Guardar Tarjeta para futuras compras</label>
+                                        </div>
+                                        <br />
+                                    <button id="submit-button" class="btn btn-primary btn-block" onclick="pay()">Pagar</button>
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                        @if (ViewData["Cards"] is List<SelectListItem> listados && listados.Count > 0)
+                            {
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="oldCard" name="radioGroup">
+                                <label class="form-check-label" for="formCheck-1">Seleccionar Tarjeta ya Guardada</label>
+                            </div>
+                        </div>
+                            }
+
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row" id="oldCards" hidden="hidden">
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            @if (ViewData["Cards"] is List<SelectListItem> listado && listado.Count > 0)
+                            {
+                                <select id="selectCard" class="form-control">
+                                    <option value="0">Seleccionar una Tarjeta</option>
+                                    @foreach (var card in tarjetas as List<SelectListItem>)
+                                    {
+                                        <option value="@card.Value">@card.Text</option>
+                                    }
+                                </select>
+                            }else
+                            {
+                                <h1>No tiene Tarjetas Guardadas</h1>
+                            }
+                            <br />
+                            <button id="TrajetaGuardada" class="btn btn-primary btn-block" onclick="paySaveCard()">Pagar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function total(item){
+            let precioElement = document.getElementById('precio');
+            let precio = parseFloat(precioElement.innerHTML);
+            let resultado = item.value * precio;
+            document.getElementById('total').innerHTML=resultado;
+        }
+    </script>
+
+    <script>
+        document.getElementById('newCard').addEventListener('change', function () {
+            if (this.checked) {
+              document.getElementById('newCards').removeAttribute('hidden');
+              $("#oldCards").attr('hidden',true);
+            }
+        });
+        document.getElementById('oldCard').addEventListener('change', function () {
+            if (this.checked) {
+                document.getElementById('oldCards').removeAttribute('hidden');
+                $("#newCards").attr('hidden', true);
+            }
+        });
+    </script>
+
+    <script>
+        //Pago con tarjeta Guardada
+        function paySaveCard(){
+            var idVuelo=$("#vuelo").val();
+            var Cantidad = $("#quantity").val();
+            var idTarjeta = $("#selectCard").val();
+            if(idTarjeta!=0){
+            let TotalE = document.getElementById('total');
+            var Total = parseFloat(TotalE.innerHTML);
+
+            $.ajax({
+                url: "/Compras/ComprarConTarjetaGuardada",
+                type: "POST",
+                data: { idVuelo: idVuelo, Cantidad: Cantidad, idTarjeta: idTarjeta, Total: Total },
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire(
+                            'Pago Exitoso!',
+                            '',
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/Vuelos/Index";
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error al Procesar el Pago!',
+                            '',
+                            'error'
+                        );
+                    }
+                }
+            });
+            }else{
+                Swal.fire(
+                    'No sea imbecil seleccione tarjeta ps!',
+                    '',
+                    'error'
+                );
+            }
+        }
+        //Pago con tarjeta nueva
+        function pay(){
+            const saveCard = document.getElementById('saveCardNew').checked;
+            var idVuelo = $("#vuelo").val();
+            var Cantidad = $("#quantity").val();
+            let TotalE = document.getElementById('total');
+            var Total = parseFloat(TotalE.innerHTML);
+            var NombreTarjeta = $("#card-holder").val();
+            var TokenCard = $("#card-number").val();
+            var ExpMonth = $("#mes").val();
+            var ExpYear = $("#anio").val();
+            var cvc = $("#cvc").val();
+            var datas={
+                idVuelo: idVuelo,
+                Cantidad:Cantidad,
+                Total: Total,
+                NombreTarjeta:NombreTarjeta,
+                TokenCard: TokenCard,
+                ExpMonth:ExpMonth,
+                ExpYear:ExpYear,
+                Cvs: cvc,
+                saveCard:saveCard
+            };
+            $.ajax({
+                url: "/Compras/ComprarConTarjeta",
+                type: "POST",
+                data: datas,
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire(
+                            'Pago Exitoso!',
+                            '',
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/Vuelos/Index";
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error al Procesar el Pago!',
+                            '',
+                            'error'
+                        );
+                    }
+                }
+            });
+        }
+    </script>
+}
+

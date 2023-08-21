@@ -1,0 +1,104 @@
+﻿@model IEnumerable<WEB_SITE.Models.Rols>
+
+@{
+    ViewData["Title"] = "Listado de Roles";
+}
+@if (TempData["SuccessCreateRoles"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessCreateRoles"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["SuccessModifyRoles"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessModifyRoles"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Roles">Crear Role</a>
+</p>
+<table class="table">
+    <thead  class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rol)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null){
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rol)
+            </td>
+            <td>
+                        <a href='@Url.Content($"~/Roles/Modify/{item.idRol}")' class="btn btn-primary">
+                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
+                        </a> |
+                        <a onclick="Eliminar(@item.idRol,'@item.Rol');" class="btn btn-danger">
+                            <i class="fas fa-trash" aria-hidden="true"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+             <th scope="row">No Hay Data</th>
+            </tr>
+        }
+            </tbody>
+</table>
+@section Scripts{
+    <script>
+        function Eliminar(id,rol){
+            Swal.fire({
+                title: `Estas seguro de Elimiar el Rol ${rol}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/Roles/Delete/")'+id;
+                    $.post(url, id).done( function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminada!',
+                                'Rol Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 0);
+                            });
+                        }else{
+                            Swal.fire(
+                                'Fallo!',
+                                'Rol No Eliminada.',
+                                'warning'
+                            )
+                        }
+                    });
+                   
+                }
+            });
+        }
+    </script>
+}

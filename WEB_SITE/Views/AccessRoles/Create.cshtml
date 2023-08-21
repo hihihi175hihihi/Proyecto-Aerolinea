@@ -1,0 +1,49 @@
+﻿@model WEB_SITE.Models.AccessRoles
+
+@{
+    ViewData["Title"] = "Crear el Acceso segun Rol";
+    var roles = (List<SelectListItem>)ViewData["ListadoRoles"];
+    var accesos = (List<SelectListItem>)ViewData["ListadoAccesos"];
+}
+
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @if (TempData["ErrorCreateAccesosRoles"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong>  @TempData["ErrorCreateAccesosRoles"].ToString()
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <form asp-action="Create" asp-controller="AccessRoles" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="idRol" class="control-label"></label>
+                <select asp-for="idRol" asp-items="roles" class="form-control">
+                    <option value="">-- Seleccione un Rol --</option>
+                </select>
+                <span asp-validation-for="idRol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idAccess" class="control-label"></label>
+                <select asp-for="idAccess" asp-items="accesos" class="form-control">
+                    <option value="">-- Seleccione un Acceso --</option>
+                </select>
+                <span asp-validation-for="idAccess" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

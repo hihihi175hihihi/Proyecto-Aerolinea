@@ -1,0 +1,230 @@
+﻿@{
+    ViewData["Title"] = "Listado de Compras";
+}
+
+<h1>@ViewData["Title"]</h1>
+<br />
+<table class="display responsive nowrap" id="myTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Cliente</th>
+            <th>Email</th>
+            <th>Fecha Compra</th>
+            <th>Total</th>
+            <th>Detalles</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Detalles de Compra</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <table class="table" border="1">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Fecha Compra</th>
+                            </tr>
+                        </thead>
+                        <tbody id="datosCliente">
+                        </tbody>
+                    </table>
+                    <br />
+                    <hr />
+                    <div class="table-responsive">
+                        <!-- Agrega un div con la clase 'table-responsive' -->
+                        <table class="table" border="1">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>No.Asientos</th>
+                                    <th>Día</th>
+                                    <th>Salida</th>
+                                    <th>Llegada</th>
+                                    <th>Ciudad origen</th>
+                                    <th>Ciudad destino</th>
+                                    <th>País origen</th>
+                                    <th>País destino</th>
+                                    <th>Precio</th>
+                                    <th>Escalas</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detalles">
+                            </tbody>
+                        </table>
+                    </div> <!-- Cierra el div con la clase 'table-responsive' -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span id="Total" style="font-size:24px;font-weight:bold">Total: </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        var tabla;
+        $(document).ready(function () {
+            tabla = $('#myTable').DataTable({
+                "dom": "<'text-center'B>lfrtip",
+                "buttons": [
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fa fa-file-excel"> Excel</i>',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-primary',
+                        attr: { id: 'buttonExcel' }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa fa-print"> Print</i>',
+                        titleAttr: 'Imprimir',
+                        className: 'btn btn-primary',
+                        attr: { id: 'buttonPrint' }
+                    }
+                ],
+                "ajax": {
+                    "url": "@Url.Action("GetReporteComprasCLI", "Compras")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "user" },
+                    { "data": "client" },
+                    { "data": "email" },
+                    { "data": "fechaCompra" },
+                    { "data": "total" },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var idCompra = row.idCompra;
+                            var cliente = row.client;
+                            var fechaCompra = row.fechaCompra;
+                            var total = row.total;
+                            return `<button onclick="GetDetalle(${idCompra}, '${cliente}', '${fechaCompra}','${total}');" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Detalles</button>`;
+                        }
+                    }
+                ],
+
+
+                "language": {
+                    "url": "@Url.Content("~/vendor/datatable/idioma/datatable.es-ES.json")"
+                }
+            });
+            setTimeout(function () {
+                $('#buttonExcel').removeClass('dt-button');
+                $('#buttonPrint').removeClass('dt-button');
+            }, 0);
+        });
+        function GetDetalle(compra, client, fecha, total) {
+            var tablaCliente = document.getElementById('datosCliente');
+            var tablaDetalles = document.getElementById('detalles');
+            while (tablaCliente.firstChild) {
+                tablaCliente.removeChild(tablaCliente.firstChild);
+            }
+            while (tablaDetalles.firstChild) {
+                tablaDetalles.removeChild(tablaDetalles.firstChild);
+            }
+
+            document.getElementById('Total').innerHTML = total;
+            var cliente = document.createElement('td');
+            var FechaCompra = document.createElement('td');
+            cliente.innerHTML += client;
+            FechaCompra.innerHTML += fecha;
+            tablaCliente.appendChild(cliente);
+            tablaCliente.appendChild(FechaCompra);
+
+            GetDataDetalle(compra);
+
+        }
+        function GetDataDetalle(compra) {
+            var url = '@Url.Content("~/DetallesCompra/DetallesCompraAdmin/")' + compra;
+            var tabla = document.getElementById('detalles');
+
+            $.get(url).done((data) => {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    var tablaDetalles = document.createElement('tr');
+                    var cantidad = document.createElement('td');
+                    cantidad.innerHTML += data[i].cantidad;
+                    tablaDetalles.appendChild(cantidad);
+
+                    var diaSemana = document.createElement('td');
+
+                    diaSemana.innerHTML += getDayOfWeek(data[i].diaSemana);
+                    tablaDetalles.appendChild(diaSemana);
+
+                    var horaSalida = document.createElement('td');
+                    horaSalida.innerHTML += data[i].horaSalida;
+                    tablaDetalles.appendChild(horaSalida);
+
+                    var horaLlegada = document.createElement('td');
+                    horaLlegada.innerHTML += data[i].horaLlegada;
+                    tablaDetalles.appendChild(horaLlegada);
+
+                    var ciudaD_ORIGEN = document.createElement('td');
+                    ciudaD_ORIGEN.innerHTML += data[i].ciudaD_ORIGEN;
+                    tablaDetalles.appendChild(ciudaD_ORIGEN);
+
+                    var ciudaD_DESTINO = document.createElement('td');
+                    ciudaD_DESTINO.innerHTML += data[i].ciudaD_DESTINO;
+                    tablaDetalles.appendChild(ciudaD_DESTINO);
+
+                    var paiS_ORIGEN = document.createElement('td');
+                    paiS_ORIGEN.innerHTML += data[i].paiS_ORIGEN;
+                    tablaDetalles.appendChild(paiS_ORIGEN);
+
+                    var paiS_DESTINO = document.createElement('td');
+                    paiS_DESTINO.innerHTML += data[i].paiS_DESTINO;
+                    tablaDetalles.appendChild(paiS_DESTINO);
+
+                    var precio = document.createElement('td');
+                    precio.innerHTML += data[i].precio;
+                    tablaDetalles.appendChild(precio);
+                    var escala = document.createElement('td');
+                    if (data[i].escalas != null) {
+                        var tableScalas = `<table class= "table" border="1">
+                                                                    <thead class="thead-dark">
+                                                                    <tr>
+                                                                        <th>Ciudad de escala</th>
+                                                                        <th> Duración de escala </th>
+                                                                        <th> Duración de llegada </th>
+                                                                    </tr></thead><tbody>`;
+                        for (var e = 0; e < data[i].escalas.length; e++) {
+
+                            tableScalas += `<tr><td>${data[i].escalas[e].ciudaD_ESCALA}</td>
+                                                            <td>${data[i].escalas[e].duracionEscala}</td>
+                                                                    <td>${data[i].escalas[e].duracionLlegada}</td></tr>`;
+
+                        }
+                        tableScalas += `</tbody></table>`;
+                        escala.innerHTML += tableScalas;
+                    } else {
+                        escala.innerHTML += 'Vuelo Directo';
+                    }
+                    tablaDetalles.appendChild(escala);
+                    tabla.appendChild(tablaDetalles);
+
+                }
+
+            });
+        }
+        function getDayOfWeek(number) {
+            const days = ['L', 'M', 'Mié', 'J', 'V', 'S', 'D'];
+            const dayOfWeek = days[number - 1];
+
+            return dayOfWeek;
+        }
+    </script>
+}

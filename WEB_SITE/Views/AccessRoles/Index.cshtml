@@ -1,0 +1,112 @@
+﻿@model IEnumerable<WEB_SITE.Models.AccessRolesVM>
+
+@{
+    ViewData["Title"] = "Listado de Accesos - Roles";
+}
+@if (TempData["SuccessCreateAccessRole"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessCreateAccessRole"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["SuccessModifyAccessRole"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong> @TempData["SuccessModifyAccessRole"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="AccessRoles">Asignar Permiso</a>
+</p>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.rol)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.access)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null ) { 
+        @foreach (var item in Model) {
+        <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.rol)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.access)
+                    </td>
+                    <td>
+                        <a href='@Url.Content($"~/AccessRoles/Modify/{item.idAccessRoles}")' class="btn btn-primary">
+                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
+                        </a> |
+                        <a onclick="EliminarAccessRoles(@item.idAccess,'@item.rol');" class="btn btn-danger">
+                            <i class="fas fa-trash" aria-hidden="true"></i> Delete
+                        </a>
+                    </td>
+        </tr>
+}
+        }
+else
+        {
+            <tr>
+                <th scope="row">No Hay Data</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts{
+    <script>
+        function EliminarAccessRoles(id, rol) {
+            Swal.fire({
+                title: `Estas seguro de Elimiar el rol ${rol}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/AccessRoles/Delete/")' + id;
+                    $.post(url, id).done(function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminado!',
+                                'rol Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 2000);
+                            });
+                        } else {
+                            Swal.fire(
+                                'Fallo!',
+                                'rol No Eliminado.',
+                                'warning'
+                            )
+                        }
+                    });
+
+                }
+            });
+        }
+    </script>
+}

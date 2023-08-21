@@ -1,0 +1,3 @@
+C:\Users\Rodrigo\Documents\GitHub\Proyecto_Aerolinea_Administracion_de_Tecnologias\AerolineLibrary\bin\Release\net6.0\publish\AerolineLibrary.dll
+C:\Users\Rodrigo\Documents\GitHub\Proyecto_Aerolinea_Administracion_de_Tecnologias\AerolineLibrary\bin\Release\net6.0\publish\AerolineLibrary.deps.json
+C:\Users\Rodrigo\Documents\GitHub\Proyecto_Aerolinea_Administracion_de_Tecnologias\AerolineLibrary\bin\Release\net6.0\publish\AerolineLibrary.pdb

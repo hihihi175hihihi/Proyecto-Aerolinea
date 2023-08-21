@@ -1,0 +1,179 @@
+﻿@model List<WEB_SITE.Models.ViewModelSP.WishListxUsuario>
+@{
+    ViewData["Title"] = "Listado de Vuelos en WishList";
+    var ciudades = ViewData["Ciudades"];
+    var paises = ViewData["Paises"];
+}
+<style>
+    .filter select {
+        /*width: 170px;*/
+        padding: 2px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 0 2px #aaa;
+        margin: 10px;
+        background: #eee;
+    }
+
+    .filter {
+        width: 100%;
+        text-align: center;
+    }
+
+    * {
+        outline: none;
+    }
+
+    .filter input {
+        margin: 10px;
+        width: 14% !important;
+        padding: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+        background: #eee;
+    }
+
+    .card-opaco {
+      
+        position: relative;
+    }
+
+    .liston {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-25deg);
+        background-color: red;
+        color: white;
+        padding: 5px 120px;
+        font-size: 18px;
+        font-weight: bold;
+        z-index: 1;
+    }
+</style>
+<h1>@ViewData["Title"]</h1>
+
+@if (Model == null)
+{
+    <h1>No hay Vuelos</h1>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        @*Listado de Vuelos en wishlist*@
+        <div class="row" id="listado" style="margin-bottom: 1rem;">
+            <div class="col-md-3"></div>
+            <div class="col-md-5">
+                <div id="card-@item.idVuelo-@item.idWishList">
+                    <div class="card @(item.VALIDO=="invalido" ? "" : "card-opaco")">
+                       
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-@item.idVuelo-@item.idWishList" href="#card-element-@item.idVuelo-@item.idWishList">
+                                <div class="container-fluid" style="font-size: 20px; font-weight: bold;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @item.CIUDAD_ORIGEN - @item.CIUDAD_DESTINO
+                                        </div>
+                                        <div class="col-md-6">
+                                            @item.HoraSalida - @item.HoraLlegada
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>@item.PAIS_ORIGEN - @item.PAIS_DESTINO</h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            @item.DiaSemana
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Q @item.Precio
+                                        </div>
+                                        <div class="col-md-3" style="margin-left:170px">
+                                            
+                                            <a type="button" class="btn btn-success" href="~/Compras/compraVuelo/@item.idVuelo"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;&nbsp;Comprar</a>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                                <button class="btn btn-danger text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="1" data-clicked="@item.idVuelo" onclick="Wish(this)"><i class="fa fa-heart"></i></button>
+                        </div>
+                        <div id="card-element-@item.idVuelo-@item.idWishList" class="collapse">
+                            <div class="card-body">
+                                @if (item.Escalas == null)
+                                {
+                                    <h1>Vuelo Directo</h1>
+                                }
+                                else
+                                {
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Ciudad de Escala</th>
+                                                <th>Duración de Escala</th>
+                                                <th>Duración de Llegada</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var escala in @item.Escalas)
+                                            {
+                                                <tr>
+                                                    <td>@escala.CIUDAD_ESCALA</td>
+                                                    <td>@escala.DuracionEscala h</td>
+                                                    <td>@escala.DuracionLlegada h</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+            <br />
+        </div>
+    }
+}
+@section Scripts{
+
+    <script>
+       
+        function Wish(button) {
+            var vuelo = button.getAttribute("data-clicked");
+                // Cambiar el valor de 'data-save' a 0 y quitar la clase 'btn-danger'
+                button.setAttribute("data-save", "0");
+                button.classList.remove("btn-danger");
+                //eliminar de wishlist
+            var url_Delete = '@Url.Content("~/WishList/Delete/")' + vuelo;
+                $.post(url_Delete, vuelo).done(function (data) {
+                    if (data.success) {
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+
+
+
+
+                    } else {
+                        Swal.fire(
+                            'Fallo!',
+                            'Usuario No Eliminado.',
+                            'warning'
+                        )
+                    }
+                });
+            }
+        
+    </script>
+
+  
+}

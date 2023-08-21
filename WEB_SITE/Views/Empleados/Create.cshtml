@@ -1,0 +1,78 @@
+﻿@model WEB_SITE.Models.EmpleadosVM
+
+@{
+    ViewData["Title"] = "Crear Empleado";
+    var Usuarios = (List<SelectListItem>)ViewData["ListadoUsuarios"];
+    var Cargos = (List<SelectListItem>)ViewData["ListadoCargos"];
+}
+
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if (TempData["ErrorCreateEmpleado"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong>  @TempData["ErrorCreateEmpleado"].ToString()
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <form asp-action="Create" asp-controller="Empleados" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="idUsuario" class="control-label"></label>
+                
+                <select asp-for="idUsuario" asp-items="Usuarios" class="form-control">
+                    <option value="">-- Seleccione un Rol --</option>
+                </select>
+
+                <span asp-validation-for="idUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoEmpleado" class="control-label"></label>
+                <input asp-for="CodigoEmpleado" class="form-control" />
+                <span asp-validation-for="CodigoEmpleado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombres" class="control-label"></label>
+                <input asp-for="Nombres" class="form-control" />
+                <span asp-validation-for="Nombres" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Apellidos" class="control-label"></label>
+                <input asp-for="Apellidos" class="form-control" />
+                <span asp-validation-for="Apellidos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Direccion" class="control-label"></label>
+                <input asp-for="Direccion" class="form-control" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idCargo" class="control-label"></label>
+
+                <select asp-for="idCargo" asp-items="Cargos" class="form-control">
+                    <option value="">-- Seleccione un Rol --</option>
+                </select>
+
+                <span asp-validation-for="idCargo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,139 @@
+﻿@{
+    ViewData["Title"] = "Listado de Vuelos";
+}
+<h1>@ViewData["Title"]</h1>
+<br />
+<p>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Vuelos">Crear Vuelo</a>
+</p>
+@if (TempData["SuccessCreateVuelo"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong>  @TempData["SuccessCreateVuelo"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["SuccessModifyVuelo"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong>  @TempData["SuccessModifyVuelo"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<table class="display responsive nowrap" id="myTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>No.Vuelo</th>
+            <th>Ciudad Origen</th>
+            <th>Ciudad Destino</th>
+            <th>Pais Origen</th>
+            <th>Pais Destino</th>
+            <th>Hora Salida</th>
+            <th>Hora Llegada</th>
+            <th>Dia</th>
+            <th>Precio</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+@section Scripts{
+
+    <script>
+        var tabla;
+        $(document).ready(function () {
+            tabla = $('#myTable').DataTable({
+                "dom": 'lBfrtip',
+                "buttons": [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Exportar a Excel',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn-success'
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Imprimir',
+                        titleAttr: 'Imprimir',
+                        className: 'table-button'
+                    }
+                ],
+                "ajax": {
+                    "url": "@Url.Action("ListadoVuelos", "Vuelos")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "idVuelo" },
+                    { "data": "ciudaD_ORIGEN" },
+                    { "data": "ciudaD_DESTINO" },
+                    { "data": "paiS_ORIGEN" },
+                    { "data": "paiS_DESTINO" },
+                    { "data": "horaSalida" },
+                    { "data": "horaLlegada" },
+                    { "data": "diaSemana" },
+                    { "data": "precio" },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var idVuelo = row.idVuelo;
+                            return "<a class='btn btn-primary btn-sm' href='/Vuelos/Modify/" + idVuelo + "'><i class='fas fa-pen'></i></a>" +
+                                "<button class='btn btn-danger btn-sm ml-2' type='button' onclick='Eliminar(" + idVuelo + ")'><i class='fa fa-trash'></i></button>"
+                        }
+                    }
+                ],
+
+
+                "language": {
+                    "url": "@Url.Content("~/vendor/datatable/idioma/datatable.es-ES.json")"
+                }
+            });
+        });
+        function Eliminar(idVuelo) {
+            Swal.fire({
+                title: `Estas seguro de Elimiar al Vuelo #${idVuelo}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var url = '@Url.Content("~/Vuelos/Delete/")' + idVuelo;
+                    $.post(url, idVuelo).done(function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminado!',
+                                'Vuelo Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 2000);
+                            });
+
+
+
+                        } else {
+                            Swal.fire(
+                                'Fallo!',
+                                'Vuelo No Eliminado.',
+                                'warning'
+                            )
+                        }
+                    });
+
+                }
+            });
+        }
+    </script>
+}

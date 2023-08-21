@@ -1,0 +1,394 @@
+﻿
+@model List<WEB_SITE.Models.ViewModelSP.FiltrosVuelos>
+@{
+    ViewData["Title"] = "Listado de Vuelos";
+    var ciudades = ViewData["Ciudades"];
+    var paises = ViewData["Paises"];
+}
+<style>
+    .filter select {
+        /*width: 170px;*/
+        padding: 2px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 0 2px #aaa;
+        margin: 10px;
+        background: #eee;
+    }
+
+    .filter {
+        width: 100%;
+        text-align: center;
+    }
+
+    * {
+        outline: none;
+    }
+
+    .filter input {
+        margin: 10px;
+        width: 14% !important;
+        padding: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+        background: #eee;
+    }
+
+</style>
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="filter">
+        @if (ciudades is List<SelectListItem> listado && listado.Count > 0)
+        {
+            <select id="ciudadOrigen">
+                <option value="0">Ciudad Origen</option>
+                @foreach (var city in ciudades as List<SelectListItem>)
+                {
+                    <option value="@city.Value">@city.Text</option>
+                }
+            </select>
+        }
+
+        @if (ciudades is List<SelectListItem> listado1 && listado1.Count > 0)
+        {
+            <select id="ciudadDestino">
+                <option value="0">Ciudad Destino</option>
+                @foreach (var city in ciudades as List<SelectListItem>)
+                {
+                    <option value="@city.Value">@city.Text</option>
+                }
+            </select>
+        }
+        @if (paises is List<SelectListItem> po && po.Count > 0)
+        {
+            <select id="PAIS_ORIGEN">
+                <option value="0">Pais Origen</option>
+                @foreach (var country in paises as List<SelectListItem>)
+                {
+                    <option value="@country.Value">@country.Text</option>
+                }
+            </select>
+        }
+        @if (paises is List<SelectListItem> pd && pd.Count > 0)
+        {
+            <select id="PAIS_DESTINO">
+                <option value="0">Pais Destino</option>
+                @foreach (var country in paises as List<SelectListItem>)
+                {
+                    <option value="@country.Value">@country.Text</option>
+                }
+            </select>
+        }
+        <select id="hasEscalas">
+            <option value="3">Escalas</option>
+            <option value="0">Sin Escalas</option>
+            <option value="1">Con Escalas</option>
+        </select>
+        <select id="DiaSemana">
+            <option value="0">Dia</option>
+            <option value="1">Lunes</option>
+            <option value="2">Martes</option>
+            <option value="3">Miercoles</option>
+            <option value="4">Jueves</option>
+            <option value="5">Viernes</option>
+            <option value="6">Sabado</option>
+            <option value="7">Domingo</option>
+        </select>
+        <select id="ORDENARPRECIOAS">
+            <option value="0">Precio</option>
+            <option value="asc">Menor->Mayor</option>
+            <option value="des">Mayor->Menor</option>
+        </select><br>
+        <input type="number" id="precio_min" step="100" min="0" placeholder="Precio Min" />
+        <input type="number" id="precio_max" step="100" min="0" placeholder="Precio Max" />
+        <button class="btn btn-primary" onclick="enviarFiltro()"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;&nbsp;Filtrar</button>
+    </div>
+</div>
+@if (Model == null)
+{
+    <h1>No hay Vuelos</h1>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        @*Listado de Vuelos*@
+        <div class="row" id="listado" style="margin-bottom: 1rem;">
+            <div class="col-md-3"></div>
+            <div class="col-md-5">
+                <div id="card-@item.idVuelo">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-@item.idVuelo" href="#card-element-@item.idVuelo">
+                                <div class="container-fluid" style="font-size: 20px; font-weight: bold;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            @item.CIUDAD_ORIGEN - @item.CIUDAD_DESTINO
+                                        </div>
+                                        <div class="col-md-6">
+                                            @item.HoraSalida - @item.HoraLlegada
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>@item.PAIS_ORIGEN - @item.PAIS_DESTINO</h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            @item.DiaSemana
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Q @item.Precio
+                                        </div>
+                                        <div class="col-md-3" style="margin-left:170px">
+                                            <a type="button" class="btn btn-success" href="~/Compras/compraVuelo/@item.idVuelo"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;&nbsp;Comprar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            @if (@item.WishlistStatus == 0)
+                            {
+                                <button class="btn text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="@item.WishlistStatus" data-clicked="@item.idVuelo" onclick="Wish(this)" id="btn-@item.idVuelo"><i class="fa fa-heart"></i></button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-danger text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="@item.WishlistStatus" data-clicked="@item.idVuelo" onclick="Wish(this)" id="btn-@item.idVuelo"><i class="fa fa-heart"></i></button>
+                            }
+
+                        </div>
+                        <div id="card-element-@item.idVuelo" class="collapse">
+                            <div class="card-body">
+                                @if (item.Escalas == null)
+                                {
+                                    <h1>Vuelo Directo</h1>
+                                }
+                                else
+                                {
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Ciudad de Escala</th>
+                                                <th>Duración de Escala</th>
+                                                <th>Duración de Llegada</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var escala in @item.Escalas)
+                                            {
+                                                <tr>
+                                                    <td>@escala.CIUDAD_ESCALA</td>
+                                                    <td>@escala.DuracionEscala h</td>
+                                                    <td>@escala.DuracionLlegada h</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        <br />
+        </div>
+    }
+}
+@section Scripts{
+
+    <script>
+        function Wish(button) {
+            var save = button.getAttribute("data-save");
+            var vuelo = button.getAttribute("data-clicked");
+            if (save == 0) {
+                // Cambiar el valor de 'data-save' a 1 y agregar la clase 'btn-danger'
+                button.setAttribute("data-save", "1");
+                button.classList.add("btn-danger");
+                //ir a guardar a whishlist
+                var url_add = '@Url.Content("~/WishList/Add/")' + vuelo;
+                $.post(url_add, vuelo).done(function (data) {
+                    if (data.success) {
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+
+
+
+
+                    } else {
+                        Swal.fire(
+                            'Fallo!',
+                            'Usuario No Eliminado.',
+                            'warning'
+                        )
+                    }
+                });
+            } else {
+                // Cambiar el valor de 'data-save' a 0 y quitar la clase 'btn-danger'
+                button.setAttribute("data-save", "0");
+                button.classList.remove("btn-danger");
+                //eliminar de wishlist
+                var url_Delete = '@Url.Content("~/WishList/Delete/")' + vuelo;
+                $.post(url_Delete, vuelo).done(function (data) {
+                    if (data.success) {
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+
+
+
+
+                    } else {
+                        Swal.fire(
+                            'Fallo!',
+                            'Usuario No Eliminado.',
+                            'warning'
+                        )
+                    }
+                });
+            }
+        }
+
+    </script>
+
+    <script>
+        $(function () {
+            $("#ciudadOrigen").val(0);
+            $("#ciudadDestino").val(0);
+            $("#PAIS_ORIGEN").val(0);
+            $("#PAIS_DESTINO").val(0);
+            $("#hasEscalas").val(3);
+            $("#DiaSemana").val(0);
+            $("#precio_min").val("");
+            $("#precio_max").val("");
+            $("#ORDENARPRECIOAS").val(0);
+        });
+        function enviarFiltro() {
+            // Obtener los valores de los elementos por su ID
+            const CIUDAD_ORIGEN = $("#ciudadOrigen").val() == "0" ? null : $("#ciudadOrigen").val();
+            const CIUDAD_DESTINO = $("#ciudadDestino").val() == "0" ? null : $("#ciudadDestino").val();
+            const PAIS_ORIGEN = $("#PAIS_ORIGEN").val() == "0" ? null : $("#PAIS_ORIGEN").val();
+            const PAIS_DESTINO = $("#PAIS_DESTINO").val() == "0" ? null : $("#PAIS_DESTINO").val();
+            const hasEscalas = $("#hasEscalas").val() == "3" ? null : $("#hasEscalas").val();
+            const DiaSemana = $("#DiaSemana").val() == "0" ? null : $("#DiaSemana").val();
+            const PrecioMin = $("#precio_min").val() == "" ? null : $("#precio_min").val();
+            const PrecioMax = $("#precio_max").val() == "" ? null : $("#precio_max").val();
+            const ORDENARPRECIOAS = $("#ORDENARPRECIOAS").val() == "0" ? null : $("#ORDENARPRECIOAS").val();
+
+            const filtros = {
+                CIUDAD_ORIGEN: CIUDAD_ORIGEN,
+                CIUDAD_DESTINO: CIUDAD_DESTINO,
+                PAIS_ORIGEN: PAIS_ORIGEN,
+                PAIS_DESTINO: PAIS_DESTINO,
+                hasEscalas: hasEscalas,
+                DiaSemana: DiaSemana,
+                PrecioMin: PrecioMin,
+                PrecioMax: PrecioMax,
+                ORDENARPRECIOAS: ORDENARPRECIOAS
+            };
+            console.table(filtros);
+            var url = "@Url.Action("Filtrado", "Vuelos")";
+            $.post(url, filtros).done(data=>{
+                var elementos = document.querySelectorAll("#listado"); // seleccionar todos los elementos con id="listado"
+                for (var i = 0; i < elementos.length; i++) {
+                    elementos[i].parentNode.removeChild(elementos[i]); // eliminar cada elemento
+                }
+                if (data.length>0){
+                for(var i=0;i<data.length;i++){
+                    var html = `<div class="row" id="listado" style="margin-bottom: 1rem;">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                        <div id="card-${data[i].idVuelo}">
+                            <div class="card">
+                                <div class="card-header">
+                                    <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-${data[i].idVuelo}" href="#card-element-${data[i].idVuelo}">
+                                        <div class="container-fluid" style="font-size: 20px; font-weight: bold;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                                    ${data[i].ciudaD_ORIGEN} - ${data[i].ciudaD_DESTINO}
+                                                </div>
+                                                <div class="col-md-6">
+                                                            ${data[i].horaSalida} - ${data[i].horaLlegada}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                                    <h6>${data[i].paiS_ORIGEN} - ${data[i].paiS_DESTINO}</h6>
+                                                </div>
+                                                <div class="col-md-6">
+                                                            ${data[i].diaSemana}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                            Q ${data[i].precio}
+                                                </div>
+                                                <div class="col-md-3" style="margin-left:170px">
+                                                    <a type="button" class="btn btn-success" href="/Compras/compraVuelo/${data[i].idVuelo}"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;&nbsp;Comprar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>`;
+                    if (data[i].wishlistStatus == 0)
+                    {
+                        html += `<button class="btn text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="${data[i].wishlistStatus}" data-clicked="${data[i].idVuelo}" onclick="Wish(this)"><i class="fa fa-heart"></i></button>`;
+                    }
+                                            else
+                    {
+                            html += `<button class="btn btn-danger text-right text-sm-right text-md-right text-lg-right text-xl-right border-white d-xl-flex ml-xl-auto" type="button" data-save="${data[i].wishlistStatus}" data-clicked="${data[i].idVuelo}" onclick="Wish(this)"><i class="fa fa-heart"></i></button>`;
+                    }
+                    html+=`</div>
+                        <div id="card-element-${data[i].idVuelo}" class="collapse">
+                            <div class="card-body">`;
+                    if (data[i].escalas == null) {
+                        html += `<h1>Vuelo Directo</h1>`;
+                    }
+                    else {
+                        html += `<table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ciudad de Escala</th>
+                                                        <th>Duración de Escala</th>
+                                                        <th>Duración de Llegada</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>`;
+                        for (var e = 0; e < data[i].escalas.length; e++) {
+                            html += `<tr>
+                                                                    <td>${data[i].escalas[e].ciudaD_ESCALA}</td>
+                                                            <td>${data[i].escalas[e].duracionEscala} h</td>
+                                                                    <td>${data[i].escalas[e].duracionLlegada} h</td>
+                                                        </tr>`;
+                        }
+                        html += `</tbody>
+                                            </table>`;
+                    }
+                    html += `</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>`;
+                $("#principal").append(html);
+                                
+                 }
+            }else{
+                    var html = `<div class="row" id="listado" style="margin-bottom: 1rem;">
+                    <h1>No hay Vuelos Disponibles</h1>
+                            </div>`;
+                    $("#principal").append(html);
+            }
+             });
+
+        }
+    </script>
+}

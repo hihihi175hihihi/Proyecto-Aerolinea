@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["Title"] = "Listado de Usuarios";
+}
+@if (TempData["SuccessCreateUsuarios"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong>  @TempData["SuccessCreateUsuarios"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["SuccessModifyUsuarios"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Exito!</strong>  @TempData["SuccessModifyUsuarios"].ToString().
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<h1>@ViewData["Title"]</h1>
+<br />
+<p>
+    <a   class="btn btn-primary" asp-action="Create" asp-controller="Usuarios" >Crear Usuario</a>
+</p>
+<table class="display responsive nowrap" id="myTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Rol</th>
+            <th>Password</th>
+            <th>Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+@section Scripts{
+
+    <script>
+        var tabla;
+        $(document).ready(function () {
+            tabla = $('#myTable').DataTable({
+                "dom": 'lBfrtip',
+                "buttons": [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Exportar a Excel',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn-success'
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Imprimir',
+                        titleAttr: 'Imprimir',
+                        className: 'table-button'
+                    }
+                ],
+                "ajax": {
+                    "url": "@Url.Action("ListarUsuarios", "Usuarios")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "user" },
+                    { "data": "roles" },
+                    { "data": "password" },
+                    { "data": "active" },
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            var idUsuario = row.idUsuario;
+                            var Usuario = row.user;
+                            return "<a class='btn btn-primary btn-sm' href='@Url.Content("~/Usuarios/Modificar/")" + idUsuario + "'><i class='fas fa-pen'></i></a>" +
+                                "<button class='btn btn-danger btn-sm ml-2' type='button' onclick='Eliminar(\"" + Usuario + "\","+idUsuario+")'><i class='fa fa-trash'></i></button>"
+                        }
+                    }
+                ],
+
+
+                "language": {
+                    "url": "@Url.Content("~/vendor/datatable/idioma/datatable.es-ES.json")"
+                }
+            });
+        });
+        function Eliminar(usuario,idUsuario){
+            Swal.fire({
+                title: `Estas seguro de Elimiar al usuario ${usuario}?`,
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si Eliminalo!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var url = '@Url.Content("~/Usuarios/Delete/")'+idUsuario;
+                    $.post(url, idUsuario).done( function (data) {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminado!',
+                                'Usuario Eliminado.',
+                                'success'
+                            ).then(() => {
+                                // Espera 2 segundos antes de recargar la página
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 0);
+                            });
+
+
+
+                        }else{
+                            Swal.fire(
+                                'Fallo!',
+                                'Usuario No Eliminado.',
+                                'warning'
+                            )
+                        }
+                    });
+                   
+                }
+            });
+        }
+    </script>
+}
